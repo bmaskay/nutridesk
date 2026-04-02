@@ -16,7 +16,7 @@ from typing import Optional
 
 from utils.calculations import MEAL_DISTRIBUTION
 
-RECIPE_PATH = Path(__file__).parent.parent.parent / "recipe_library.json"
+RECIPE_PATH = Path(__file__).parent.parent / "recipe_library.json"
 
 # Condition tag map (client medical_conditions → recipe condition_flags)
 CONDITION_FLAG_MAP = {
