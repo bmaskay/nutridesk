@@ -191,6 +191,59 @@ if plan and plan_client == client_id:
                 + (f" · {s.get('serving_description','')}" if s.get("serving_description") else "")
             )
 
+    # ── Lifestyle guidelines ──────────────────────────────────────────────────
+
+    st.markdown("---")
+    _diet_type  = client.get("diet_type", "Non-vegetarian")
+    _conditions = client.get("medical_conditions", [])
+
+    _lifestyle_rules = [
+        ("💧", "Drink at least 2–3 litres of water a day", True),
+        ("🥗", "Eat slowly and chew very well — at least 20–30 times per bite", False),
+        ("⏰", "Stick to your meal timings consistently", False),
+        ("🌅", "Get sunlight exposure at sunrise and sunset", False),
+        ("😴", "At least 6–8 hours of sleep is mandatory", True),
+        ("📱", "No gadgets 30 minutes before sleeping", False),
+        ("🌙", "Finish dinner 2–3 hours before bedtime", False),
+        ("⏱️", "Fixed sleep and wake-up time every day", False),
+        ("🪑", "Move 1–2 minutes for every 1 hour of sitting", False),
+        ("🛢️", "Use only 3–4 tsp of cold-pressed oil per day (mustard / olive / ghee)", False),
+    ]
+
+    _avoid_items = [
+        "Maida & products", "Fried food", "Sugar & sweets",
+        "Fruit juices", "Bakery items", "Packaged food", "Cold drinks",
+    ]
+    if _diet_type not in ("Vegetarian", "Vegan", "Eggetarian"):
+        _avoid_items.append("Processed meat")
+
+    with st.expander("🌿 Lifestyle Guidelines", expanded=False):
+        st.markdown(
+            "These rules work alongside your meal plan. Small daily habits "
+            "compound into big results."
+        )
+        for icon, text, highlight in _lifestyle_rules:
+            if highlight:
+                st.markdown(
+                    f"<div style='background:#D8F3DC;border-radius:6px;padding:5px 10px;"
+                    f"margin:4px 0;font-weight:600;color:#1B4332'>{icon} {text}</div>",
+                    unsafe_allow_html=True,
+                )
+            else:
+                st.markdown(f"{icon} {text}")
+
+        st.markdown("**🚫 Avoid:** " + " · ".join(_avoid_items))
+
+        if "PCOS" in _conditions:
+            st.info("💡 PCOS: Consistent sleep timing and stress management are critical — cortisol spikes worsen hormonal balance.")
+        if any("diabetes" in c.lower() for c in _conditions):
+            st.info("💡 Diabetes: Walk within 15 mins of finishing a meal to blunt post-meal glucose spikes.")
+        if any("thyroid" in c.lower() for c in _conditions):
+            st.info("💡 Thyroid: Take medication on empty stomach 30–60 mins before breakfast.")
+
+        if st.button("💪 See full Exercise Plan", key="goto_exercise"):
+            st.switch_page("pages/5_💪_Exercise_Plan.py")
+
     # ── PDF Export ────────────────────────────────────────────────────────────
 
     st.markdown("---")

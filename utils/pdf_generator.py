@@ -552,6 +552,173 @@ def generate_pdf(
             s["small"]
         ))
 
+    # ── Section 8: Exercise Plan ───────────────────────────────────────────
+
+    story.append(PageBreak())
+    story.append(Paragraph("Exercise Plan", s["section"]))
+    story.append(_hr())
+
+    fitness_level  = client.get("fitness_level") or "Moderate"
+    exercise_notes = client.get("exercise_notes") or ""
+
+    _rounds_map = {"Beginner": 1, "Moderate": 2, "Advanced": 3}
+    _skips_map  = {"Beginner": 200, "Moderate": 350, "Advanced": 500}
+    _steps_map  = {"Beginner": 7000, "Moderate": 8500, "Advanced": 10000}
+
+    _rounds = _rounds_map.get(fitness_level, 2)
+    _skips  = _skips_map.get(fitness_level, 350)
+    _steps  = _steps_map.get(fitness_level, 8500)
+
+    story.append(Paragraph(
+        f"Fitness Level: <b>{fitness_level}</b> &nbsp;|&nbsp; "
+        f"Circuit Rounds: <b>{_rounds}</b> &nbsp;|&nbsp; "
+        f"Daily Skipping: <b>{_skips:,} skips</b> &nbsp;|&nbsp; "
+        f"Step Target: <b>{_steps:,} steps/day</b>",
+        s["body"]
+    ))
+    if exercise_notes:
+        story.append(Paragraph(f"Notes: {exercise_notes}", s["small"]))
+
+    story.append(Spacer(1, 0.3 * cm))
+
+    # Daily movement targets
+    story.append(Paragraph("Daily Movement", s["subsection"] if "subsection" in s else s["body"]))
+    _move_rules = [
+        "Daily skipping and step targets apply on all exercise days (5–6 days per week).",
+        "After Breakfast — 10-minute stroll",
+        "After Lunch — 15-minute stroll",
+        "After Snack — 10-minute stroll",
+        "After Dinner — 15–20 minute stroll",
+        "For every 1 hour of sitting, move around for at least 1–2 minutes.",
+    ]
+    for mr in _move_rules:
+        story.append(Paragraph(f"• {mr}", s["body"]))
+
+    story.append(Spacer(1, 0.35 * cm))
+
+    # Circuit exercises
+    _circuit = [
+        ("Jumping Jacks",                  {"Beginner": "30", "Moderate": "40", "Advanced": "50"}),
+        ("Crunches",                        {"Beginner":  "8", "Moderate": "10", "Advanced": "12"}),
+        ("Leg Raise",                       {"Beginner":  "8", "Moderate": "10", "Advanced": "12"}),
+        ("Elbow-to-Knee Oblique Crunches",  {"Beginner":  "8", "Moderate": "10", "Advanced": "12"}),
+        ("Russian Twist (2L bottle)",       {"Beginner":  "8", "Moderate": "10", "Advanced": "12"}),
+        ("Leg Straight Hold",               {"Beginner": "30 sec", "Moderate": "45 sec", "Advanced": "1 min"}),
+        ("Heel Touch",                      {"Beginner":  "8", "Moderate": "10", "Advanced": "12"}),
+        ("Cross Leg",                       {"Beginner":  "8", "Moderate": "10", "Advanced": "12"}),
+        ("Bicycle Crunches",                {"Beginner":  "8", "Moderate": "10", "Advanced": "12"}),
+        ("Plank",                           {"Beginner": "30 sec", "Moderate": "45 sec", "Advanced": "1 min"}),
+    ]
+    _rep_scale = {
+        1: {"Beginner": "Beginner", "Moderate": "Moderate", "Advanced": "Advanced"},
+        2: {"Beginner": "Beginner", "Moderate": "Beginner",  "Advanced": "Moderate"},
+        3: {"Beginner": "Beginner", "Moderate": "Beginner",  "Advanced": "Beginner"},
+    }
+    _round_names = {1: "Round 1", 2: "Round 2", 3: "Round 3"}
+
+    _GREEN_DARK  = HexColor("#2D6A4F")
+    _GREEN_LIGHT = HexColor("#D8F3DC")
+    _CREAM       = HexColor("#FBF7F2")
+
+    for rnum in range(1, _rounds + 1):
+        story.append(Spacer(1, 0.25 * cm))
+        eff = _rep_scale[rnum][fitness_level]
+
+        _circ_data = [[
+            Paragraph(f"<b>{_round_names[rnum]}</b>", s["body"]),
+            Paragraph("<b>Exercise</b>", s["body"]),
+            Paragraph("<b>Reps / Duration</b>", s["body"]),
+        ]]
+        for i, (ex_name, reps_d) in enumerate(_circuit):
+            reps_val = reps_d[eff]
+            reps_str = reps_val if isinstance(reps_val, str) else f"{reps_val} reps"
+            _circ_data.append([
+                Paragraph("", s["small"]),
+                Paragraph(ex_name, s["body"]),
+                Paragraph(reps_str, s["body"]),
+            ])
+
+        _circ_table = Table(_circ_data, colWidths=[2.5 * cm, 10 * cm, 4 * cm])
+        _circ_table.setStyle(TableStyle([
+            ("BACKGROUND",  (0, 0), (-1, 0), _GREEN_DARK),
+            ("TEXTCOLOR",   (0, 0), (-1, 0), colors.white),
+            ("FONTNAME",    (0, 0), (-1, 0), BODY_FONT_BOLD),
+            ("FONTNAME",    (0, 1), (-1, -1), BODY_FONT),
+            ("FONTSIZE",    (0, 0), (-1, -1), 9),
+            ("ROWBACKGROUNDS", (0, 1), (-1, -1), [_CREAM, colors.white]),
+            ("GRID",        (0, 0), (-1, -1), 0.4, colors.HexColor("#E5D9CC")),
+            ("VALIGN",      (0, 0), (-1, -1), "MIDDLE"),
+            ("TOPPADDING",  (0, 0), (-1, -1), 5),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+        ]))
+        story.append(_circ_table)
+
+    story.append(Spacer(1, 0.3 * cm))
+    story.append(Paragraph(
+        "Rest 60–90 seconds between rounds. Aim for 5–6 sessions per week. "
+        "Combine with your daily walk targets for best results.",
+        s["small"]
+    ))
+
+    # ── Section 9: Lifestyle Guidelines ───────────────────────────────────
+
+    story.append(Spacer(1, 0.6 * cm))
+    story.append(Paragraph("Lifestyle Guidelines", s["section"]))
+    story.append(_hr())
+
+    _lifestyle = [
+        "Drink at least 2–3 litres of water a day",
+        "Eat slowly and chew your food very well (at least 20–30 times per bite)",
+        "Stick to your meal timings — consistent eating windows support metabolism",
+        "Expose yourself to sunlight at sunrise and sunset",
+        "At least 6–8 hours of sleep is mandatory",
+        "No gadgets 30 minutes before going to sleep",
+        "Finish dinner 2–3 hours before bedtime",
+        "Fixed sleeping and waking time every day — even on weekends",
+        "For every 1 hour of sitting, move around for at least 1–2 minutes",
+        "Use only 3–4 tsp of cold-pressed oil per day (mustard / olive / ghee)",
+    ]
+    for rule in _lifestyle:
+        story.append(Paragraph(f"• {rule}", s["body"]))
+
+    story.append(Spacer(1, 0.35 * cm))
+    story.append(Paragraph("<b>Avoid completely:</b>", s["body"]))
+
+    _client_diet = client.get("diet_type", "Non-vegetarian")
+    _avoid = [
+        "Maida and its products", "Fried food", "Oily food", "Sugar and sweets",
+        "Fruit juices (fresh or packaged)", "Bakery items", "Pineapple", "Raw papaya",
+        "Packaged and processed food", "Packet soup", "Cold drinks", "Alcohol", "Smoking / tobacco",
+    ]
+    if _client_diet not in ("Vegetarian", "Vegan", "Eggetarian"):
+        _avoid.insert(7, "Processed meat")
+
+    story.append(Paragraph("  ".join(f"• {a}" for a in _avoid), s["body"]))
+
+    # Condition-specific notes
+    _client_conds = client.get("medical_conditions", [])
+    if "PCOS" in _client_conds:
+        story.append(Spacer(1, 0.2 * cm))
+        story.append(Paragraph(
+            "<b>PCOS note:</b> Consistency in sleep timing and stress management is especially "
+            "important — cortisol spikes worsen hormonal imbalance.",
+            s["body"]
+        ))
+    if any("diabetes" in c.lower() for c in _client_conds):
+        story.append(Spacer(1, 0.2 * cm))
+        story.append(Paragraph(
+            "<b>Diabetes note:</b> Walk within 15 minutes of finishing a meal to help blunt "
+            "post-meal glucose spikes. Never skip meals.",
+            s["body"]
+        ))
+    if any("thyroid" in c.lower() for c in _client_conds):
+        story.append(Spacer(1, 0.2 * cm))
+        story.append(Paragraph(
+            "<b>Thyroid note:</b> Take thyroid medication on an empty stomach 30–60 minutes "
+            "before breakfast. Avoid large amounts of raw cruciferous vegetables.",
+            s["body"]
+        ))
+
     # ── Footer note ────────────────────────────────────────────────────────
 
     story.append(Spacer(1, 1 * cm))

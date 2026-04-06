@@ -389,7 +389,39 @@ with st.expander("🫘 Section 4 — Snack Habits", expanded=True):
         )
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SECTION 5: Baseline Biomarkers (optional)
+# SECTION 5: Exercise & Fitness
+# ─────────────────────────────────────────────────────────────────────────────
+
+fitness_level  = "Moderate"
+exercise_notes = ""
+
+with st.expander("💪 Section 5 — Exercise & Fitness", expanded=False):
+    st.markdown(
+        "<div class='legend-box'>"
+        "Used to tailor the exercise circuit intensity and lifestyle plan shown "
+        "in the <b>💪 Exercise Plan</b> page and included in the PDF report."
+        "</div>",
+        unsafe_allow_html=True,
+    )
+
+    fitness_level = st.selectbox(
+        "Fitness Level",
+        ["Beginner", "Moderate", "Advanced"],
+        index=["Beginner", "Moderate", "Advanced"].index(
+            prefill("fitness_level", "Moderate") or "Moderate"
+        ),
+        help="Beginner = 1 round · Moderate = 2 rounds · Advanced = all 3 rounds of the circuit",
+    )
+
+    exercise_notes = st.text_area(
+        "Exercise Limitations / Notes :blue[(optional)]",
+        value=prefill("exercise_notes", ""),
+        placeholder="e.g. knee pain — avoid high-impact; prefers morning workouts",
+        height=80,
+    )
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SECTION 6: Baseline Biomarkers (optional)
 # ─────────────────────────────────────────────────────────────────────────────
 
 # Initialize biomarker variables before expander (Streamlit state safety)
@@ -405,7 +437,7 @@ bm_b12 = 0.0
 bm_ferritin = 0.0
 bm_notes = ""
 
-with st.expander("🩺 Section 5 — Baseline Biomarkers (optional)", expanded=False):
+with st.expander("🩺 Section 6 — Baseline Biomarkers (optional)", expanded=False):
     st.markdown(
         "<div class='legend-box'>"
         "Record baseline blood work if available now. These will appear in the "
@@ -528,6 +560,8 @@ if save_clicked:
             "snack_types":     snack_types,
             "medical_conditions": medical_conditions,
             "notes":           med_details,
+            "fitness_level":   fitness_level,
+            "exercise_notes":  exercise_notes,
         }
 
         if existing_client:

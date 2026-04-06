@@ -3,9 +3,9 @@
     "version": "1.0",
     "created": "2026-03-31",
     "description": "Poshan by Asha — Nepali & South Asian Recipe Library",
-    "total_recipes": 81,
+    "total_recipes": 113,
     "notes": "All nutrition values are estimates per standard serving. location_tags: home=home-cooked, restaurant=dine-in, takeaway=delivery/takeout, street=street food.",
-    "last_updated": "2026-03-31"
+    "last_updated": "2026-04-06"
   },
   "recipes": [
     {
@@ -3265,6 +3265,1331 @@
         "salt"
       ],
       "notes": "Canned tomatoes and pasta available at most Kathmandu supermarkets. Add spinach or chickpeas to boost nutrition. Batch cook sauce and refrigerate for 5 days. Lowest fat pasta option in the library."
+    },
+    {
+      "id": "R082",
+      "name_en": "Soaked Chana Salad with Fresh Fruits",
+      "name_ne": "भिजेको चना सलाद र फलफूल",
+      "category": "breakfast",
+      "cuisine": "Indian",
+      "serving_description": "1 bowl chana (~80g) + 1 bowl mixed fruits",
+      "prep_time_mins": 5,
+      "cooking_method": "no-cook",
+      "is_batch_cookable": false,
+      "calories": 295,
+      "protein_g": 14,
+      "carbs_g": 50,
+      "fat_g": 3,
+      "fiber_g": 10,
+      "dietary_tags": [
+        "vegetarian",
+        "vegan",
+        "gluten-free",
+        "high-fiber",
+        "quick"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "thyroid_friendly",
+        "pcos_friendly",
+        "diabetic_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Overnight-soaked chickpeas served cold as a breakfast salad alongside a bowl of seasonal mixed fruits. High satiety, zero cooking required.",
+      "key_ingredients": [
+        "chickpeas (chana)",
+        "cucumber",
+        "tomato",
+        "lemon",
+        "mixed seasonal fruits"
+      ],
+      "notes": "Soak chana overnight for 8+ hours. Add a pinch of chaat masala and lemon juice for flavour. Pairs well with black coffee.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R083",
+      "name_en": "Brown Bread Egg and Chicken Sandwich",
+      "name_ne": "ब्राउन ब्रेड एग चिकन स्यान्डविच",
+      "category": "breakfast",
+      "cuisine": "Indian-fusion",
+      "serving_description": "1 sandwich (1 brown bread slice, 2 eggs, 50g chicken, 50g veggies)",
+      "prep_time_mins": 15,
+      "cooking_method": "pan-fried",
+      "is_batch_cookable": false,
+      "calories": 375,
+      "protein_g": 32,
+      "carbs_g": 28,
+      "fat_g": 13,
+      "fiber_g": 4,
+      "dietary_tags": [
+        "high-protein",
+        "low-carb"
+      ],
+      "meat_type": "chicken",
+      "condition_flags": [
+        "pcos_friendly",
+        "weight_loss"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "A protein-packed open sandwich on brown bread layered with egg omelette, grilled chicken strips, fresh veggies, and optional half-avocado for healthy fats.",
+      "key_ingredients": [
+        "brown bread (1 slice)",
+        "egg (2)",
+        "chicken breast (50g)",
+        "veggies (50g)",
+        "avocado (optional, ½)"
+      ],
+      "notes": "Use spray oil or 2g oil to cook egg and chicken. Avocado adds healthy fat — include if within calorie target.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R084",
+      "name_en": "Green Moong Salad with Papaya",
+      "name_ne": "हरियो मुङ सलाद र पपाया",
+      "category": "breakfast",
+      "cuisine": "Indian",
+      "serving_description": "1 bowl moong salad (80g sprouts) + 1 portion papaya (~100g)",
+      "prep_time_mins": 10,
+      "cooking_method": "no-cook",
+      "is_batch_cookable": false,
+      "calories": 245,
+      "protein_g": 13,
+      "carbs_g": 38,
+      "fat_g": 2,
+      "fiber_g": 9,
+      "dietary_tags": [
+        "vegetarian",
+        "vegan",
+        "gluten-free",
+        "quick",
+        "low-fat"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "thyroid_friendly",
+        "pcos_friendly",
+        "diabetic_friendly",
+        "weight_loss"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Sprouted or soaked green moong tossed with cucumber, onion, coriander, lemon, and chaat masala — served alongside fresh papaya. Light, enzyme-rich, and high in plant protein.",
+      "key_ingredients": [
+        "green moong (80g)",
+        "papaya (100g)",
+        "cucumber",
+        "onion",
+        "lemon",
+        "chaat masala"
+      ],
+      "notes": "Soak moong overnight or sprout for 12–24 hrs for better digestibility. Skip papaya if managing blood sugar closely.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R085",
+      "name_en": "Boiled Chana with Mixed Fruits",
+      "name_ne": "उमालेको चना र मिश्रित फलफूल",
+      "category": "breakfast",
+      "cuisine": "Indian",
+      "serving_description": "1 bowl boiled chana + 1 bowl mixed fruits",
+      "prep_time_mins": 5,
+      "cooking_method": "boiled",
+      "is_batch_cookable": true,
+      "calories": 280,
+      "protein_g": 12,
+      "carbs_g": 48,
+      "fat_g": 2,
+      "fiber_g": 10,
+      "dietary_tags": [
+        "vegetarian",
+        "vegan",
+        "gluten-free",
+        "high-fiber"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "thyroid_friendly",
+        "diabetic_friendly",
+        "pcos_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Pressure-cooked whole chickpeas (batch prep) served warm or cold with a side of seasonal mixed fruits. Simple, filling, and macro-friendly.",
+      "key_ingredients": [
+        "chickpeas (chana, boiled)",
+        "seasonal mixed fruits"
+      ],
+      "notes": "Batch cook chana and refrigerate for up to 4 days. Season with rock salt and lemon if desired.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R086",
+      "name_en": "Oats Chilla with Curd",
+      "name_ne": "ओट्स चिल्ला र दही",
+      "category": "breakfast",
+      "cuisine": "Indian",
+      "serving_description": "1 chilla (approx 120g batter) + 2 tbsp curd",
+      "prep_time_mins": 15,
+      "cooking_method": "pan-fried",
+      "is_batch_cookable": false,
+      "calories": 320,
+      "protein_g": 15,
+      "carbs_g": 44,
+      "fat_g": 7,
+      "fiber_g": 5,
+      "dietary_tags": [
+        "vegetarian",
+        "high-fiber",
+        "quick"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "pcos_friendly",
+        "thyroid_friendly",
+        "weight_loss"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Savoury oats pancake (chilla) made with rolled oats, veggies, green chilli, and spices — cooked on a non-stick pan with minimal oil, served with low-fat curd.",
+      "key_ingredients": [
+        "rolled oats (40g)",
+        "onion",
+        "tomato",
+        "green chilli",
+        "coriander",
+        "low-fat curd (50g)"
+      ],
+      "notes": "Blend oats to a coarse flour or use as is for texture. Use 2–3g oil or spray on a non-stick pan.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R087",
+      "name_en": "Brown Bread Egg Omelette with Veggies",
+      "name_ne": "ब्राउन ब्रेड एग आमलेट तरकारीसहित",
+      "category": "breakfast",
+      "cuisine": "Indian-fusion",
+      "serving_description": "2 brown bread slices + 1 whole egg omelette with veggies",
+      "prep_time_mins": 10,
+      "cooking_method": "pan-fried",
+      "is_batch_cookable": false,
+      "calories": 340,
+      "protein_g": 18,
+      "carbs_g": 38,
+      "fat_g": 11,
+      "fiber_g": 5,
+      "dietary_tags": [
+        "vegetarian",
+        "quick",
+        "high-protein"
+      ],
+      "meat_type": "egg",
+      "condition_flags": [
+        "weight_loss",
+        "pcos_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "A quick breakfast of 2 toasted brown bread slices served alongside a fluffy omelette loaded with onion, capsicum, tomato, and seasonal vegetables.",
+      "key_ingredients": [
+        "brown bread (2 slices)",
+        "egg (1 whole)",
+        "capsicum",
+        "onion",
+        "tomato",
+        "coriander"
+      ],
+      "notes": "Use a non-stick pan with 2g oil or cooking spray. Load the omelette generously with veggies to increase fibre and volume.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R088",
+      "name_en": "Banana Oats Nuts Smoothie",
+      "name_ne": "केरा ओट्स नट्स स्मुदी",
+      "category": "breakfast",
+      "cuisine": "Indian-fusion",
+      "serving_description": "1 glass (~350ml)",
+      "prep_time_mins": 5,
+      "cooking_method": "blended",
+      "is_batch_cookable": false,
+      "calories": 320,
+      "protein_g": 13,
+      "carbs_g": 48,
+      "fat_g": 9,
+      "fiber_g": 4,
+      "dietary_tags": [
+        "vegetarian",
+        "quick",
+        "no-cook"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "weight_loss",
+        "thyroid_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "A filling breakfast smoothie blending low-fat milk, banana, rolled oats, mixed nuts, and stevia — no added sugar, quick to prepare.",
+      "key_ingredients": [
+        "low-fat milk (200ml)",
+        "banana (1 medium)",
+        "rolled oats (20g)",
+        "mixed nuts (10g)",
+        "stevia (optional)"
+      ],
+      "notes": "Use stevia or skip sweetener entirely if banana is ripe. Can substitute milk with plant-based milk for a dairy-free version.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R089",
+      "name_en": "Avocado Milk Nuts Smoothie",
+      "name_ne": "एभोकाडो मिल्क नट्स स्मुदी",
+      "category": "breakfast",
+      "cuisine": "Indian-fusion",
+      "serving_description": "1 glass (~300ml)",
+      "prep_time_mins": 5,
+      "cooking_method": "blended",
+      "is_batch_cookable": false,
+      "calories": 340,
+      "protein_g": 9,
+      "carbs_g": 24,
+      "fat_g": 22,
+      "fiber_g": 5,
+      "dietary_tags": [
+        "vegetarian",
+        "quick",
+        "no-cook",
+        "high-fat"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "pcos_friendly",
+        "heart_healthy"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Creamy smoothie made with ripe avocado, low-fat milk, and mixed nuts. Rich in healthy monounsaturated fats and filling enough to carry you through the morning.",
+      "key_ingredients": [
+        "avocado (½)",
+        "low-fat milk (200ml)",
+        "mixed nuts (10g)",
+        "stevia (optional)"
+      ],
+      "notes": "Best consumed immediately after blending. Adjust thickness with milk. Pairs well with chia seeds soaked overnight.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R090",
+      "name_en": "Strawberry Banana Blueberry Smoothie",
+      "name_ne": "स्ट्रबेरी केरा ब्लुबेरी स्मुदी",
+      "category": "breakfast",
+      "cuisine": "Indian-fusion",
+      "serving_description": "1 glass (~350ml)",
+      "prep_time_mins": 5,
+      "cooking_method": "blended",
+      "is_batch_cookable": false,
+      "calories": 270,
+      "protein_g": 7,
+      "carbs_g": 48,
+      "fat_g": 5,
+      "fiber_g": 5,
+      "dietary_tags": [
+        "vegetarian",
+        "quick",
+        "no-cook",
+        "low-fat",
+        "antioxidant-rich"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "thyroid_friendly",
+        "pcos_friendly",
+        "weight_loss"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Antioxidant-rich fruit smoothie blending strawberries, banana, blueberries, and almond milk. Bright, naturally sweet, and loaded with polyphenols.",
+      "key_ingredients": [
+        "strawberries (80g)",
+        "banana (½)",
+        "blueberries (50g)",
+        "almond milk (200ml)"
+      ],
+      "notes": "Use unsweetened almond milk. Frozen berries work well. Add a tablespoon of chia or flax seeds for extra fibre and omega-3.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R091",
+      "name_en": "Soaked Almond Walnut Egg Platter",
+      "name_ne": "भिजेको बदाम अखरोट र अण्डा थाली",
+      "category": "breakfast",
+      "cuisine": "Nepali-Indian",
+      "serving_description": "5 almonds + 2 walnuts + 1 whole egg + 1 egg white + 1 bread slice or fruit or avocado",
+      "prep_time_mins": 10,
+      "cooking_method": "boiled",
+      "is_batch_cookable": false,
+      "calories": 350,
+      "protein_g": 20,
+      "carbs_g": 22,
+      "fat_g": 20,
+      "fiber_g": 3,
+      "dietary_tags": [
+        "high-protein",
+        "low-carb",
+        "quick"
+      ],
+      "meat_type": "egg",
+      "condition_flags": [
+        "thyroid_friendly",
+        "pcos_friendly",
+        "weight_loss",
+        "diabetic_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "A balanced breakfast platter: overnight-soaked peeled almonds and walnuts, a boiled whole egg and egg white, plus one serving of carbs — bread, a seasonal fruit, or half an avocado.",
+      "key_ingredients": [
+        "almonds (5 pcs, soaked)",
+        "walnuts (2 pcs)",
+        "egg (1 whole + 1 white)",
+        "bread / fruit / avocado (1 serving)"
+      ],
+      "notes": "Peel soaked almonds before eating — skin removal reduces phytic acid load. Rotate the carb side for variety.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R092",
+      "name_en": "Low-Fat Paneer Stir Fry Bowl",
+      "name_ne": "कम फ्याट पनीर स्टर फ्राई थाली",
+      "category": "lunch",
+      "cuisine": "Indian",
+      "serving_description": "Rice 120g cooked or 2 roti + paneer 100g + dal 100g + veggies 150g + salad 100g",
+      "prep_time_mins": 25,
+      "cooking_method": "stir-fried",
+      "is_batch_cookable": true,
+      "calories": 480,
+      "protein_g": 26,
+      "carbs_g": 55,
+      "fat_g": 14,
+      "fiber_g": 8,
+      "dietary_tags": [
+        "vegetarian",
+        "high-protein"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "pcos_friendly",
+        "weight_loss"
+      ],
+      "difficulty": "medium",
+      "treat_meal": false,
+      "description": "Low-fat paneer cubes stir-fried with onion, capsicum, and spices (4g oil, non-stick pan), served with steamed rice or roti, a small portion of dal, and fresh salad.",
+      "key_ingredients": [
+        "low-fat paneer (100g)",
+        "mixed veggies (150g)",
+        "rice (120g cooked) or 2 roti",
+        "dal cooked (100g)",
+        "salad (cucumber, carrot, beetroot, 100g)"
+      ],
+      "notes": "Use non-stick pan with 4g oil max. Low-fat paneer keeps calories reasonable while maintaining protein. Batch prep dal for the week.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R093",
+      "name_en": "Soya Chunks Dal Rice Bowl",
+      "name_ne": "सोया चङ्क्स दाल भात थाली",
+      "category": "lunch",
+      "cuisine": "Indian",
+      "serving_description": "Rice 120g or 2 roti + soya chunks 30g raw + dal 120g + veggies 150g + salad 100g",
+      "prep_time_mins": 25,
+      "cooking_method": "stir-fried",
+      "is_batch_cookable": true,
+      "calories": 460,
+      "protein_g": 30,
+      "carbs_g": 58,
+      "fat_g": 9,
+      "fiber_g": 8,
+      "dietary_tags": [
+        "vegetarian",
+        "high-protein",
+        "dairy-free"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "pcos_friendly",
+        "weight_loss",
+        "thyroid_friendly"
+      ],
+      "difficulty": "medium",
+      "treat_meal": false,
+      "description": "Soya chunks (textured soy protein) rehydrated and stir-fried with veggies in minimal oil — served over rice or with roti, dal, and a fresh cucumber-carrot-beetroot salad.",
+      "key_ingredients": [
+        "soya chunks (30g raw)",
+        "mixed veggies (150g)",
+        "rice (120g cooked) or 2 roti",
+        "dal cooked (120g)",
+        "salad (100g)",
+        "oil (5g)"
+      ],
+      "notes": "Soak soya chunks in hot water for 15 mins then squeeze dry before cooking. They double in volume when rehydrated.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R094",
+      "name_en": "Gedagudi Curry Bowl",
+      "name_ne": "गेडागुडी करी थाली",
+      "category": "lunch",
+      "cuisine": "Nepali-Indian",
+      "serving_description": "Rice 120g or 2 roti + gedagudi curry 120g + veggies 150g + salad 100g",
+      "prep_time_mins": 30,
+      "cooking_method": "curried",
+      "is_batch_cookable": true,
+      "calories": 430,
+      "protein_g": 18,
+      "carbs_g": 62,
+      "fat_g": 8,
+      "fiber_g": 11,
+      "dietary_tags": [
+        "vegetarian",
+        "vegan",
+        "gluten-free",
+        "high-fiber"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "thyroid_friendly",
+        "diabetic_friendly",
+        "weight_loss"
+      ],
+      "difficulty": "medium",
+      "treat_meal": false,
+      "description": "Nepali-style black-eyed pea (gedagudi/lobia) curry slow-cooked with onion, tomato, ginger, and cumin — served with rice or roti and a fresh salad. A high-fibre, plant-protein lunch staple.",
+      "key_ingredients": [
+        "gedagudi / black-eyed peas (120g cooked)",
+        "onion",
+        "tomato",
+        "ginger-garlic",
+        "cumin",
+        "rice or roti"
+      ],
+      "notes": "Gedagudi needs 6–8 hrs soaking before cooking. Batch cook and refrigerate for 3 days.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R095",
+      "name_en": "Rajma and Egg Bowl",
+      "name_ne": "राजमा र अण्डा थाली",
+      "category": "lunch",
+      "cuisine": "Indian",
+      "serving_description": "Rice 120g or 2 roti + rajma 100g cooked + 2 whole eggs + salad 70g",
+      "prep_time_mins": 30,
+      "cooking_method": "curried",
+      "is_batch_cookable": true,
+      "calories": 490,
+      "protein_g": 27,
+      "carbs_g": 58,
+      "fat_g": 12,
+      "fiber_g": 10,
+      "dietary_tags": [
+        "vegetarian",
+        "high-protein",
+        "gluten-free"
+      ],
+      "meat_type": "egg",
+      "condition_flags": [
+        "pcos_friendly",
+        "weight_loss"
+      ],
+      "difficulty": "medium",
+      "treat_meal": false,
+      "description": "Cooked kidney beans (rajma) in a light onion-tomato masala served with two whole eggs (boiled or poached) over rice or with roti and a small green salad.",
+      "key_ingredients": [
+        "rajma (100g cooked)",
+        "whole eggs (2)",
+        "onion",
+        "tomato",
+        "spices",
+        "rice (120g) or 2 roti",
+        "salad (70g)",
+        "oil (3g)"
+      ],
+      "notes": "Use 3g oil only. Eggs can be hard-boiled and added on the side, or cracked into the rajma gravy. High protein + fibre combo keeps hunger at bay.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R096",
+      "name_en": "Mung Dal Roti with Vegetable and Egg",
+      "name_ne": "मुङ दाल रोटी तरकारी र अण्डा",
+      "category": "lunch",
+      "cuisine": "Nepali-Indian",
+      "serving_description": "2 mung dal roti + seasonal vegetable + 1 egg (any style)",
+      "prep_time_mins": 20,
+      "cooking_method": "pan-fried",
+      "is_batch_cookable": false,
+      "calories": 380,
+      "protein_g": 22,
+      "carbs_g": 46,
+      "fat_g": 10,
+      "fiber_g": 7,
+      "dietary_tags": [
+        "vegetarian",
+        "high-protein"
+      ],
+      "meat_type": "egg",
+      "condition_flags": [
+        "thyroid_friendly",
+        "weight_loss",
+        "pcos_friendly"
+      ],
+      "difficulty": "medium",
+      "treat_meal": false,
+      "description": "Thin mung dal (yellow split moong) flatbreads cooked on a tawa, served with a stir-fried seasonal vegetable and one egg prepared to preference.",
+      "key_ingredients": [
+        "mung dal roti (2 pcs)",
+        "seasonal vegetable (150g)",
+        "egg (1 whole)"
+      ],
+      "notes": "Mung dal roti batter: soak split moong 2 hrs, grind with spices, cook thin on tawa. Higher protein than wheat roti.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R097",
+      "name_en": "Roti Chicken Vegetable Roll",
+      "name_ne": "रोटी चिकन तरकारी रोल",
+      "category": "lunch",
+      "cuisine": "Indian",
+      "serving_description": "2 roti rolls (each: 1 roti + chicken + veggies)",
+      "prep_time_mins": 20,
+      "cooking_method": "pan-fried",
+      "is_batch_cookable": false,
+      "calories": 420,
+      "protein_g": 30,
+      "carbs_g": 42,
+      "fat_g": 13,
+      "fiber_g": 5,
+      "dietary_tags": [
+        "high-protein",
+        "dairy-free"
+      ],
+      "meat_type": "chicken",
+      "condition_flags": [
+        "pcos_friendly",
+        "weight_loss"
+      ],
+      "difficulty": "medium",
+      "treat_meal": false,
+      "description": "Soft whole-wheat roti wraps filled with grilled spiced chicken strips, crunchy fresh veggies, and a light mint-coriander chutney. A clean, portable lunch option.",
+      "key_ingredients": [
+        "whole wheat roti (2 pcs)",
+        "chicken breast (100g)",
+        "capsicum",
+        "onion",
+        "cucumber",
+        "mint chutney"
+      ],
+      "notes": "Marinate chicken in yogurt and spices 30 mins ahead. Grill or cook with minimal oil on non-stick pan. Load with raw veggies for crunch and volume.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R098",
+      "name_en": "Quinoa Salad Bowl",
+      "name_ne": "क्विनोआ सलाद थाली",
+      "category": "lunch",
+      "cuisine": "Indian-fusion",
+      "serving_description": "1 bowl (quinoa 80g dry + veggies + dressing)",
+      "prep_time_mins": 20,
+      "cooking_method": "boiled",
+      "is_batch_cookable": true,
+      "calories": 350,
+      "protein_g": 12,
+      "carbs_g": 52,
+      "fat_g": 8,
+      "fiber_g": 7,
+      "dietary_tags": [
+        "vegetarian",
+        "vegan",
+        "gluten-free",
+        "high-fiber"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "thyroid_friendly",
+        "diabetic_friendly",
+        "weight_loss"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Cooked quinoa tossed with cucumber, tomato, carrot, onion, herbs, lemon, and olive oil — a complete plant protein meal with all essential amino acids.",
+      "key_ingredients": [
+        "quinoa (80g dry)",
+        "cucumber",
+        "tomato",
+        "carrot",
+        "red onion",
+        "coriander",
+        "lemon",
+        "olive oil (5g)"
+      ],
+      "notes": "Rinse quinoa thoroughly before cooking to remove bitter saponins. Add chickpeas or boiled egg to boost protein further.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R099",
+      "name_en": "Chiura with Egg Omelette",
+      "name_ne": "चिउरा र अण्डाको अमलेट",
+      "category": "snack",
+      "cuisine": "Nepali-Indian",
+      "serving_description": "40g chiura (raw) + 1 whole egg omelette or soyabean with onion and spices",
+      "prep_time_mins": 10,
+      "cooking_method": "pan-fried",
+      "is_batch_cookable": false,
+      "calories": 320,
+      "protein_g": 15,
+      "carbs_g": 42,
+      "fat_g": 10,
+      "fiber_g": 2,
+      "dietary_tags": [
+        "quick"
+      ],
+      "meat_type": "egg",
+      "condition_flags": [
+        "weight_loss"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Raw chiura (beaten rice) paired with a spiced egg omelette — or a soyabean-onion stir fry for a plant-based version. Quick, satisfying, and higher protein than plain chiura.",
+      "key_ingredients": [
+        "chiura beaten rice (40g raw)",
+        "egg (1 whole) or soyabean (30g)",
+        "onion",
+        "green chilli",
+        "spices",
+        "oil (4g)"
+      ],
+      "notes": "Raw chiura requires no cooking — just rehydrate lightly if preferred. Swap egg for soyabean granules for a vegan version.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R100",
+      "name_en": "Masala Corn Chaat",
+      "name_ne": "मसला मकै च्याट",
+      "category": "snack",
+      "cuisine": "Indian",
+      "serving_description": "100g sweet boiled corn + lime + salt + chilli",
+      "prep_time_mins": 5,
+      "cooking_method": "boiled",
+      "is_batch_cookable": false,
+      "calories": 165,
+      "protein_g": 4,
+      "carbs_g": 33,
+      "fat_g": 2,
+      "fiber_g": 4,
+      "dietary_tags": [
+        "vegetarian",
+        "vegan",
+        "gluten-free",
+        "quick",
+        "low-fat"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "thyroid_friendly",
+        "weight_loss"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Sweet boiled corn kernels seasoned with rock salt, lime juice, and red chilli powder. A street-style snack made at home — crunchy, tangy, and naturally low-fat.",
+      "key_ingredients": [
+        "sweet corn (100g boiled)",
+        "lime juice",
+        "rock salt",
+        "red chilli powder"
+      ],
+      "notes": "Optionally add chaat masala or coriander. Avoid adding butter. Pairs with 1 glass of plain water or buttermilk.",
+      "location_tags": [
+        "home",
+        "street"
+      ]
+    },
+    {
+      "id": "R101",
+      "name_en": "Homemade Aloo Chaat",
+      "name_ne": "घरेलु आलु च्याट",
+      "category": "snack",
+      "cuisine": "Indian",
+      "serving_description": "100g boiled potato + ½ cup cucumber + ½ onion + masala",
+      "prep_time_mins": 10,
+      "cooking_method": "no-cook",
+      "is_batch_cookable": false,
+      "calories": 195,
+      "protein_g": 4,
+      "carbs_g": 38,
+      "fat_g": 2,
+      "fiber_g": 4,
+      "dietary_tags": [
+        "vegetarian",
+        "vegan",
+        "gluten-free",
+        "quick"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "weight_loss"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Home-style aloo chaat: boiled potato cubes tossed with diced cucumber, onion, lemon juice, chaat masala, and coriander — no frying, no oil.",
+      "key_ingredients": [
+        "boiled potato (100g)",
+        "cucumber (½ cup)",
+        "onion (½)",
+        "chaat masala",
+        "lemon juice",
+        "coriander"
+      ],
+      "notes": "A much cleaner version than restaurant aloo chaat — no sev or fried additions. Boil potatoes ahead and refrigerate.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R102",
+      "name_en": "Paneer Paratha (Light Oil)",
+      "name_ne": "पनीर पराँठा (कम तेल)",
+      "category": "snack",
+      "cuisine": "Indian",
+      "serving_description": "1 paratha (stuffed with ~40g paneer) cooked in 5g oil",
+      "prep_time_mins": 20,
+      "cooking_method": "pan-fried",
+      "is_batch_cookable": false,
+      "calories": 275,
+      "protein_g": 11,
+      "carbs_g": 30,
+      "fat_g": 12,
+      "fiber_g": 2,
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "weight_loss"
+      ],
+      "difficulty": "medium",
+      "treat_meal": false,
+      "description": "Whole-wheat flatbread stuffed with spiced crumbled paneer, cooked on tawa with just 5g oil. A satisfying snack or light meal option.",
+      "key_ingredients": [
+        "whole wheat dough",
+        "paneer crumbled (40g)",
+        "cumin seeds",
+        "green chilli",
+        "coriander",
+        "oil (5g)"
+      ],
+      "notes": "Use low-fat paneer to reduce calories further. Pair with curd or a small green chutney. Limit to 1 paratha as a snack.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R103",
+      "name_en": "Chana Bhuja Chaat",
+      "name_ne": "चना भुजा च्याट",
+      "category": "snack",
+      "cuisine": "Nepali-Indian",
+      "serving_description": "50g boiled chana + 20g puffed rice + onion + tomato + coriander + spices",
+      "prep_time_mins": 5,
+      "cooking_method": "no-cook",
+      "is_batch_cookable": false,
+      "calories": 215,
+      "protein_g": 9,
+      "carbs_g": 36,
+      "fat_g": 3,
+      "fiber_g": 6,
+      "dietary_tags": [
+        "vegetarian",
+        "vegan",
+        "quick",
+        "gluten-free"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "weight_loss",
+        "thyroid_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Bhel-style chaat combining boiled chickpeas and puffed rice with chopped onion, tomato, coriander, rock salt, chilli, and lemon juice. Crunchy, tangy, protein-rich, and zero oil.",
+      "key_ingredients": [
+        "boiled chana (50g)",
+        "puffed rice (20g)",
+        "onion (chopped)",
+        "tomato (chopped)",
+        "coriander",
+        "rock salt",
+        "chilli powder",
+        "lemon juice"
+      ],
+      "notes": "Toss just before eating so puffed rice stays crunchy. A great Nepali-street-style snack that works well as a 4–5 PM meal.",
+      "location_tags": [
+        "home",
+        "street"
+      ]
+    },
+    {
+      "id": "R104",
+      "name_en": "Seasonal Fruit with Nuts Platter",
+      "name_ne": "मौसमी फल र मेवा थाली",
+      "category": "snack",
+      "cuisine": "Nepali-Indian",
+      "serving_description": "1 medium fruit + 5 pcs pistachio or 5 pcs cashew + lemon water with black salt",
+      "prep_time_mins": 2,
+      "cooking_method": "no-cook",
+      "is_batch_cookable": false,
+      "calories": 180,
+      "protein_g": 4,
+      "carbs_g": 28,
+      "fat_g": 7,
+      "fiber_g": 4,
+      "dietary_tags": [
+        "vegetarian",
+        "vegan",
+        "gluten-free",
+        "quick",
+        "dairy-free"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "thyroid_friendly",
+        "weight_loss",
+        "diabetic_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "A structured afternoon snack: one medium seasonal fruit with a small portion of pistachios or cashews for healthy fat, plus lemon water with black salt to aid digestion.",
+      "key_ingredients": [
+        "seasonal fruit (1 medium)",
+        "pistachio (5 pcs) or cashew (5 pcs)",
+        "lemon water with black salt"
+      ],
+      "notes": "Avoid fruit juices — eat whole fruit for fibre. Walk 10 mins after this snack. Rotate between mango, papaya, guava, apple, and pear seasonally.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R105",
+      "name_en": "Cabbage Momo (Steamed)",
+      "name_ne": "बन्दाकोपी मोमो (भाफमा पकाएको)",
+      "category": "dinner",
+      "cuisine": "Nepali",
+      "serving_description": "6 pieces steamed momo",
+      "prep_time_mins": 40,
+      "cooking_method": "steamed",
+      "is_batch_cookable": true,
+      "calories": 275,
+      "protein_g": 9,
+      "carbs_g": 40,
+      "fat_g": 7,
+      "fiber_g": 5,
+      "dietary_tags": [
+        "vegetarian",
+        "dairy-free"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "weight_loss",
+        "thyroid_friendly"
+      ],
+      "difficulty": "medium",
+      "treat_meal": false,
+      "description": "Classic Nepali dumplings stuffed with spiced cabbage, onion, ginger, and light oil — steamed, not fried. A lighter vegetarian momo option lower in calories than buff or chicken versions.",
+      "key_ingredients": [
+        "cabbage (150g)",
+        "onion",
+        "ginger",
+        "green chilli",
+        "coriander",
+        "momo dough (plain flour)"
+      ],
+      "notes": "Use minimal oil (5g) in the filling. Serve with tomato-chilli achar. Steam for 12–15 mins. Batch-freeze raw momos for quick dinners.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R106",
+      "name_en": "Paneer Tikka with Salad",
+      "name_ne": "पनीर टिक्का र सलाद",
+      "category": "dinner",
+      "cuisine": "Indian",
+      "serving_description": "100g paneer tikka + 150g mixed salad vegetables",
+      "prep_time_mins": 30,
+      "cooking_method": "grilled",
+      "is_batch_cookable": false,
+      "calories": 275,
+      "protein_g": 18,
+      "carbs_g": 10,
+      "fat_g": 17,
+      "fiber_g": 4,
+      "dietary_tags": [
+        "vegetarian",
+        "gluten-free",
+        "high-protein",
+        "low-carb"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "pcos_friendly",
+        "weight_loss",
+        "diabetic_friendly"
+      ],
+      "difficulty": "medium",
+      "treat_meal": false,
+      "description": "Low-fat paneer cubes marinated in spiced yogurt and grilled on a tawa or grill pan until slightly charred — served alongside a generous fresh salad. A clean, high-protein, low-carb dinner.",
+      "key_ingredients": [
+        "low-fat paneer (100g)",
+        "yogurt (30g)",
+        "red chilli powder",
+        "cumin",
+        "garam masala",
+        "mixed salad vegetables (150g)"
+      ],
+      "notes": "Marinate paneer for at least 30 mins. Grill on high heat for char marks without extra oil. Good dinner option for days with a heavier carb lunch.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R107",
+      "name_en": "Soyabean Vegetable Roll",
+      "name_ne": "सोयाबिन तरकारी रोल",
+      "category": "dinner",
+      "cuisine": "Indian",
+      "serving_description": "2 roti + 30g soyabean + 150g veggies",
+      "prep_time_mins": 20,
+      "cooking_method": "stir-fried",
+      "is_batch_cookable": false,
+      "calories": 375,
+      "protein_g": 22,
+      "carbs_g": 46,
+      "fat_g": 9,
+      "fiber_g": 8,
+      "dietary_tags": [
+        "vegetarian",
+        "dairy-free",
+        "high-protein"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "pcos_friendly",
+        "thyroid_friendly",
+        "weight_loss"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Whole-wheat roti wraps filled with stir-fried soyabean granules, capsicum, onion, and mixed veggies — a plant-protein dinner wrap that's filling and macro-balanced.",
+      "key_ingredients": [
+        "whole wheat roti (2 pcs)",
+        "soyabean granules (30g dry)",
+        "capsicum",
+        "onion",
+        "mixed veggies (150g)",
+        "mint chutney"
+      ],
+      "notes": "Rehydrate soya granules in hot water 10 mins before stir-frying. Season well with cumin, chilli, and coriander for best flavour.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R108",
+      "name_en": "Paneer Bhurji with Roti",
+      "name_ne": "पनीर भुर्जी र रोटी",
+      "category": "dinner",
+      "cuisine": "Indian",
+      "serving_description": "100g paneer bhurji + 2 roti + 100g veggies",
+      "prep_time_mins": 20,
+      "cooking_method": "stir-fried",
+      "is_batch_cookable": false,
+      "calories": 420,
+      "protein_g": 22,
+      "carbs_g": 42,
+      "fat_g": 16,
+      "fiber_g": 5,
+      "dietary_tags": [
+        "vegetarian",
+        "high-protein"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "pcos_friendly",
+        "weight_loss"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Crumbled paneer scrambled with onion, tomato, green chilli, and spices — a vegetarian spin on egg bhurji, served with two whole-wheat rotis and a side of steamed vegetables.",
+      "key_ingredients": [
+        "paneer crumbled (100g)",
+        "onion",
+        "tomato",
+        "green chilli",
+        "cumin",
+        "turmeric",
+        "whole wheat roti (2 pcs)",
+        "veggies (100g)"
+      ],
+      "notes": "Use low-fat paneer. Keep masala simple — just cumin, turmeric, and chilli. Don't overcook or paneer becomes rubbery.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R109",
+      "name_en": "Grilled Paneer and Mushroom Fried Rice",
+      "name_ne": "ग्रिल्ड पनीर र च्याउ फ्राइड राइस",
+      "category": "dinner",
+      "cuisine": "Indian-fusion",
+      "serving_description": "120g grilled paneer or mushroom + 160g fried rice (use more veggies)",
+      "prep_time_mins": 30,
+      "cooking_method": "stir-fried",
+      "is_batch_cookable": false,
+      "calories": 445,
+      "protein_g": 20,
+      "carbs_g": 52,
+      "fat_g": 14,
+      "fiber_g": 6,
+      "dietary_tags": [
+        "vegetarian",
+        "high-protein"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "weight_loss"
+      ],
+      "difficulty": "medium",
+      "treat_meal": false,
+      "description": "Lightly grilled paneer or sautéed mushrooms served alongside a high-veggie rice stir-fry made with minimal oil. Using yesterday's cold rice works best for texture.",
+      "key_ingredients": [
+        "paneer or mushroom (120g)",
+        "cooked rice (160g)",
+        "mixed veggies (200g)",
+        "soy sauce (low sodium)",
+        "ginger",
+        "garlic",
+        "oil (3g)"
+      ],
+      "notes": "Use cold pre-cooked rice for better fried rice texture. Load up on veggies — aim for 2:1 veggies-to-rice ratio. Choose mushroom for a lower calorie version.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R110",
+      "name_en": "Wheat Momo with Chicken Soup",
+      "name_ne": "गहुँको मोमो र चिकन सूप",
+      "category": "dinner",
+      "cuisine": "Nepali",
+      "serving_description": "8 piece wheat momo + 1 bowl chicken soup (no cream/butter)",
+      "prep_time_mins": 40,
+      "cooking_method": "steamed",
+      "is_batch_cookable": true,
+      "calories": 380,
+      "protein_g": 26,
+      "carbs_g": 44,
+      "fat_g": 9,
+      "fiber_g": 4,
+      "dietary_tags": [
+        "high-protein",
+        "dairy-free"
+      ],
+      "meat_type": "chicken",
+      "condition_flags": [
+        "weight_loss",
+        "pcos_friendly"
+      ],
+      "difficulty": "medium",
+      "treat_meal": false,
+      "description": "Whole-wheat flour momo stuffed with spiced chicken mince, served alongside a clear chicken broth with vegetables — no butter or cream. A lighter Nepali dumpling dinner.",
+      "key_ingredients": [
+        "whole wheat flour",
+        "chicken mince (80g)",
+        "onion",
+        "ginger",
+        "coriander",
+        "clear chicken broth (250ml)",
+        "veggies for soup"
+      ],
+      "notes": "Whole wheat dough gives extra fibre versus plain flour. Keep soup broth clear — season with salt, pepper, and herbs only.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R111",
+      "name_en": "Quinoa Chicken Salad",
+      "name_ne": "क्विनोआ चिकन सलाद",
+      "category": "dinner",
+      "cuisine": "Indian-fusion",
+      "serving_description": "100g quinoa cooked + 120g grilled chicken + salad items",
+      "prep_time_mins": 25,
+      "cooking_method": "boiled",
+      "is_batch_cookable": true,
+      "calories": 415,
+      "protein_g": 36,
+      "carbs_g": 40,
+      "fat_g": 10,
+      "fiber_g": 6,
+      "dietary_tags": [
+        "gluten-free",
+        "high-protein",
+        "dairy-free",
+        "low-fat"
+      ],
+      "meat_type": "chicken",
+      "condition_flags": [
+        "pcos_friendly",
+        "weight_loss",
+        "diabetic_friendly"
+      ],
+      "difficulty": "medium",
+      "treat_meal": false,
+      "description": "Cooked quinoa tossed with grilled spiced chicken, cucumber, tomato, red onion, and a light lemon-herb dressing. A complete protein dinner that is light yet highly satisfying.",
+      "key_ingredients": [
+        "quinoa (100g cooked)",
+        "chicken breast grilled (120g)",
+        "cucumber",
+        "tomato",
+        "red onion",
+        "lemon",
+        "olive oil (5g)",
+        "herbs"
+      ],
+      "notes": "Marinate chicken simply with cumin, salt, and lemon. Grill or pan-cook with minimal oil. Best assembled fresh before serving.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R112",
+      "name_en": "Soyabean Pulao",
+      "name_ne": "सोयाबिन पुलाउ",
+      "category": "dinner",
+      "cuisine": "Indian",
+      "serving_description": "30g soyabean (raw) + 120g rice cooked into pulao + salad + raita",
+      "prep_time_mins": 30,
+      "cooking_method": "one-pot",
+      "is_batch_cookable": true,
+      "calories": 420,
+      "protein_g": 20,
+      "carbs_g": 58,
+      "fat_g": 10,
+      "fiber_g": 7,
+      "dietary_tags": [
+        "vegetarian",
+        "dairy-free",
+        "high-protein"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "thyroid_friendly",
+        "pcos_friendly",
+        "weight_loss"
+      ],
+      "difficulty": "medium",
+      "treat_meal": false,
+      "description": "A one-pot soyabean rice pilaf: rehydrated soya granules cooked into spiced basmati rice with whole spices, onion, and aromatics — served with yogurt raita and salad.",
+      "key_ingredients": [
+        "soyabean granules (30g raw)",
+        "rice (120g cooked)",
+        "whole spices (bay leaf, cardamom, clove)",
+        "onion",
+        "ginger-garlic paste",
+        "oil (5g)",
+        "raita (small)",
+        "salad"
+      ],
+      "notes": "Soak soya granules 10 mins in hot water, squeeze out moisture before adding to rice. Reduces the beany taste significantly.",
+      "location_tags": [
+        "home"
+      ]
+    },
+    {
+      "id": "R113",
+      "name_en": "Wheat Noodles with Chicken and Veggies",
+      "name_ne": "गहुँको नुडल्स चिकन र तरकारी",
+      "category": "dinner",
+      "cuisine": "Indian-fusion",
+      "serving_description": "100g wheat noodles boiled + 150g veggies + 120g chicken",
+      "prep_time_mins": 20,
+      "cooking_method": "stir-fried",
+      "is_batch_cookable": false,
+      "calories": 430,
+      "protein_g": 35,
+      "carbs_g": 48,
+      "fat_g": 9,
+      "fiber_g": 5,
+      "dietary_tags": [
+        "high-protein",
+        "dairy-free"
+      ],
+      "meat_type": "chicken",
+      "condition_flags": [
+        "pcos_friendly",
+        "weight_loss"
+      ],
+      "difficulty": "medium",
+      "treat_meal": false,
+      "description": "Boiled whole-wheat noodles stir-fried with chunky veggies and grilled chicken strips — a lighter alternative to restaurant-style noodles with far less oil and no MSG.",
+      "key_ingredients": [
+        "wheat noodles (100g boiled)",
+        "mixed veggies (150g)",
+        "chicken breast (120g)",
+        "low-sodium soy sauce",
+        "ginger",
+        "garlic",
+        "oil (5g)"
+      ],
+      "notes": "Boil noodles al dente and rinse cold to prevent sticking. Use whole-wheat noodles rather than refined for extra fibre. Load with veggies — capsicum, cabbage, carrot.",
+      "location_tags": [
+        "home"
+      ]
     }
   ]
 }

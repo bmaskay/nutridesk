@@ -99,6 +99,16 @@ def init_db():
             FOREIGN KEY (client_id) REFERENCES clients(id)
         );
     """)
+    # ── Migration: add exercise columns if they don't exist ──────────────────
+    for _col_def in [
+        "ALTER TABLE clients ADD COLUMN fitness_level TEXT DEFAULT 'Moderate'",
+        "ALTER TABLE clients ADD COLUMN exercise_notes TEXT",
+    ]:
+        try:
+            c.execute(_col_def)
+        except Exception:
+            pass  # Column already exists — safe to ignore
+
     conn.commit()
     conn.close()
 
