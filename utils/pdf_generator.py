@@ -154,6 +154,22 @@ def _styles():
     return s
 
 
+def _decode_list(val):
+    """Return a comma-joined string from a list or JSON-encoded list string."""
+    import json as _json
+    if isinstance(val, list):
+        return ", ".join(str(v) for v in val if v)
+    if isinstance(val, str):
+        try:
+            parsed = _json.loads(val)
+            if isinstance(parsed, list):
+                return ", ".join(str(v) for v in parsed if v)
+        except Exception:
+            pass
+        return val
+    return ""
+
+
 def _hr():
     return HRFlowable(width="100%", thickness=0.5, color=GREEN_PALE, spaceAfter=6)
 
@@ -295,7 +311,7 @@ def generate_pdf(
         ["Activity Level", client.get("activity_level", "—")],
         ["Diet Type",   client.get("diet_type", "—")],
         ["Medical Conditions",
-         ", ".join(client.get("medical_conditions", [])) or "None reported"],
+         _decode_list(client.get("medical_conditions", [])) or "None reported"],
     ]
     story.append(_stat_table(profile_data))
 
@@ -323,6 +339,67 @@ def generate_pdf(
         ["Daily Hydration", f"{assessment.get('hydration_L', 0)} L/day"],
     ]
     story.append(_stat_table(assess_data))
+
+    # ── Macros Breakdown ──────────────────────────────────────────────────
+    story.append(Spacer(1, 0.4 * cm))
+    story.append(Paragraph("Daily Macros Breakdown", s["section"]))
+    story.append(_hr())
+
+    _p_g   = assessment.get("protein_g", 0) or 0
+    _c_g   = assessment.get("carbs_g", 0)   or 0
+    _f_g   = assessment.get("fat_g", 0)     or 0
+    _kcal  = assessment.get("target_calories", 1) or 1
+    _p_cal = round(_p_g * 4)
+    _c_cal = round(_c_g * 4)
+    _f_cal = round(_f_g * 9)
+    _p_pct = round(_p_cal / _kcal * 100)
+    _c_pct = round(_c_cal / _kcal * 100)
+    _f_pct = round(_f_cal / _kcal * 100)
+
+    # Header row + data rows
+    _macro_hdr = ParagraphStyle("mh", fontName=BODY_FONT_BOLD, fontSize=8.5,
+                                textColor=HexColor("#F0FDF4"))
+    _macro_body = ParagraphStyle("mb", fontName=BODY_FONT, fontSize=8.5,
+                                 textColor=TEXT_MID)
+    _macro_data = [
+        [Paragraph("Macro",       _macro_hdr),
+         Paragraph("Amount",      _macro_hdr),
+         Paragraph("Calories",    _macro_hdr),
+         Paragraph("% of Total",  _macro_hdr)],
+        [Paragraph("Protein",     _macro_body),
+         Paragraph(f"{_p_g} g",   _macro_body),
+         Paragraph(f"{_p_cal} kcal", _macro_body),
+         Paragraph(f"{_p_pct}%",  _macro_body)],
+        [Paragraph("Carbohydrates", _macro_body),
+         Paragraph(f"{_c_g} g",   _macro_body),
+         Paragraph(f"{_c_cal} kcal", _macro_body),
+         Paragraph(f"{_c_pct}%",  _macro_body)],
+        [Paragraph("Fat",         _macro_body),
+         Paragraph(f"{_f_g} g",   _macro_body),
+         Paragraph(f"{_f_cal} kcal", _macro_body),
+         Paragraph(f"{_f_pct}%",  _macro_body)],
+    ]
+    _BAR_WIDTHS = [4.5 * cm, 3.5 * cm, 3.5 * cm, 3.5 * cm]
+    _macro_table = Table(_macro_data, colWidths=_BAR_WIDTHS)
+    _macro_table.setStyle(TableStyle([
+        ("BACKGROUND",    (0, 0), (-1, 0),  GREEN_DARK),
+        ("BACKGROUND",    (0, 1), (-1, 1),  HexColor("#E9F5EC")),
+        ("BACKGROUND",    (0, 2), (-1, 2),  HexColor("#FFF8EC")),
+        ("BACKGROUND",    (0, 3), (-1, 3),  HexColor("#FEF3C7")),
+        ("FONTNAME",      (0, 0), (-1, -1), BODY_FONT),
+        ("FONTSIZE",      (0, 0), (-1, -1), 8.5),
+        ("GRID",          (0, 0), (-1, -1), 0.4, HexColor("#E5D9CC")),
+        ("VALIGN",        (0, 0), (-1, -1), "MIDDLE"),
+        ("TOPPADDING",    (0, 0), (-1, -1), 6),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+        ("LEFTPADDING",   (0, 0), (-1, -1), 8),
+    ]))
+    story.append(_macro_table)
+    story.append(Paragraph(
+        "Protein 4 kcal/g · Carbohydrates 4 kcal/g · Fat 9 kcal/g",
+        ParagraphStyle("mn", fontName=BODY_FONT, fontSize=7.5,
+                       textColor=TEXT_LIGHT, spaceAfter=4)
+    ))
 
     # ── Diet duration box ─────────────────────────────────────────────────
     goal      = client.get("goal", "")
@@ -502,7 +579,7 @@ def generate_pdf(
     story.append(Paragraph("Supplement Recommendations", s["section"]))
     story.append(_hr())
 
-    conditions = client.get("medical_conditions", [])
+    conditions = _decode_list(client.get("medical_conditions", [])).split(", ") if client.get("medical_conditions") else []
     supplements = [
         ("Vitamin D3 + K2", "Essential for South Asians — most are deficient. Take 1000–2000 IU D3 daily with a fatty meal."),
         ("Vitamin B12", "Critical if vegetarian/vegan or eating minimal red meat. 500 mcg daily or as advised."),
@@ -733,7 +810,7 @@ def generate_pdf(
     story.append(Paragraph("  ".join(f"• {a}" for a in _avoid), s["body"]))
 
     # Condition-specific notes
-    _client_conds = client.get("medical_conditions", [])
+    _client_conds = _decode_list(client.get("medical_conditions", [])).split(", ") if client.get("medical_conditions") else []
     if "PCOS" in _client_conds:
         story.append(Spacer(1, 0.2 * cm))
         story.append(Paragraph(
