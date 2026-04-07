@@ -1,7 +1,6 @@
 """
 app.py — NutriDesk Router (Streamlit 1.37+)
-Defines routing via st.navigation() and renders sidebar nav explicitly via st.page_link().
-position="hidden" suppresses the auto-nav so we control the sidebar ourselves.
+Routing via st.navigation() — sidebar is rendered automatically by Streamlit.
 """
 
 import sys
@@ -33,18 +32,16 @@ pages_list = [
     st.Page("pages/4_📈_Progress.py",   title="Progress",   icon="📈"),
 ]
 
-pg = st.navigation(pages_list)
+pg = st.navigation(pages_list, position="hidden")
 
-# ── Sidebar Navigation (Explicit Links) ──────────────────────────────────────
+# ── Sidebar Navigation ────────────────────────────────────────────────────────
 
 with st.sidebar:
-    st.markdown("### Navigation")
-    st.page_link("pages/home.py", label="🏠 Home", icon="🏠")
-    st.page_link("pages/1_📋_Intake.py", label="📋 New Client", icon="📋")
-    st.page_link("pages/2_🍽️_Meal_Plan.py", label="🍽️ Meal Plan", icon="🍽️")
-    st.page_link("pages/3_👥_Clients.py", label="👥 Clients", icon="👥")
-    st.page_link("pages/4_📈_Progress.py", label="📈 Progress", icon="📈")
-
+    st.page_link("pages/home.py",            label="Home",       icon="🏠")
+    st.page_link("pages/1_📋_Intake.py",     label="New Client", icon="📋")
+    st.page_link("pages/2_🍽️_Meal_Plan.py", label="Meal Plan",  icon="🍽️")
+    st.page_link("pages/3_👥_Clients.py",    label="Clients",    icon="👥")
+    st.page_link("pages/4_📈_Progress.py",   label="Progress",   icon="📈")
     st.divider()
     st.caption("NutriDesk v1.0 · Āhāra by Asha · 2026")
 
