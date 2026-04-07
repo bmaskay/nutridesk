@@ -28,8 +28,12 @@ from reportlab.pdfbase.ttfonts import TTFont
 # ── Register Unicode fonts for full IAST support (ā, Ā, etc.) ─────────────
 import os as _os
 
+# Bundled fonts (project/fonts/) take priority so the app is self-contained
+_BUNDLED = _os.path.join(_os.path.dirname(_os.path.dirname(__file__)), "fonts")
+
 _FONT_DIRS = [
-    "/usr/share/fonts/truetype/dejavu",       # Linux (Debian/Ubuntu)
+    _BUNDLED,                                  # Bundled with project (always first)
+    "/usr/share/fonts/truetype/dejavu",        # Linux (Debian/Ubuntu)
     "/usr/share/fonts/dejavu",
     "/usr/share/fonts",
     "/Library/Fonts",                          # macOS system-wide
@@ -38,8 +42,9 @@ _FONT_DIRS = [
     "/System/Library/Fonts",
     "C:\\Windows\\Fonts",                      # Windows
 ]
-_REG_NAMES  = ["DejaVuSans.ttf", "Arial.ttf", "arial.ttf", "Verdana.ttf"]
-_BOLD_NAMES = ["DejaVuSans-Bold.ttf", "Arial Bold.ttf", "arialbd.ttf", "Verdana Bold.ttf"]
+_REG_NAMES     = ["DejaVuSans.ttf", "Arial.ttf", "arial.ttf", "Verdana.ttf"]
+_BOLD_NAMES    = ["DejaVuSans-Bold.ttf", "Arial Bold.ttf", "arialbd.ttf", "Verdana Bold.ttf"]
+_ITALIC_NAMES  = ["DejaVuSans-Oblique.ttf", "Arial Italic.ttf", "ariali.ttf", "Verdana Italic.ttf"]
 
 def _find_font(names):
     for d in _FONT_DIRS:
@@ -49,19 +54,24 @@ def _find_font(names):
                 return p
     return None
 
-_font_reg  = _find_font(_REG_NAMES)
-_font_bold = _find_font(_BOLD_NAMES)
+_font_reg    = _find_font(_REG_NAMES)
+_font_bold   = _find_font(_BOLD_NAMES)
+_font_italic = _find_font(_ITALIC_NAMES)
 
 try:
     if not (_font_reg and _font_bold):
         raise FileNotFoundError("No suitable Unicode font found")
-    pdfmetrics.registerFont(TTFont("DV",      _font_reg))
-    pdfmetrics.registerFont(TTFont("DV-Bold", _font_bold))
-    BODY_FONT      = "DV"
-    BODY_FONT_BOLD = "DV-Bold"
+    pdfmetrics.registerFont(TTFont("DV",         _font_reg))
+    pdfmetrics.registerFont(TTFont("DV-Bold",    _font_bold))
+    if _font_italic:
+        pdfmetrics.registerFont(TTFont("DV-Italic", _font_italic))
+    BODY_FONT        = "DV"
+    BODY_FONT_BOLD   = "DV-Bold"
+    BODY_FONT_ITALIC = "DV-Italic" if _font_italic else "DV"
 except Exception:
-    BODY_FONT      = "Helvetica"
-    BODY_FONT_BOLD = "Helvetica-Bold"
+    BODY_FONT        = "Helvetica"
+    BODY_FONT_BOLD   = "Helvetica-Bold"
+    BODY_FONT_ITALIC = "Helvetica-Oblique"
 
 # ── Brand colours ──────────────────────────────────────────────────────────
 GREEN_DARK  = HexColor("#2D6A4F")
@@ -92,6 +102,18 @@ def _styles():
     s["cover_handle"] = ParagraphStyle(
         "cover_handle", fontName=BODY_FONT,
         fontSize=9, textColor=GREEN_PALE, alignment=TA_CENTER,
+    )
+    s["table_hdr"] = ParagraphStyle(
+        "table_hdr", fontName=BODY_FONT_BOLD,
+        fontSize=9, textColor=HexColor("#F0FDF4"),  # off-white on dark green
+    )
+    s["ex_badge"] = ParagraphStyle(
+        "ex_badge", fontName=BODY_FONT_BOLD,
+        fontSize=7, textColor=GREEN_MID, alignment=TA_CENTER,
+    )
+    s["disclaimer"] = ParagraphStyle(
+        "disclaimer", fontName=BODY_FONT_ITALIC,
+        fontSize=8, textColor=TEXT_LIGHT, leading=12, spaceAfter=4,
     )
     s["section"] = ParagraphStyle(
         "section", fontName=BODY_FONT_BOLD,
@@ -245,7 +267,7 @@ def generate_pdf(
                        textColor=GREEN_DARK, alignment=TA_CENTER, spaceAfter=8)
     ))
 
-    story.append(Spacer(1, 0.5 * cm))
+    story.append(Spacer(1, 1.5 * cm))
 
     # Goal + date row
     goal_str = client.get("goal", "")
@@ -620,20 +642,35 @@ def generate_pdf(
     _GREEN_LIGHT = HexColor("#D8F3DC")
     _CREAM       = HexColor("#FBF7F2")
 
+    # Category badge labels for each exercise
+    _ex_badge = {
+        "Jumping Jacks":                 "CARDIO",
+        "Crunches":                      "CORE",
+        "Leg Raise":                     "CORE",
+        "Elbow-to-Knee Oblique Crunches":"OBLIQUE",
+        "Russian Twist (2L bottle)":     "OBLIQUE",
+        "Leg Straight Hold":             "HOLD",
+        "Heel Touch":                    "OBLIQUE",
+        "Cross Leg":                     "CORE",
+        "Bicycle Crunches":              "CARDIO",
+        "Plank":                         "PLANK",
+    }
+
     for rnum in range(1, _rounds + 1):
         story.append(Spacer(1, 0.25 * cm))
         eff = _rep_scale[rnum][fitness_level]
 
         _circ_data = [[
-            Paragraph(f"<b>{_round_names[rnum]}</b>", s["body"]),
-            Paragraph("<b>Exercise</b>", s["body"]),
-            Paragraph("<b>Reps / Duration</b>", s["body"]),
+            Paragraph(_round_names[rnum], s["table_hdr"]),
+            Paragraph("Exercise", s["table_hdr"]),
+            Paragraph("Reps / Duration", s["table_hdr"]),
         ]]
         for i, (ex_name, reps_d) in enumerate(_circuit):
             reps_val = reps_d[eff]
             reps_str = reps_val if isinstance(reps_val, str) else f"{reps_val} reps"
+            badge = _ex_badge.get(ex_name, "")
             _circ_data.append([
-                Paragraph("", s["small"]),
+                Paragraph(badge, s["ex_badge"]),
                 Paragraph(ex_name, s["body"]),
                 Paragraph(reps_str, s["body"]),
             ])
@@ -719,15 +756,20 @@ def generate_pdf(
             s["body"]
         ))
 
-    # ── Footer note ────────────────────────────────────────────────────────
+    # ── Disclaimer ─────────────────────────────────────────────────────────
 
     story.append(Spacer(1, 1 * cm))
     story.append(_hr())
+    story.append(Paragraph("Disclaimer", s["section"]))
     story.append(Paragraph(
-        f"This report was prepared by Āhāra by Asha on {date.today().strftime('%d %B %Y')}. "
-        "It is intended as personalised dietary guidance and does not replace medical advice. "
-        "Please consult a physician for any medical conditions.",
-        s["small"]
+        f"This report was prepared by Ahara by Asha on {date.today().strftime('%d %B %Y')}. "
+        "It is intended as personalised dietary and lifestyle guidance based on the information "
+        "provided at the time of assessment. This report does not constitute medical advice and "
+        "is not a substitute for consultation with a qualified physician or healthcare provider. "
+        "Individual results may vary. Please consult your doctor before making any significant "
+        "changes to your diet, exercise routine, or supplement intake, particularly if you have "
+        "an existing medical condition or are on medication.",
+        s["disclaimer"]
     ))
 
     doc.build(story)
