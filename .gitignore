@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Database (local only — do not commit client data)
+data/*.db
+data/*.db-journal
+*.db
+*.db-journal
+
+# macOS
+.DS_Store
+
+# Env
+.env
+venv/
+.venv/
