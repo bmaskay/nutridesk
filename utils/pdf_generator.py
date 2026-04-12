@@ -117,15 +117,15 @@ def _styles():
     )
     s["section"] = ParagraphStyle(
         "section", fontName=BODY_FONT_BOLD,
-        fontSize=11, textColor=GREEN_DARK, spaceAfter=4, spaceBefore=10,
+        fontSize=12, textColor=GREEN_DARK, spaceAfter=4, spaceBefore=10,
     )
     s["body"] = ParagraphStyle(
         "body", fontName=BODY_FONT,
-        fontSize=9, textColor=TEXT_MID, leading=13, spaceAfter=3,
+        fontSize=9.5, textColor=TEXT_MID, leading=14, spaceAfter=4,
     )
     s["small"] = ParagraphStyle(
         "small", fontName=BODY_FONT,
-        fontSize=8, textColor=TEXT_LIGHT, leading=11,
+        fontSize=8.5, textColor=TEXT_LIGHT, leading=12,
     )
     s["label"] = ParagraphStyle(
         "label", fontName=BODY_FONT_BOLD,
@@ -303,9 +303,9 @@ def generate_pdf(
 
     story.append(PageBreak())
 
-    # ── Page 2: Client Snapshot (Profile + Assessment + Macros) ──────────────
+    # ── Page 2: Client Profile & Nutrition Targets ───────────────────────────
 
-    story.append(Paragraph("Client Snapshot", s["section"]))
+    story.append(Paragraph("Client Profile", s["section"]))
     story.append(_hr())
 
     bmi_cat = assessment.get("bmi_category", "")
@@ -314,63 +314,48 @@ def generate_pdf(
     ideal_h = assessment.get("ideal_weight_high", 0)
     _conds  = _decode_list(client.get("medical_conditions", [])) or "None reported"
 
-    # Two-column layout: left = profile, right = assessment numbers
-    _lw, _rw = 5.5 * cm, 4.5 * cm
-    snapshot_left = [
-        ["Name",           client.get("name", "—")],
-        ["Age / Gender",   f"{assessment.get('age','—')} yrs · {client.get('gender','—')}"],
-        ["Height",         f"{client.get('height_cm','—')} cm"],
-        ["Weight",         f"{client.get('weight_kg','—')} kg"],
-        ["Goal",           client.get("goal", "—")],
-        ["Diet",           client.get("diet_type", "—")],
-        ["Activity",       client.get("activity_level","—").split("(")[0].strip()],
-        ["Conditions",     _conds],
-    ]
-    snapshot_right = [
-        ["BMI",            f"{bmi_val} ({bmi_cat})"],
-        ["Ideal weight",   f"{ideal_l}–{ideal_h} kg"],
-        ["BMR",            f"{assessment.get('bmr',0)} kcal"],
-        ["TDEE",           f"{assessment.get('tdee',0)} kcal"],
-        ["Calorie target", f"{assessment.get('target_calories',0)} kcal/day"],
-        ["Protein",        f"{assessment.get('protein_g',0)} g/day"],
-        ["Carbs",          f"{assessment.get('carbs_g',0)} g/day"],
-        ["Fat / Water",    f"{assessment.get('fat_g',0)} g · {assessment.get('hydration_L',0)} L"],
+    _COL_L = 5.5 * cm
+    _COL_R = W - 2 * MARGIN - _COL_L
+
+    profile_rows = [
+        ["Name",            client.get("name", "—")],
+        ["Age / Gender",    f"{assessment.get('age','—')} yrs  ·  {client.get('gender','—')}"],
+        ["Height / Weight", f"{client.get('height_cm','—')} cm  ·  {client.get('weight_kg','—')} kg"],
+        ["BMI",             f"{bmi_val}  ({bmi_cat})"],
+        ["Ideal weight",    f"{ideal_l}–{ideal_h} kg"],
+        ["Goal",            client.get("goal", "—")],
+        ["Diet type",       client.get("diet_type", "—")],
+        ["Activity level",  client.get("activity_level", "—").split("(")[0].strip()],
+        ["Medical",         _conds],
+        ["BMR / TDEE",      f"{assessment.get('bmr',0)} kcal  ·  {assessment.get('tdee',0)} kcal"],
+        ["Calorie target",  f"{assessment.get('target_calories',0)} kcal/day"],
+        ["Protein",         f"{assessment.get('protein_g',0)} g/day"],
+        ["Carbs",           f"{assessment.get('carbs_g',0)} g/day"],
+        ["Fat",             f"{assessment.get('fat_g',0)} g/day"],
+        ["Water",           f"{assessment.get('hydration_L',0)} L/day"],
     ]
 
-    def _compact_table(data, lw, rw):
-        t = Table(data, colWidths=[lw, rw])
-        t.setStyle(TableStyle([
-            ("FONTNAME",      (0, 0), (-1, -1), BODY_FONT),
-            ("FONTSIZE",      (0, 0), (-1, -1), 8.5),
-            ("FONTNAME",      (0, 0), (0, -1),  BODY_FONT_BOLD),
-            ("TEXTCOLOR",     (0, 0), (0, -1),  GREEN_DARK),
-            ("TEXTCOLOR",     (1, 0), (1, -1),  TEXT_MID),
-            ("ROWBACKGROUNDS",(0, 0), (-1, -1), [WHITE, CREAM]),
-            ("TOPPADDING",    (0, 0), (-1, -1), 4),
-            ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
-            ("LEFTPADDING",   (0, 0), (-1, -1), 7),
-            ("GRID",          (0, 0), (-1, -1), 0.3, CREAM_DARK),
-        ]))
-        return t
-
-    _GAP = 0.6 * cm
-    _side_w = (W - 2 * MARGIN - _GAP) / 2
-    snapshot_table = Table(
-        [[_compact_table(snapshot_left,  _lw, _side_w - _lw),
-          _compact_table(snapshot_right, _lw, _side_w - _lw)]],
-        colWidths=[_side_w, _side_w],
-        hAlign="LEFT",
-    )
-    snapshot_table.setStyle(TableStyle([
-        ("VALIGN",    (0, 0), (-1, -1), "TOP"),
-        ("LEFTPADDING",  (0, 0), (-1, -1), 0),
-        ("RIGHTPADDING", (0, 0), (-1, -1), _GAP),
+    profile_table = Table(profile_rows, colWidths=[_COL_L, _COL_R])
+    profile_table.setStyle(TableStyle([
+        ("FONTNAME",       (0, 0), (-1, -1), BODY_FONT),
+        ("FONTSIZE",       (0, 0), (-1, -1), 9),
+        ("FONTNAME",       (0, 0), (0, -1),  BODY_FONT_BOLD),
+        ("TEXTCOLOR",      (0, 0), (0, -1),  GREEN_DARK),
+        ("TEXTCOLOR",      (1, 0), (1, -1),  TEXT_MID),
+        ("ROWBACKGROUNDS", (0, 0), (-1, -1), [WHITE, CREAM]),
+        ("TOPPADDING",     (0, 0), (-1, -1), 5),
+        ("BOTTOMPADDING",  (0, 0), (-1, -1), 5),
+        ("LEFTPADDING",    (0, 0), (-1, -1), 8),
+        ("GRID",           (0, 0), (-1, -1), 0.3, CREAM_DARK),
+        # Highlight the calorie target row
+        ("BACKGROUND",     (0, 10), (-1, 10), HexColor("#E9F5EC")),
+        ("FONTNAME",       (1, 10), (1, 10),  BODY_FONT_BOLD),
     ]))
-    story.append(snapshot_table)
+    story.append(profile_table)
 
     # ── Macros Breakdown ──────────────────────────────────────────────────
-    story.append(Spacer(1, 0.35 * cm))
-    story.append(Paragraph("Daily Macros", s["section"]))
+    story.append(Spacer(1, 0.4 * cm))
+    story.append(Paragraph("Macro Breakdown", s["section"]))
     story.append(_hr())
 
     _p_g   = assessment.get("protein_g", 0) or 0
