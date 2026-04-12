@@ -117,15 +117,15 @@ def _styles():
     )
     s["section"] = ParagraphStyle(
         "section", fontName=BODY_FONT_BOLD,
-        fontSize=13, textColor=GREEN_DARK, spaceAfter=6, spaceBefore=14,
+        fontSize=11, textColor=GREEN_DARK, spaceAfter=4, spaceBefore=10,
     )
     s["body"] = ParagraphStyle(
         "body", fontName=BODY_FONT,
-        fontSize=9.5, textColor=TEXT_MID, leading=14, spaceAfter=4,
+        fontSize=9, textColor=TEXT_MID, leading=13, spaceAfter=3,
     )
     s["small"] = ParagraphStyle(
         "small", fontName=BODY_FONT,
-        fontSize=8.5, textColor=TEXT_LIGHT, leading=12,
+        fontSize=8, textColor=TEXT_LIGHT, leading=11,
     )
     s["label"] = ParagraphStyle(
         "label", fontName=BODY_FONT_BOLD,
@@ -239,26 +239,24 @@ def generate_pdf(
 
     # ── Cover page ───────────────────────────────────────────────────────────
 
-    story.append(Spacer(1, 4 * cm))
+    story.append(Spacer(1, 3.5 * cm))
 
-    # Top brand block: NutriDesk (large) + Ahara by Asha below
+    # Brand block
     cover_brand = Table(
         [[Paragraph("NutriDesk", s["cover_title"])],
          [Paragraph("Āhāra by Asha", ParagraphStyle(
-             "ca", fontName=BODY_FONT, fontSize=15, textColor=GREEN_PALE,
-             alignment=TA_CENTER, spaceAfter=2)
-         )],
+             "ca", fontName=BODY_FONT, fontSize=14, textColor=GREEN_PALE,
+             alignment=TA_CENTER, spaceAfter=2))],
          [Paragraph("@Asha.Nutrition", ParagraphStyle(
-             "ch", fontName=BODY_FONT, fontSize=10, textColor=GREEN_PALE,
-             alignment=TA_CENTER)
-         )],
+             "ch", fontName=BODY_FONT, fontSize=9, textColor=GREEN_PALE,
+             alignment=TA_CENTER))],
         ],
         colWidths=[W - 2 * MARGIN]
     )
     cover_brand.setStyle(TableStyle([
         ("BACKGROUND",    (0, 0), (-1, -1), GREEN_DARK),
-        ("TOPPADDING",    (0, 0), (-1, -1), 24),
-        ("BOTTOMPADDING", (0, -1), (-1, -1), 22),
+        ("TOPPADDING",    (0, 0), (-1, -1), 22),
+        ("BOTTOMPADDING", (0, -1), (-1, -1), 20),
         ("BOTTOMPADDING", (0, 0), (-1, -2), 2),
         ("LEFTPADDING",   (0, 0), (-1, -1), 20),
         ("RIGHTPADDING",  (0, 0), (-1, -1), 20),
@@ -266,83 +264,113 @@ def generate_pdf(
     ]))
     story.append(cover_brand)
 
-    story.append(Spacer(1, 2.5 * cm))
+    story.append(Spacer(1, 2 * cm))
 
-    # "Personalised Nutrition Report For" label
     story.append(Paragraph(
         "PERSONALISED NUTRITION REPORT",
-        ParagraphStyle("ct2", fontName=BODY_FONT_BOLD, fontSize=10,
-                       textColor=TEXT_LIGHT, alignment=TA_CENTER,
-                       spaceAfter=8)
+        ParagraphStyle("ct2", fontName=BODY_FONT_BOLD, fontSize=9,
+                       textColor=TEXT_LIGHT, alignment=TA_CENTER, spaceAfter=6)
     ))
-
-    # Client name — large and prominent
     story.append(Paragraph(
         client.get("name", "Client"),
-        ParagraphStyle("cn", fontName=BODY_FONT_BOLD, fontSize=28,
-                       textColor=GREEN_DARK, alignment=TA_CENTER, spaceAfter=8)
+        ParagraphStyle("cn", fontName=BODY_FONT_BOLD, fontSize=26,
+                       textColor=GREEN_DARK, alignment=TA_CENTER, spaceAfter=6)
     ))
 
-    story.append(Spacer(1, 1.5 * cm))
+    story.append(Spacer(1, 1.2 * cm))
 
-    # Goal + date row
-    goal_str = client.get("goal", "")
-    story.append(Paragraph(
-        f"Goal: {goal_str}     |     Prepared: {date.today().strftime('%d %B %Y')}",
-        ParagraphStyle("cg", fontName=BODY_FONT, fontSize=10,
-                       textColor=TEXT_MID, alignment=TA_CENTER)
-    ))
+    # Cover summary strip — goal, calorie target, date
+    _goal_str = client.get("goal", "")
+    _kcal_str = f"{assessment.get('target_calories', 0):.0f} kcal/day"
+    _date_str = date.today().strftime("%d %B %Y")
+    cover_strip = Table(
+        [[Paragraph(_goal_str, ParagraphStyle("cs1", fontName=BODY_FONT_BOLD,
+                    fontSize=9, textColor=GREEN_DARK, alignment=TA_CENTER)),
+          Paragraph(_kcal_str, ParagraphStyle("cs2", fontName=BODY_FONT_BOLD,
+                    fontSize=9, textColor=GREEN_DARK, alignment=TA_CENTER)),
+          Paragraph(_date_str, ParagraphStyle("cs3", fontName=BODY_FONT,
+                    fontSize=9, textColor=TEXT_MID, alignment=TA_CENTER))]],
+        colWidths=[(W - 2 * MARGIN) / 3] * 3
+    )
+    cover_strip.setStyle(TableStyle([
+        ("BACKGROUND",    (0, 0), (-1, -1), GREEN_PALE),
+        ("TOPPADDING",    (0, 0), (-1, -1), 8),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 8),
+        ("LEFTPADDING",   (0, 0), (-1, -1), 8),
+        ("GRID",          (0, 0), (-1, -1), 0.3, CREAM_DARK),
+    ]))
+    story.append(cover_strip)
 
     story.append(PageBreak())
 
-    # ── Section 1: Client Profile ─────────────────────────────────────────
+    # ── Page 2: Client Snapshot (Profile + Assessment + Macros) ──────────────
 
-    story.append(Paragraph("Client Profile", s["section"]))
-    story.append(_hr())
-
-    profile_data = [
-        ["Name",        client.get("name", "—")],
-        ["Gender",      client.get("gender", "—")],
-        ["Date of Birth", client.get("dob", "—")],
-        ["Age",         f"{assessment.get('age', '—')} years"],
-        ["Height",      f"{client.get('height_cm', '—')} cm"],
-        ["Current Weight", f"{client.get('weight_kg', '—')} kg"],
-        ["Goal",        client.get("goal", "—")],
-        ["Activity Level", client.get("activity_level", "—")],
-        ["Diet Type",   client.get("diet_type", "—")],
-        ["Medical Conditions",
-         _decode_list(client.get("medical_conditions", [])) or "None reported"],
-    ]
-    story.append(_stat_table(profile_data))
-
-    # ── Section 2: Assessment ──────────────────────────────────────────────
-
-    story.append(Spacer(1, 0.5 * cm))
-    story.append(Paragraph("Nutritional Assessment", s["section"]))
+    story.append(Paragraph("Client Snapshot", s["section"]))
     story.append(_hr())
 
     bmi_cat = assessment.get("bmi_category", "")
     bmi_val = assessment.get("bmi", 0)
     ideal_l = assessment.get("ideal_weight_low", 0)
     ideal_h = assessment.get("ideal_weight_high", 0)
+    _conds  = _decode_list(client.get("medical_conditions", [])) or "None reported"
 
-    assess_data = [
-        ["BMI",             f"{bmi_val}  ({bmi_cat})"],
-        ["Ideal Weight Range", f"{ideal_l} – {ideal_h} kg"],
-        ["BMR (Basal Metabolic Rate)", f"{assessment.get('bmr', 0)} kcal/day"],
-        ["TDEE (Total Daily Energy)", f"{assessment.get('tdee', 0)} kcal/day"],
-        ["Goal Adjustment", f"{assessment.get('goal_adjustment', 0):+.0f} kcal/day"],
-        ["Daily Calorie Target", f"{assessment.get('target_calories', 0)} kcal/day"],
-        ["Protein Target",  f"{assessment.get('protein_g', 0)} g/day"],
-        ["Carbohydrate Target", f"{assessment.get('carbs_g', 0)} g/day"],
-        ["Fat Target",      f"{assessment.get('fat_g', 0)} g/day"],
-        ["Daily Hydration", f"{assessment.get('hydration_L', 0)} L/day"],
+    # Two-column layout: left = profile, right = assessment numbers
+    _lw, _rw = 5.5 * cm, 4.5 * cm
+    snapshot_left = [
+        ["Name",           client.get("name", "—")],
+        ["Age / Gender",   f"{assessment.get('age','—')} yrs · {client.get('gender','—')}"],
+        ["Height",         f"{client.get('height_cm','—')} cm"],
+        ["Weight",         f"{client.get('weight_kg','—')} kg"],
+        ["Goal",           client.get("goal", "—")],
+        ["Diet",           client.get("diet_type", "—")],
+        ["Activity",       client.get("activity_level","—").split("(")[0].strip()],
+        ["Conditions",     _conds],
     ]
-    story.append(_stat_table(assess_data))
+    snapshot_right = [
+        ["BMI",            f"{bmi_val} ({bmi_cat})"],
+        ["Ideal weight",   f"{ideal_l}–{ideal_h} kg"],
+        ["BMR",            f"{assessment.get('bmr',0)} kcal"],
+        ["TDEE",           f"{assessment.get('tdee',0)} kcal"],
+        ["Calorie target", f"{assessment.get('target_calories',0)} kcal/day"],
+        ["Protein",        f"{assessment.get('protein_g',0)} g/day"],
+        ["Carbs",          f"{assessment.get('carbs_g',0)} g/day"],
+        ["Fat / Water",    f"{assessment.get('fat_g',0)} g · {assessment.get('hydration_L',0)} L"],
+    ]
+
+    def _compact_table(data, lw, rw):
+        t = Table(data, colWidths=[lw, rw])
+        t.setStyle(TableStyle([
+            ("FONTNAME",      (0, 0), (-1, -1), BODY_FONT),
+            ("FONTSIZE",      (0, 0), (-1, -1), 8.5),
+            ("FONTNAME",      (0, 0), (0, -1),  BODY_FONT_BOLD),
+            ("TEXTCOLOR",     (0, 0), (0, -1),  GREEN_DARK),
+            ("TEXTCOLOR",     (1, 0), (1, -1),  TEXT_MID),
+            ("ROWBACKGROUNDS",(0, 0), (-1, -1), [WHITE, CREAM]),
+            ("TOPPADDING",    (0, 0), (-1, -1), 4),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
+            ("LEFTPADDING",   (0, 0), (-1, -1), 7),
+            ("GRID",          (0, 0), (-1, -1), 0.3, CREAM_DARK),
+        ]))
+        return t
+
+    _GAP = 0.6 * cm
+    _side_w = (W - 2 * MARGIN - _GAP) / 2
+    snapshot_table = Table(
+        [[_compact_table(snapshot_left,  _lw, _side_w - _lw),
+          _compact_table(snapshot_right, _lw, _side_w - _lw)]],
+        colWidths=[_side_w, _side_w],
+        hAlign="LEFT",
+    )
+    snapshot_table.setStyle(TableStyle([
+        ("VALIGN",    (0, 0), (-1, -1), "TOP"),
+        ("LEFTPADDING",  (0, 0), (-1, -1), 0),
+        ("RIGHTPADDING", (0, 0), (-1, -1), _GAP),
+    ]))
+    story.append(snapshot_table)
 
     # ── Macros Breakdown ──────────────────────────────────────────────────
-    story.append(Spacer(1, 0.4 * cm))
-    story.append(Paragraph("Daily Macros Breakdown", s["section"]))
+    story.append(Spacer(1, 0.35 * cm))
+    story.append(Paragraph("Daily Macros", s["section"]))
     story.append(_hr())
 
     _p_g   = assessment.get("protein_g", 0) or 0
@@ -398,61 +426,20 @@ def generate_pdf(
     story.append(Paragraph(
         "Protein 4 kcal/g · Carbohydrates 4 kcal/g · Fat 9 kcal/g",
         ParagraphStyle("mn", fontName=BODY_FONT, fontSize=7.5,
-                       textColor=TEXT_LIGHT, spaceAfter=4)
+                       textColor=TEXT_LIGHT, spaceAfter=2)
     ))
 
-    # ── Diet duration box ─────────────────────────────────────────────────
-    goal      = client.get("goal", "")
-    weight    = client.get("weight_kg", 0) or 0
-    ideal_low = assessment.get("ideal_weight_low", 0)
-    kg_to_go  = max(0, round(weight - ideal_low, 1)) if goal in ("Fat loss", "Mild fat loss") else 0
-    weekly_r  = 0.5 if goal == "Fat loss" else 0.25 if goal == "Mild fat loss" else 0
-    if weekly_r and kg_to_go:
-        weeks_est  = round(kg_to_go / weekly_r)
-        months_est = round(weeks_est / 4.3, 1)
-        duration_text = (
-            f"To reach your target weight of {ideal_low} kg, "
-            f"follow this plan for approximately "
-            f"{weeks_est} weeks ({months_est} months) "
-            f"at the recommended rate of {weekly_r} kg/week."
-        )
-    elif goal in ("Lean muscle gain", "Muscle gain"):
-        duration_text = (
-            "Muscle gain is a gradual process. Follow this nutrition plan for at least "
-            "12–16 weeks, paired with consistent resistance training, before reassessing."
-        )
-    else:
-        duration_text = (
-            "Follow this nutrition plan consistently for at least 4 weeks before "
-            "reassessing calorie targets and making adjustments."
-        )
-
-    duration_table = Table(
-        [[Paragraph(f"How long to follow: {duration_text}", s["body"])]],
-        colWidths=[W - 2 * MARGIN]
-    )
-    duration_table.setStyle(TableStyle([
-        ("BACKGROUND",    (0, 0), (-1, -1), HexColor("#F0FDF4")),
-        ("LEFTPADDING",   (0, 0), (-1, -1), 12),
-        ("RIGHTPADDING",  (0, 0), (-1, -1), 12),
-        ("TOPPADDING",    (0, 0), (-1, -1), 10),
-        ("BOTTOMPADDING", (0, 0), (-1, -1), 10),
-        ("BOX",           (0, 0), (-1, -1), 1, GREEN_MID),
-    ]))
-    story.append(Spacer(1, 0.4 * cm))
-    story.append(duration_table)
-
-    # ── Section 3: 7-Day Meal Plan ─────────────────────────────────────────
+    # ── 7-Day Meal Plan — own page ────────────────────────────────────────
 
     story.append(PageBreak())
     story.append(Paragraph("7-Day Meal Plan", s["section"]))
     story.append(_hr())
     story.append(Paragraph(
-        "Lunch and dinner show two options — choose either on the day. "
+        "Lunch and dinner each show two options — choose either on the day. "
         "Calorie values are approximate per serving.",
         s["small"]
     ))
-    story.append(Spacer(1, 0.3 * cm))
+    story.append(Spacer(1, 0.2 * cm))
 
     DAYS_ORDER = ["Monday", "Tuesday", "Wednesday", "Thursday",
                   "Friday", "Saturday", "Sunday"]
@@ -552,59 +539,52 @@ def generate_pdf(
 
         story.append(Spacer(1, 0.15 * cm))
 
-    # ── Section 4: Snack Swaps ─────────────────────────────────────────────
+    # ── Page: Guidance (Snack Swaps + Supplements + Rules) ────────────────
 
     story.append(PageBreak())
-    story.append(Paragraph("Healthy Snack Swaps", s["section"]))
+    story.append(Paragraph("Snack Swaps", s["section"]))
     story.append(_hr())
-    story.append(Paragraph(
-        "Replace common high-calorie snacks with these practitioner-approved alternatives:",
-        s["body"]
-    ))
-    story.append(Spacer(1, 0.3 * cm))
 
     for snack in snack_swaps[:5]:
         kcal = snack.get("calories", 0)
         prot = snack.get("protein_g", 0)
         serv = snack.get("serving_description", "")
         story.append(Paragraph(
-            f"• <b>{snack['name_en']}</b>"
-            + f" — {kcal} kcal · {prot}g protein · {serv}",
+            f"• <b>{snack['name_en']}</b> — {kcal} kcal · {prot}g protein · {serv}",
             s["body"]
         ))
 
-    # ── Section 5: Supplement Recommendations ─────────────────────────────
+    # ── Supplements ────────────────────────────────────────────────────────
 
-    story.append(Spacer(1, 0.5 * cm))
+    story.append(Spacer(1, 0.3 * cm))
     story.append(Paragraph("Supplement Recommendations", s["section"]))
     story.append(_hr())
 
     conditions = _decode_list(client.get("medical_conditions", [])).split(", ") if client.get("medical_conditions") else []
     supplements = [
-        ("Vitamin D3 + K2", "Essential for South Asians — most are deficient. Take 1000–2000 IU D3 daily with a fatty meal."),
-        ("Vitamin B12", "Critical if vegetarian/vegan or eating minimal red meat. 500 mcg daily or as advised."),
+        ("Vitamin D3 + K2", "Essential for South Asians. 1000–2000 IU D3 daily with a fatty meal."),
+        ("Vitamin B12", "Critical if vegetarian/vegan. 500 mcg daily or as advised."),
         ("Omega-3 (Fish Oil)", "2–3 g EPA+DHA daily. Anti-inflammatory, supports fat loss and heart health."),
-        ("Magnesium Glycinate", "Supports sleep, stress, and blood sugar regulation. 200–400 mg before bed."),
+        ("Magnesium Glycinate", "200–400 mg before bed. Supports sleep, stress, and blood sugar."),
     ]
     if "PCOS" in conditions:
-        supplements.append(("Inositol (Myo + D-Chiro)", "4g myo-inositol + 400mg D-chiro-inositol daily. Evidence-based for PCOS insulin sensitivity."))
+        supplements.append(("Inositol (Myo + D-Chiro)", "4g myo + 400mg D-chiro daily. Evidence-based for PCOS insulin sensitivity."))
     if "Diabetes / pre-diabetes" in conditions:
-        supplements.append(("Chromium Picolinate", "200–400 mcg daily. Supports blood glucose regulation. Consult your physician."))
+        supplements.append(("Chromium Picolinate", "200–400 mcg daily. Supports glucose regulation — consult your physician."))
     if "Hypothyroidism / thyroid" in conditions:
-        supplements.append(("Selenium", "200 mcg daily. Supports thyroid hormone conversion. Avoid mega-dosing."))
+        supplements.append(("Selenium", "200 mcg daily. Supports thyroid hormone conversion."))
 
     for name, detail in supplements:
         story.append(Paragraph(f"• <b>{name}</b> — {detail}", s["body"]))
-
     story.append(Paragraph(
-        "<i>Note: Always consult a physician before starting supplements, especially if on medication.</i>",
+        "Always consult a physician before starting supplements, especially if on medication.",
         s["small"]
     ))
 
-    # ── Section 6: Personal Fat Loss Rules ────────────────────────────────
+    # ── Fat Loss Rules ─────────────────────────────────────────────────────
 
-    story.append(Spacer(1, 0.5 * cm))
-    story.append(Paragraph("Your Personal Fat Loss Rules", s["section"]))
+    story.append(Spacer(1, 0.3 * cm))
+    story.append(Paragraph("Your Fat Loss Rules", s["section"]))
     story.append(_hr())
 
     rules = [
@@ -620,13 +600,13 @@ def generate_pdf(
     for r in rules:
         story.append(Paragraph(f"• {r}", s["body"]))
 
-    # ── Section 7: Realistic Timeline ─────────────────────────────────────
+    # ── Realistic Timeline (inline, no extra page) ────────────────────────
 
     goal = client.get("goal", "")
     weight = client.get("weight_kg", 0)
 
     if goal in ("Fat loss", "Mild fat loss") and weight:
-        story.append(Spacer(1, 0.5 * cm))
+        story.append(Spacer(1, 0.3 * cm))
         story.append(Paragraph("Realistic Timeline", s["section"]))
         story.append(_hr())
 
@@ -888,7 +868,7 @@ def generate_pdf(
 
     # ── Disclaimer ─────────────────────────────────────────────────────────
 
-    story.append(Spacer(1, 1 * cm))
+    story.append(Spacer(1, 0.5 * cm))
     story.append(_hr())
     story.append(Paragraph("Disclaimer", s["section"]))
     story.append(Paragraph(

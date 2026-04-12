@@ -103,6 +103,7 @@ def init_db():
     for _col_def in [
         "ALTER TABLE clients ADD COLUMN fitness_level TEXT DEFAULT 'Moderate'",
         "ALTER TABLE clients ADD COLUMN exercise_notes TEXT",
+        "ALTER TABLE clients ADD COLUMN meal_slots TEXT",
     ]:
         try:
             c.execute(_col_def)
@@ -121,7 +122,7 @@ def create_client(data: dict) -> int:
     c = conn.cursor()
     # JSON-encode list fields
     for key in ("cuisine_pref", "allergies", "dislikes", "veg_choices",
-                "meat_choices", "snack_types", "medical_conditions"):
+                "meat_choices", "snack_types", "medical_conditions", "meal_slots"):
         if key in data and isinstance(data[key], list):
             data[key] = json.dumps(data[key], ensure_ascii=False)
     cols = ", ".join(data.keys())
@@ -136,7 +137,7 @@ def create_client(data: dict) -> int:
 
 def update_client(client_id: int, data: dict):
     for key in ("cuisine_pref", "allergies", "dislikes", "veg_choices",
-                "meat_choices", "snack_types", "medical_conditions"):
+                "meat_choices", "snack_types", "medical_conditions", "meal_slots"):
         if key in data and isinstance(data[key], list):
             data[key] = json.dumps(data[key], ensure_ascii=False)
     data["updated_at"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -167,7 +168,7 @@ def get_client(client_id: int) -> dict | None:
         return None
     d = dict(row)
     for key in ("cuisine_pref", "allergies", "dislikes", "veg_choices",
-                "meat_choices", "snack_types", "medical_conditions"):
+                "meat_choices", "snack_types", "medical_conditions", "meal_slots"):
         if d.get(key):
             try:
                 d[key] = json.loads(d[key])

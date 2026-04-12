@@ -314,6 +314,33 @@ with st.expander("🥗 Section 3 — Food Preferences", expanded=True):
             index=[2, 3, 4, 5].index(int(prefill("meal_frequency", 3) or 3))
         )
 
+        # When fewer than 3 meals, let the practitioner choose which slots to use
+        ALL_SLOTS = ["Breakfast", "Lunch", "Dinner"]
+        _slot_default = prefill("meal_slots", ALL_SLOTS)
+        if not _slot_default:
+            _slot_default = ALL_SLOTS
+        if meal_frequency == 2:
+            meal_slots = st.multiselect(
+                ":blue[Which 2 meals?]",
+                ALL_SLOTS,
+                default=[m for m in _slot_default if m in ALL_SLOTS],
+                max_selections=2,
+                help="Choose exactly 2 meal slots for this client's daily plan."
+            )
+            if len(meal_slots) != 2:
+                st.caption("Select exactly 2 meals.")
+        elif meal_frequency == 1:
+            _single = _slot_default[0] if _slot_default else "Lunch"
+            _single = _single if _single in ALL_SLOTS else "Lunch"
+            _pick = st.selectbox(
+                ":blue[Which meal?]", ALL_SLOTS,
+                index=ALL_SLOTS.index(_single),
+                help="The one main meal this client eats per day."
+            )
+            meal_slots = [_pick]
+        else:
+            meal_slots = ALL_SLOTS  # 3+ meals always uses all three
+
     with c2:
         # Allergies with "None" option
         ALLERGIES_LIST = ["None", "Gluten", "Dairy / Lactose", "Eggs",
@@ -554,6 +581,7 @@ if save_clicked:
             "allergies":       allergies,
             "dislikes":        dislikes_list,
             "meal_frequency":  meal_frequency,
+            "meal_slots":      meal_slots,
             "veg_choices":     veg_choices,
             "meat_choices":    meat_choices,
             "snack_frequency": snack_frequency,

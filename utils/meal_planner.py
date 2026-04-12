@@ -218,11 +218,12 @@ def generate_meal_plan(
     seed: Optional[int] = None,
 ) -> dict:
     """
-    Generate a day-by-day meal plan respecting meal_frequency (2–5 meals/day):
-      2 → lunch + dinner
-      3 → breakfast + lunch + dinner
-      4 → breakfast + lunch + dinner + 1 snack
-      5 → breakfast + lunch + dinner + 2 snacks
+    Generate a day-by-day meal plan.
+
+    Respects meal_frequency and meal_slots:
+      - meal_slots controls which of Breakfast / Lunch / Dinner are included
+        (e.g. ["Lunch", "Dinner"] for a 2-meal client who skips breakfast)
+      - snacks = meal_freq - 3, capped at 0 minimum
     """
     if seed is not None:
         random.seed(seed)
@@ -231,9 +232,25 @@ def generate_meal_plan(
     meal_freq   = int(client.get("meal_frequency", 3) or 3)
     snack_count = max(0, meal_freq - 3)
 
-    b_target = target_kcal * MEAL_DISTRIBUTION["Breakfast"]
-    l_target = target_kcal * MEAL_DISTRIBUTION["Lunch"]
-    d_target = target_kcal * MEAL_DISTRIBUTION["Dinner"]
+    # Which main meal slots to generate
+    _default_slots = ["Breakfast", "Lunch", "Dinner"]
+    meal_slots = client.get("meal_slots") or _default_slots
+    if not meal_slots:
+        meal_slots = _default_slots
+    use_breakfast = "Breakfast" in meal_slots
+    use_lunch     = "Lunch"     in meal_slots
+    use_dinner    = "Dinner"    in meal_slots
+
+    # If calorie budget is constrained to fewer meals, redistribute proportionally
+    active_slots = [s for s in ["Breakfast", "Lunch", "Dinner"] if s in meal_slots]
+    _dist = {k: v for k, v in MEAL_DISTRIBUTION.items() if k in meal_slots}
+    _total_dist = sum(_dist.values()) or 1
+    # Scale targets so skipped meals' calories go to the remaining slots
+    _scale = 1 / _total_dist
+
+    b_target = target_kcal * MEAL_DISTRIBUTION["Breakfast"] * _scale if use_breakfast else 0
+    l_target = target_kcal * MEAL_DISTRIBUTION["Lunch"]     * _scale if use_lunch     else 0
+    d_target = target_kcal * MEAL_DISTRIBUTION["Dinner"]    * _scale if use_dinner    else 0
     s_budget = target_kcal * MEAL_DISTRIBUTION["Snack"]
     s_target = s_budget / max(snack_count, 1)
 
@@ -265,11 +282,11 @@ def generate_meal_plan(
         day = days_of_week[i % 7]
 
         breakfast, snacks = [], []
-        if meal_freq >= 3:
+        if use_breakfast:
             breakfast = pick_recipes(filtered, "breakfast", b_target, n=1,
                                      exclude_ids=used_breakfast)
-        lunch  = pick_recipes(filtered, "lunch",  l_target, n=2, exclude_ids=used_lunch)
-        dinner = pick_recipes(filtered, "dinner", d_target, n=2, exclude_ids=used_dinner)
+        lunch  = pick_recipes(filtered, "lunch",  l_target, n=2, exclude_ids=used_lunch)  if use_lunch  else []
+        dinner = pick_recipes(filtered, "dinner", d_target, n=2, exclude_ids=used_dinner) if use_dinner else []
         if snack_count >= 1:
             snacks = pick_recipes(filtered, "snack", s_target, n=snack_count,
                                   exclude_ids=used_snack)
