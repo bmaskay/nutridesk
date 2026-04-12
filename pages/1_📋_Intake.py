@@ -316,22 +316,27 @@ with st.expander("🥗 Section 3 — Food Preferences", expanded=True):
 
         # When fewer than 3 meals, let the practitioner choose which slots to use
         ALL_SLOTS = ["Breakfast", "Lunch", "Dinner"]
-        _slot_default = prefill("meal_slots", ALL_SLOTS)
-        if not _slot_default:
-            _slot_default = ALL_SLOTS
+        _slot_raw = prefill("meal_slots", ALL_SLOTS)
+        if not _slot_raw:
+            _slot_raw = ALL_SLOTS
+        # Clamp saved default to the expected number of slots so Streamlit never
+        # receives more default items than the multiselect allows
         if meal_frequency == 2:
+            _slot_default = [m for m in _slot_raw if m in ALL_SLOTS][:2]
+            if len(_slot_default) < 2:
+                _slot_default = ["Lunch", "Dinner"]   # sensible fallback
             meal_slots = st.multiselect(
                 ":blue[Which 2 meals?]",
                 ALL_SLOTS,
-                default=[m for m in _slot_default if m in ALL_SLOTS],
-                max_selections=2,
+                default=_slot_default,
                 help="Choose exactly 2 meal slots for this client's daily plan."
             )
             if len(meal_slots) != 2:
-                st.caption("Select exactly 2 meals.")
+                st.caption("⚠ Select exactly 2 meals.")
+                meal_slots = _slot_default   # keep old value until corrected
         elif meal_frequency == 1:
-            _single = _slot_default[0] if _slot_default else "Lunch"
-            _single = _single if _single in ALL_SLOTS else "Lunch"
+            _valid = [m for m in _slot_raw if m in ALL_SLOTS]
+            _single = _valid[0] if _valid else "Lunch"
             _pick = st.selectbox(
                 ":blue[Which meal?]", ALL_SLOTS,
                 index=ALL_SLOTS.index(_single),
