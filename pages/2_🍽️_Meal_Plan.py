@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import streamlit as st
 from utils.database import get_all_clients, get_client, save_meal_plan, get_latest_meal_plan
 from utils.calculations import full_assessment, GOAL_ADJUSTMENTS
-from utils.meal_planner import generate_meal_plan, plan_daily_totals, snack_swap_suggestions
+from utils.meal_planner import generate_meal_plan, plan_daily_totals, snack_swap_suggestions, build_grocery_list
 from utils.pdf_generator import generate_pdf
 from utils.header import render_header
 
@@ -190,6 +190,32 @@ if plan and plan_client == client_id:
                 + f" — {s.get('calories',0)} kcal · {s.get('protein_g',0)}g protein"
                 + (f" · {s.get('serving_description','')}" if s.get("serving_description") else "")
             )
+
+    # ── Grocery list ─────────────────────────────────────────────────────────
+
+    st.markdown("---")
+    with st.expander("🛒 Weekly Grocery List", expanded=False):
+        grocery = build_grocery_list(plan)
+        if grocery:
+            st.markdown(
+                "<div style='font-size:0.82rem;color:#6B7280;margin-bottom:10px'>"
+                "Based on Option A meals across the 7-day plan. Quantities are per serving — "
+                "adjust based on household size."
+                "</div>",
+                unsafe_allow_html=True
+            )
+            gcols = st.columns(2)
+            groups = list(grocery.items())
+            half = (len(groups) + 1) // 2
+            for col_idx, col in enumerate(gcols):
+                with col:
+                    for group, items in groups[col_idx * half : (col_idx + 1) * half]:
+                        st.markdown(f"**{group}**")
+                        for item in items:
+                            st.markdown(f"- {item}")
+                        st.markdown("")
+        else:
+            st.info("Generate a plan first to see the grocery list.")
 
     # ── Lifestyle guidelines ──────────────────────────────────────────────────
 

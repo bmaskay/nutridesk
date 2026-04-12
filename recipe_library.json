@@ -4,8 +4,8 @@
     "created": "2026-03-31",
     "description": "Poshan by Asha — Nepali & South Asian Recipe Library",
     "total_recipes": 113,
-    "notes": "All nutrition values are estimates per standard serving. location_tags: home=home-cooked, restaurant=dine-in, takeaway=delivery/takeout, street=street food.",
-    "last_updated": "2026-04-06"
+    "notes": "All nutrition values are estimates per standard serving. location_tags: home=home-cooked, restaurant=dine-in, takeaway=delivery/takeout, street=street food. sodium_mg: estimated per serving. is_side_dish: true for low-calorie side items not suitable as standalone meals.",
+    "last_updated": "2026-04-12"
   },
   "recipes": [
     {
@@ -30,6 +30,10 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "cholesterol_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
+        "ibs_friendly",
         "thyroid_friendly"
       ],
       "difficulty": "easy",
@@ -43,7 +47,9 @@
       "notes": "Use whole-milk dahi for better satiety. Can add a teaspoon of honey for sweetness.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 180,
+      "is_side_dish": false
     },
     {
       "id": "R002",
@@ -80,7 +86,9 @@
       "location_tags": [
         "home",
         "street"
-      ]
+      ],
+      "sodium_mg": 350,
+      "is_side_dish": false
     },
     {
       "id": "R003",
@@ -104,7 +112,10 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "cholesterol_friendly",
         "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
         "thyroid_friendly"
       ],
       "difficulty": "medium",
@@ -118,7 +129,9 @@
       "notes": "Millet dhido has a lower glycaemic index than rice-based dishes. Excellent for clients with diabetes or blood sugar concerns.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 220,
+      "is_side_dish": false
     },
     {
       "id": "R004",
@@ -157,7 +170,9 @@
       "notes": "Great for clients needing a high-protein breakfast without cooking complexity. Prep rotis night before.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 420,
+      "is_side_dish": false
     },
     {
       "id": "R005",
@@ -180,7 +195,10 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "cholesterol_friendly",
         "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
         "pcos_friendly",
         "thyroid_friendly"
       ],
@@ -196,7 +214,9 @@
       "notes": "Use whole milk for better satiety. Can add cinnamon — beneficial for blood sugar. Easily available in Kathmandu supermarkets.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 150,
+      "is_side_dish": false
     },
     {
       "id": "R006",
@@ -235,7 +255,9 @@
       "notes": "Very quick to make. Add a handful of roasted bhatmas on the side to boost protein.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 280,
+      "is_side_dish": false
     },
     {
       "id": "R007",
@@ -259,7 +281,11 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "cholesterol_friendly",
         "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
+        "ibs_friendly",
         "thyroid_friendly"
       ],
       "difficulty": "easy",
@@ -274,7 +300,9 @@
       "notes": "Finger millet is one of the highest calcium-containing grains. Excellent for women's bone health. Very low GI.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 120,
+      "is_side_dish": false
     },
     {
       "id": "R008",
@@ -313,7 +341,9 @@
       "notes": "Use minimal oil on tawa. Pairs well with dahi on the side.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 490,
+      "is_side_dish": false
     },
     {
       "id": "R009",
@@ -337,6 +367,10 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "cholesterol_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
+        "ibs_friendly",
         "thyroid_friendly"
       ],
       "difficulty": "easy",
@@ -351,7 +385,9 @@
       "notes": "Cooling and probiotic-rich. Excellent for gut health. Best in warmer months.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 160,
+      "is_side_dish": false
     },
     {
       "id": "R010",
@@ -388,7 +424,9 @@
       "notes": "Use natural peanut butter only — check label for no added sugar or palm oil. Available at most Kathmandu supermarkets.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 180,
+      "is_side_dish": false
     },
     {
       "id": "R011",
@@ -413,7 +451,11 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "anaemia_friendly",
+        "cholesterol_friendly",
         "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
         "pcos_friendly",
         "thyroid_friendly"
       ],
@@ -431,7 +473,9 @@
       "notes": "Batch cook dal and tarkari. Switch to brown rice for lower GI. Add a spoon of ghee for fat-soluble vitamin absorption. This is the foundation meal — never eliminate it.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 680,
+      "is_side_dish": false
     },
     {
       "id": "R012",
@@ -474,7 +518,9 @@
       "notes": "Batch cook the chicken curry. Excellent post-workout meal. Reduce rice portion slightly if targeting lower carbs.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 820,
+      "is_side_dish": false
     },
     {
       "id": "R013",
@@ -513,7 +559,9 @@
         "street",
         "takeaway",
         "restaurant"
-      ]
+      ],
+      "sodium_mg": 780,
+      "is_side_dish": false
     },
     {
       "id": "R014",
@@ -556,7 +604,9 @@
         "street",
         "takeaway",
         "restaurant"
-      ]
+      ],
+      "sodium_mg": 540,
+      "is_side_dish": false
     },
     {
       "id": "R015",
@@ -597,7 +647,9 @@
       "location_tags": [
         "restaurant",
         "takeaway"
-      ]
+      ],
+      "sodium_mg": 650,
+      "is_side_dish": false
     },
     {
       "id": "R016",
@@ -635,7 +687,9 @@
       "location_tags": [
         "home",
         "takeaway"
-      ]
+      ],
+      "sodium_mg": 720,
+      "is_side_dish": false
     },
     {
       "id": "R017",
@@ -673,7 +727,9 @@
       "location_tags": [
         "home",
         "takeaway"
-      ]
+      ],
+      "sodium_mg": 780,
+      "is_side_dish": false
     },
     {
       "id": "R018",
@@ -699,7 +755,11 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "anaemia_friendly",
+        "cholesterol_friendly",
         "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
         "pcos_friendly",
         "thyroid_friendly"
       ],
@@ -715,7 +775,9 @@
       "notes": "Sprouting increases bioavailability of nutrients significantly. Batch cook and freeze. High protein and fibre — excellent for PCOS and diabetes management.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 580,
+      "is_side_dish": false
     },
     {
       "id": "R019",
@@ -739,6 +801,7 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "hypertension_friendly",
         "thyroid_friendly"
       ],
       "difficulty": "easy",
@@ -756,7 +819,9 @@
       "notes": "Batch cook the curry. Cauliflower is rich in glucosinolates — beneficial for thyroid health when cooked (reduces goitrogens).",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 520,
+      "is_side_dish": false
     },
     {
       "id": "R020",
@@ -797,7 +862,9 @@
       "location_tags": [
         "home",
         "restaurant"
-      ]
+      ],
+      "sodium_mg": 610,
+      "is_side_dish": false
     },
     {
       "id": "R021",
@@ -837,7 +904,9 @@
       "location_tags": [
         "street",
         "takeaway"
-      ]
+      ],
+      "sodium_mg": 680,
+      "is_side_dish": false
     },
     {
       "id": "R022",
@@ -876,7 +945,9 @@
       "location_tags": [
         "street",
         "takeaway"
-      ]
+      ],
+      "sodium_mg": 740,
+      "is_side_dish": false
     },
     {
       "id": "R023",
@@ -902,7 +973,10 @@
       ],
       "meat_type": null,
       "condition_flags": [
-        "diabetes_friendly"
+        "cholesterol_friendly",
+        "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly"
       ],
       "difficulty": "easy",
       "treat_meal": false,
@@ -918,7 +992,9 @@
       "notes": "Gundruk is a traditional Nepali fermented food with probiotic benefits. Low in calories, high in flavour. Excellent light lunch for weight loss clients.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 490,
+      "is_side_dish": false
     },
     {
       "id": "R024",
@@ -942,7 +1018,9 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "cholesterol_friendly",
         "diabetes_friendly",
+        "hypertension_friendly",
         "pcos_friendly"
       ],
       "difficulty": "medium",
@@ -961,7 +1039,9 @@
       "notes": "Batch cook and refrigerate for 4–5 days. High fibre makes this excellent for PCOS and blood sugar management.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 540,
+      "is_side_dish": false
     },
     {
       "id": "R025",
@@ -1003,7 +1083,9 @@
       "notes": "Very economical and protein-rich. Batch cook the curry base and add eggs fresh. Ideal for clients on a budget.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 550,
+      "is_side_dish": false
     },
     {
       "id": "R026",
@@ -1027,7 +1109,9 @@
       ],
       "meat_type": null,
       "condition_flags": [
-        "diabetes_friendly"
+        "cholesterol_friendly",
+        "diabetes_friendly",
+        "hypertension_friendly"
       ],
       "difficulty": "easy",
       "treat_meal": false,
@@ -1044,7 +1128,9 @@
       "notes": "Good source of plant-based protein. Oyster mushrooms have higher protein content than button mushrooms.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 480,
+      "is_side_dish": false
     },
     {
       "id": "R027",
@@ -1085,7 +1171,9 @@
       "location_tags": [
         "home",
         "street"
-      ]
+      ],
+      "sodium_mg": 950,
+      "is_side_dish": false
     },
     {
       "id": "R028",
@@ -1110,7 +1198,11 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "anaemia_friendly",
+        "cholesterol_friendly",
         "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
         "pcos_friendly",
         "thyroid_friendly"
       ],
@@ -1129,7 +1221,9 @@
       "notes": "Brown rice requires longer soaking (2 hours). The extra fibre is worth it for clients managing blood sugar or PCOS.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 420,
+      "is_side_dish": false
     },
     {
       "id": "R029",
@@ -1167,7 +1261,9 @@
       "location_tags": [
         "restaurant",
         "home"
-      ]
+      ],
+      "sodium_mg": 580,
+      "is_side_dish": false
     },
     {
       "id": "R030",
@@ -1191,6 +1287,10 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "anaemia_friendly",
+        "cholesterol_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
         "pcos_friendly",
         "thyroid_friendly"
       ],
@@ -1208,7 +1308,9 @@
       "notes": "Iron absorption enhanced by the vitamin C in the roti. Excellent for female clients with iron deficiency or PCOS.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 430,
+      "is_side_dish": false
     },
     {
       "id": "R031",
@@ -1232,7 +1334,10 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "cholesterol_friendly",
         "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
         "pcos_friendly",
         "thyroid_friendly"
       ],
@@ -1249,7 +1354,9 @@
       "notes": "Reducing carbohydrates at dinner is a practical strategy for fat loss without removing the meal clients love. Use the batch-cooked dal from lunch.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 560,
+      "is_side_dish": false
     },
     {
       "id": "R032",
@@ -1289,7 +1396,9 @@
       "location_tags": [
         "home",
         "restaurant"
-      ]
+      ],
+      "sodium_mg": 480,
+      "is_side_dish": false
     },
     {
       "id": "R033",
@@ -1330,7 +1439,9 @@
       "notes": "Batch cook curry. Bone-in chicken adds more flavour and collagen. Watch oil quantity during tempering.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 620,
+      "is_side_dish": false
     },
     {
       "id": "R034",
@@ -1354,8 +1465,8 @@
       ],
       "meat_type": "fish",
       "condition_flags": [
-        "thyroid_friendly",
-        "pcos_friendly"
+        "pcos_friendly",
+        "thyroid_friendly"
       ],
       "difficulty": "medium",
       "treat_meal": false,
@@ -1372,7 +1483,9 @@
       "notes": "Rich in omega-3 fatty acids. Excellent for inflammation and brain health. Encourage clients to eat fish at least twice a week.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 580,
+      "is_side_dish": false
     },
     {
       "id": "R035",
@@ -1408,7 +1521,9 @@
       "notes": "Batch cook and refrigerate. Add a side of dahi to complete protein profile. Basmati has a lower GI than standard white rice.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 490,
+      "is_side_dish": false
     },
     {
       "id": "R036",
@@ -1449,7 +1564,9 @@
       "notes": "Very quick dinner — 15 minutes. Reduce oil to 1 tsp for lower calorie version. Excellent for busy evenings.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 520,
+      "is_side_dish": false
     },
     {
       "id": "R037",
@@ -1490,7 +1607,9 @@
         "street",
         "takeaway",
         "restaurant"
-      ]
+      ],
+      "sodium_mg": 710,
+      "is_side_dish": false
     },
     {
       "id": "R038",
@@ -1515,7 +1634,9 @@
       ],
       "meat_type": null,
       "condition_flags": [
-        "diabetes_friendly"
+        "cholesterol_friendly",
+        "diabetes_friendly",
+        "hypertension_friendly"
       ],
       "difficulty": "medium",
       "treat_meal": false,
@@ -1532,7 +1653,9 @@
       "location_tags": [
         "home",
         "restaurant"
-      ]
+      ],
+      "sodium_mg": 480,
+      "is_side_dish": false
     },
     {
       "id": "R039",
@@ -1569,7 +1692,9 @@
       "location_tags": [
         "home",
         "restaurant"
-      ]
+      ],
+      "sodium_mg": 780,
+      "is_side_dish": false
     },
     {
       "id": "R040",
@@ -1594,7 +1719,11 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "anaemia_friendly",
+        "cholesterol_friendly",
         "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
         "pcos_friendly"
       ],
       "difficulty": "medium",
@@ -1611,7 +1740,9 @@
       "notes": "Requires longer cooking time but worth it — black lentils have higher iron and protein than red lentils. Excellent for female clients.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 430,
+      "is_side_dish": false
     },
     {
       "id": "R041",
@@ -1635,8 +1766,11 @@
       ],
       "meat_type": null,
       "condition_flags": [
-        "pcos_friendly",
-        "diabetes_friendly"
+        "cholesterol_friendly",
+        "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
+        "pcos_friendly"
       ],
       "difficulty": "easy",
       "treat_meal": false,
@@ -1652,7 +1786,9 @@
       "notes": "Press tofu before cooking to remove moisture and improve texture. Tofu is a complete plant protein. Good for vegetarian clients needing protein boost.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 410,
+      "is_side_dish": false
     },
     {
       "id": "R042",
@@ -1677,8 +1813,9 @@
       "meat_type": "chicken",
       "condition_flags": [
         "diabetes_friendly",
-        "thyroid_friendly",
-        "pcos_friendly"
+        "ibs_friendly",
+        "pcos_friendly",
+        "thyroid_friendly"
       ],
       "difficulty": "easy",
       "treat_meal": false,
@@ -1694,7 +1831,9 @@
       "notes": "Lowest calorie dinner option in the library. Excellent for clients needing to keep dinner calories low. Bone-in chicken gives rich broth.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 520,
+      "is_side_dish": false
     },
     {
       "id": "R043",
@@ -1737,7 +1876,9 @@
       "location_tags": [
         "home",
         "restaurant"
-      ]
+      ],
+      "sodium_mg": 590,
+      "is_side_dish": false
     },
     {
       "id": "R044",
@@ -1762,7 +1903,10 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "cholesterol_friendly",
         "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
         "pcos_friendly"
       ],
       "difficulty": "medium",
@@ -1777,7 +1921,9 @@
       "notes": "Buckwheat is underutilised in urban Kathmandu but widely available. Push this for clients with diabetes or insulin resistance.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 380,
+      "is_side_dish": false
     },
     {
       "id": "R045",
@@ -1816,7 +1962,9 @@
       "location_tags": [
         "home",
         "restaurant"
-      ]
+      ],
+      "sodium_mg": 440,
+      "is_side_dish": false
     },
     {
       "id": "R046",
@@ -1841,7 +1989,11 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "anaemia_friendly",
+        "cholesterol_friendly",
         "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
         "pcos_friendly"
       ],
       "difficulty": "easy",
@@ -1854,7 +2006,9 @@
       "location_tags": [
         "home",
         "street"
-      ]
+      ],
+      "sodium_mg": 180,
+      "is_side_dish": false
     },
     {
       "id": "R047",
@@ -1879,7 +2033,11 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "cholesterol_friendly",
         "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
+        "ibs_friendly",
         "thyroid_friendly"
       ],
       "difficulty": "easy",
@@ -1892,7 +2050,9 @@
       "notes": "Use low-sugar seasonal fruits. Pair with protein-rich dahi to slow sugar absorption. An excellent sweet craving fix.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 60,
+      "is_side_dish": false
     },
     {
       "id": "R048",
@@ -1917,7 +2077,11 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "anaemia_friendly",
+        "cholesterol_friendly",
         "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
         "pcos_friendly"
       ],
       "difficulty": "easy",
@@ -1930,7 +2094,9 @@
       "location_tags": [
         "home",
         "street"
-      ]
+      ],
+      "sodium_mg": 90,
+      "is_side_dish": false
     },
     {
       "id": "R049",
@@ -1955,6 +2121,7 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "ibs_friendly",
         "thyroid_friendly"
       ],
       "difficulty": "easy",
@@ -1967,7 +2134,9 @@
       "notes": "Lowest calorie satisfying snack in the library. Excellent for clients with late-night sweet cravings.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 80,
+      "is_side_dish": false
     },
     {
       "id": "R050",
@@ -1992,7 +2161,11 @@
       ],
       "meat_type": null,
       "condition_flags": [
-        "diabetes_friendly"
+        "cholesterol_friendly",
+        "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
+        "ibs_friendly"
       ],
       "difficulty": "easy",
       "treat_meal": false,
@@ -2004,7 +2177,9 @@
       "notes": "Available at supermarkets and dry goods stores in Kathmandu. Very low calorie for volume — good for clients who snack out of boredom.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 20,
+      "is_side_dish": false
     },
     {
       "id": "R051",
@@ -2028,7 +2203,11 @@
         "low-calorie"
       ],
       "meat_type": null,
-      "condition_flags": [],
+      "condition_flags": [
+        "cholesterol_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly"
+      ],
       "difficulty": "easy",
       "treat_meal": false,
       "description": "Boiled corn on the cob — a classic Nepali street snack. Squeeze of lime and a pinch of salt takes it to the next level.",
@@ -2042,7 +2221,9 @@
       "location_tags": [
         "home",
         "street"
-      ]
+      ],
+      "sodium_mg": 40,
+      "is_side_dish": false
     },
     {
       "id": "R052",
@@ -2080,7 +2261,9 @@
       "notes": "Batch boil 6 eggs and refrigerate for the week. Extremely convenient protein source. Best snack for clients with physically demanding jobs.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 190,
+      "is_side_dish": false
     },
     {
       "id": "R053",
@@ -2118,7 +2301,9 @@
       "location_tags": [
         "home",
         "street"
-      ]
+      ],
+      "sodium_mg": 210,
+      "is_side_dish": false
     },
     {
       "id": "R054",
@@ -2156,7 +2341,9 @@
       "location_tags": [
         "home",
         "restaurant"
-      ]
+      ],
+      "sodium_mg": 90,
+      "is_side_dish": false
     },
     {
       "id": "R055",
@@ -2194,7 +2381,9 @@
       "location_tags": [
         "home",
         "restaurant"
-      ]
+      ],
+      "sodium_mg": 80,
+      "is_side_dish": false
     },
     {
       "id": "R056",
@@ -2229,7 +2418,9 @@
       "location_tags": [
         "home",
         "street"
-      ]
+      ],
+      "sodium_mg": 10,
+      "is_side_dish": false
     },
     {
       "id": "R057",
@@ -2265,7 +2456,9 @@
       "location_tags": [
         "restaurant",
         "street"
-      ]
+      ],
+      "sodium_mg": 80,
+      "is_side_dish": false
     },
     {
       "id": "R058",
@@ -2305,7 +2498,9 @@
       "location_tags": [
         "home",
         "street"
-      ]
+      ],
+      "sodium_mg": 20,
+      "is_side_dish": false
     },
     {
       "id": "R059",
@@ -2347,7 +2542,9 @@
       "notes": "Seasonal — available spring/early summer in Nepal. Blanch briefly before stir-frying to remove bitterness. One of the highest vitamin A sources in traditional Nepali cooking.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 160,
+      "is_side_dish": true
     },
     {
       "id": "R060",
@@ -2390,7 +2587,9 @@
       "notes": "Sinki is produced by fermenting mula (radish) taproots in pits — a traditional preservation technique. Strong probiotic properties. Pair with rice for a complete light meal.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 380,
+      "is_side_dish": true
     },
     {
       "id": "R061",
@@ -2415,7 +2614,10 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "cholesterol_friendly",
         "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
         "pcos_friendly",
         "thyroid_friendly"
       ],
@@ -2434,7 +2636,9 @@
       "notes": "Lauki is 96% water — making this one of the most hydrating cooked meals available. Traditional weight management food. A surprisingly satisfying curry despite its low calorie count.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 350,
+      "is_side_dish": false
     },
     {
       "id": "R062",
@@ -2460,7 +2664,10 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "cholesterol_friendly",
         "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
         "pcos_friendly"
       ],
       "difficulty": "easy",
@@ -2477,7 +2684,9 @@
       "notes": "The mucilage in okra is excellent for slowing sugar absorption. Dry okra before cooking and use a non-stick pan to keep oil minimal. Critical not to cover while cooking — keeps it from going slimy.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 320,
+      "is_side_dish": false
     },
     {
       "id": "R063",
@@ -2520,7 +2729,9 @@
       "notes": "The flame-roasting is essential — it creates the smoky flavour without any added fat. Eggplant skin contains nasunin, a powerful brain-protective antioxidant. Batch-roast multiple aubergines at once.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 330,
+      "is_side_dish": false
     },
     {
       "id": "R064",
@@ -2546,9 +2757,12 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "cholesterol_friendly",
         "diabetes_friendly",
-        "thyroid_friendly",
-        "pcos_friendly"
+        "fatty_liver_friendly",
+        "hypertension_friendly",
+        "pcos_friendly",
+        "thyroid_friendly"
       ],
       "difficulty": "easy",
       "treat_meal": false,
@@ -2565,7 +2779,9 @@
       "notes": "Poriyal (dry stir-fry) is one of the healthiest South Asian cooking techniques — flash-cook preserves vitamins. Asparagus available in Kathmandu supermarkets. Excellent micronutrient side dish.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 140,
+      "is_side_dish": true
     },
     {
       "id": "R065",
@@ -2591,7 +2807,11 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "cholesterol_friendly",
         "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
+        "ibs_friendly",
         "pcos_friendly",
         "thyroid_friendly"
       ],
@@ -2610,7 +2830,9 @@
       "notes": "Lowest calorie item in the entire library. Serve alongside any lunch or dinner to add bulk without adding calories. The black salt adds a distinctive sulphurous depth that elevates this beyond a plain salad.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 110,
+      "is_side_dish": false
     },
     {
       "id": "R066",
@@ -2635,7 +2857,11 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "cholesterol_friendly",
         "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
+        "ibs_friendly",
         "thyroid_friendly"
       ],
       "difficulty": "easy",
@@ -2652,7 +2878,9 @@
       "notes": "Dried shiitake (available in Kathmandu Asian grocery stores) intensify flavour when rehydrated. Soaking water is rich in nutrients — use it as part of the sauce. Very low calorie side dish.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 290,
+      "is_side_dish": false
     },
     {
       "id": "R067",
@@ -2678,7 +2906,11 @@
       ],
       "meat_type": null,
       "condition_flags": [
-        "diabetes_friendly"
+        "cholesterol_friendly",
+        "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
+        "ibs_friendly"
       ],
       "difficulty": "easy",
       "treat_meal": false,
@@ -2694,7 +2926,9 @@
       "notes": "The smashing technique is key — it changes the texture and flavour absorption dramatically. Rice vinegar and sesame oil available at most Kathmandu supermarkets. Excellent palate cleanser or pre-meal appetite regulator.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 200,
+      "is_side_dish": false
     },
     {
       "id": "R068",
@@ -2720,6 +2954,10 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "cholesterol_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
+        "ibs_friendly",
         "pcos_friendly",
         "thyroid_friendly"
       ],
@@ -2736,7 +2974,9 @@
       "notes": "One of the most nutrient-dense vegetables per calorie in the library. Particularly valuable for female clients — the calcium and iron profile is excellent. Available in Kathmandu supermarkets year-round.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 180,
+      "is_side_dish": true
     },
     {
       "id": "R069",
@@ -2778,7 +3018,9 @@
       "location_tags": [
         "home",
         "restaurant"
-      ]
+      ],
+      "sodium_mg": 220,
+      "is_side_dish": true
     },
     {
       "id": "R070",
@@ -2804,7 +3046,11 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "cholesterol_friendly",
         "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
+        "ibs_friendly",
         "pcos_friendly",
         "thyroid_friendly"
       ],
@@ -2820,7 +3066,9 @@
       "notes": "Can substitute spinach or any tender leafy green if unavailable. Tatsoi has a mild, slightly mustard flavour — excellent for clients who find spinach bitter. Available in upmarket Kathmandu supermarkets.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 150,
+      "is_side_dish": true
     },
     {
       "id": "R071",
@@ -2846,7 +3094,10 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "cholesterol_friendly",
         "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
         "pcos_friendly",
         "thyroid_friendly"
       ],
@@ -2863,7 +3114,9 @@
       "notes": "Smart swap — use alongside (or instead of) regular rice for clients managing blood sugar or on aggressive fat loss. Grate using the large side of a box grater or pulse in a food processor. Do not overcook — keep slightly firm.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 120,
+      "is_side_dish": true
     },
     {
       "id": "R072",
@@ -2903,7 +3156,9 @@
       "notes": "Smart swap for standard roti. The 50/50 blend keeps the texture manageable — 100% oat/coconut flour is too crumbly. Recommend for clients managing blood sugar or PCOS. Coconut flour adds healthy fats.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 280,
+      "is_side_dish": false
     },
     {
       "id": "R073",
@@ -2928,8 +3183,11 @@
       ],
       "meat_type": null,
       "condition_flags": [
-        "thyroid_friendly",
-        "pcos_friendly"
+        "cholesterol_friendly",
+        "hypertension_friendly",
+        "ibs_friendly",
+        "pcos_friendly",
+        "thyroid_friendly"
       ],
       "difficulty": "easy",
       "treat_meal": false,
@@ -2944,7 +3202,9 @@
       "notes": "Smart swap for heavy dips or sweet snacks. Pomegranate version is higher in antioxidants. Can be served alongside any main meal to add protein and probiotics without significant calories.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 85,
+      "is_side_dish": false
     },
     {
       "id": "R074",
@@ -2979,7 +3239,9 @@
         "mozzarella",
         "mixed vegetables (capsicum, mushroom, onion, olives)"
       ],
-      "notes": "Smart restaurant order — choose thin crust over stuffed/thick, go heavy on veg toppings, avoid extra cheese. 2 slices is a satisfying portion that fits the day's targets. Treat meal, not off-limits."
+      "notes": "Smart restaurant order — choose thin crust over stuffed/thick, go heavy on veg toppings, avoid extra cheese. 2 slices is a satisfying portion that fits the day's targets. Treat meal, not off-limits.",
+      "sodium_mg": 820,
+      "is_side_dish": false
     },
     {
       "id": "R075",
@@ -3021,7 +3283,9 @@
         "soy sauce",
         "sesame oil"
       ],
-      "notes": "Home version uses 1 tbsp oil vs restaurants often using 3-4 tbsp. Add tofu or egg for protein boost. Restaurant version will be higher calorie — treat as an estimate when dining out."
+      "notes": "Home version uses 1 tbsp oil vs restaurants often using 3-4 tbsp. Add tofu or egg for protein boost. Restaurant version will be higher calorie — treat as an estimate when dining out.",
+      "sodium_mg": 680,
+      "is_side_dish": false
     },
     {
       "id": "R076",
@@ -3061,7 +3325,9 @@
         "sesame oil",
         "white pepper"
       ],
-      "notes": "Day-old refrigerated rice is essential — fresh rice turns mushy. Restaurant portions often 350-400g; ask for less rice or share. Home version easily controlled."
+      "notes": "Day-old refrigerated rice is essential — fresh rice turns mushy. Restaurant portions often 350-400g; ask for less rice or share. Home version easily controlled.",
+      "sodium_mg": 640,
+      "is_side_dish": false
     },
     {
       "id": "R077",
@@ -3100,7 +3366,9 @@
         "parsley",
         "salt"
       ],
-      "notes": "Available in Kathmandu supermarkets. Control oil to max 1.5 tbsp per serving. Add a side of Kachumber salad (R065) to boost fibre and volume. Surprisingly filling for the calorie count."
+      "notes": "Available in Kathmandu supermarkets. Control oil to max 1.5 tbsp per serving. Add a side of Kachumber salad (R065) to boost fibre and volume. Surprisingly filling for the calorie count.",
+      "sodium_mg": 540,
+      "is_side_dish": false
     },
     {
       "id": "R078",
@@ -3141,7 +3409,9 @@
         "peanuts",
         "lime"
       ],
-      "notes": "Rice noodles and tamarind available in Asian grocery stores in Kathmandu. Substitute fish sauce with soy for vegetarian version. Peanut topping adds healthy fats — do not skip."
+      "notes": "Rice noodles and tamarind available in Asian grocery stores in Kathmandu. Substitute fish sauce with soy for vegetarian version. Peanut topping adds healthy fats — do not skip.",
+      "sodium_mg": 620,
+      "is_side_dish": false
     },
     {
       "id": "R079",
@@ -3183,7 +3453,9 @@
         "bok choy",
         "spring onion"
       ],
-      "notes": "Excellent low-calorie restaurant choice. When ordering out, ask for steamed rather than fried wontons. Home version: batch make and freeze uncooked wontons for quick weeknight dinners."
+      "notes": "Excellent low-calorie restaurant choice. When ordering out, ask for steamed rather than fried wontons. Home version: batch make and freeze uncooked wontons for quick weeknight dinners.",
+      "sodium_mg": 680,
+      "is_side_dish": false
     },
     {
       "id": "R080",
@@ -3227,7 +3499,9 @@
         "soy sauce",
         "sesame oil"
       ],
-      "notes": "Batch make and freeze uncooked — steam directly from frozen (add 3 extra minutes). Excellent low-calorie snack or light dinner starter. Dipping sauce: soy + rice vinegar + chilli."
+      "notes": "Batch make and freeze uncooked — steam directly from frozen (add 3 extra minutes). Excellent low-calorie snack or light dinner starter. Dipping sauce: soy + rice vinegar + chilli.",
+      "sodium_mg": 590,
+      "is_side_dish": false
     },
     {
       "id": "R081",
@@ -3264,7 +3538,9 @@
         "dried basil or oregano",
         "salt"
       ],
-      "notes": "Canned tomatoes and pasta available at most Kathmandu supermarkets. Add spinach or chickpeas to boost nutrition. Batch cook sauce and refrigerate for 5 days. Lowest fat pasta option in the library."
+      "notes": "Canned tomatoes and pasta available at most Kathmandu supermarkets. Add spinach or chickpeas to boost nutrition. Batch cook sauce and refrigerate for 5 days. Lowest fat pasta option in the library.",
+      "sodium_mg": 480,
+      "is_side_dish": false
     },
     {
       "id": "R082",
@@ -3290,9 +3566,13 @@
       ],
       "meat_type": null,
       "condition_flags": [
-        "thyroid_friendly",
+        "anaemia_friendly",
+        "cholesterol_friendly",
+        "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
         "pcos_friendly",
-        "diabetic_friendly"
+        "thyroid_friendly"
       ],
       "difficulty": "easy",
       "treat_meal": false,
@@ -3307,7 +3587,9 @@
       "notes": "Soak chana overnight for 8+ hours. Add a pinch of chaat masala and lemon juice for flavour. Pairs well with black coffee.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 120,
+      "is_side_dish": false
     },
     {
       "id": "R083",
@@ -3346,7 +3628,9 @@
       "notes": "Use spray oil or 2g oil to cook egg and chicken. Avocado adds healthy fat — include if within calorie target.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 520,
+      "is_side_dish": false
     },
     {
       "id": "R084",
@@ -3372,9 +3656,13 @@
       ],
       "meat_type": null,
       "condition_flags": [
-        "thyroid_friendly",
+        "anaemia_friendly",
+        "cholesterol_friendly",
+        "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
         "pcos_friendly",
-        "diabetic_friendly",
+        "thyroid_friendly",
         "weight_loss"
       ],
       "difficulty": "easy",
@@ -3391,7 +3679,9 @@
       "notes": "Soak moong overnight or sprout for 12–24 hrs for better digestibility. Skip papaya if managing blood sugar closely.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 100,
+      "is_side_dish": false
     },
     {
       "id": "R085",
@@ -3416,9 +3706,13 @@
       ],
       "meat_type": null,
       "condition_flags": [
-        "thyroid_friendly",
-        "diabetic_friendly",
-        "pcos_friendly"
+        "anaemia_friendly",
+        "cholesterol_friendly",
+        "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
+        "pcos_friendly",
+        "thyroid_friendly"
       ],
       "difficulty": "easy",
       "treat_meal": false,
@@ -3430,7 +3724,9 @@
       "notes": "Batch cook chana and refrigerate for up to 4 days. Season with rock salt and lemon if desired.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 90,
+      "is_side_dish": false
     },
     {
       "id": "R086",
@@ -3454,6 +3750,9 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "cholesterol_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
         "pcos_friendly",
         "thyroid_friendly",
         "weight_loss"
@@ -3472,7 +3771,9 @@
       "notes": "Blend oats to a coarse flour or use as is for texture. Use 2–3g oil or spray on a non-stick pan.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 340,
+      "is_side_dish": false
     },
     {
       "id": "R087",
@@ -3496,8 +3797,9 @@
       ],
       "meat_type": "egg",
       "condition_flags": [
-        "weight_loss",
-        "pcos_friendly"
+        "hypertension_friendly",
+        "pcos_friendly",
+        "weight_loss"
       ],
       "difficulty": "easy",
       "treat_meal": false,
@@ -3513,7 +3815,9 @@
       "notes": "Use a non-stick pan with 2g oil or cooking spray. Load the omelette generously with veggies to increase fibre and volume.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 420,
+      "is_side_dish": false
     },
     {
       "id": "R088",
@@ -3537,8 +3841,8 @@
       ],
       "meat_type": null,
       "condition_flags": [
-        "weight_loss",
-        "thyroid_friendly"
+        "thyroid_friendly",
+        "weight_loss"
       ],
       "difficulty": "easy",
       "treat_meal": false,
@@ -3553,7 +3857,9 @@
       "notes": "Use stevia or skip sweetener entirely if banana is ripe. Can substitute milk with plant-based milk for a dairy-free version.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 110,
+      "is_side_dish": false
     },
     {
       "id": "R089",
@@ -3578,8 +3884,8 @@
       ],
       "meat_type": null,
       "condition_flags": [
-        "pcos_friendly",
-        "heart_healthy"
+        "heart_healthy",
+        "pcos_friendly"
       ],
       "difficulty": "easy",
       "treat_meal": false,
@@ -3593,7 +3899,9 @@
       "notes": "Best consumed immediately after blending. Adjust thickness with milk. Pairs well with chia seeds soaked overnight.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 90,
+      "is_side_dish": false
     },
     {
       "id": "R090",
@@ -3619,8 +3927,11 @@
       ],
       "meat_type": null,
       "condition_flags": [
-        "thyroid_friendly",
+        "cholesterol_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
         "pcos_friendly",
+        "thyroid_friendly",
         "weight_loss"
       ],
       "difficulty": "easy",
@@ -3635,7 +3946,9 @@
       "notes": "Use unsweetened almond milk. Frozen berries work well. Add a tablespoon of chia or flax seeds for extra fibre and omega-3.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 70,
+      "is_side_dish": false
     },
     {
       "id": "R091",
@@ -3659,10 +3972,10 @@
       ],
       "meat_type": "egg",
       "condition_flags": [
-        "thyroid_friendly",
+        "diabetes_friendly",
         "pcos_friendly",
-        "weight_loss",
-        "diabetic_friendly"
+        "thyroid_friendly",
+        "weight_loss"
       ],
       "difficulty": "easy",
       "treat_meal": false,
@@ -3676,7 +3989,9 @@
       "notes": "Peel soaked almonds before eating — skin removal reduces phytic acid load. Rotate the carb side for variety.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 130,
+      "is_side_dish": false
     },
     {
       "id": "R092",
@@ -3715,7 +4030,9 @@
       "notes": "Use non-stick pan with 4g oil max. Low-fat paneer keeps calories reasonable while maintaining protein. Batch prep dal for the week.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 480,
+      "is_side_dish": false
     },
     {
       "id": "R093",
@@ -3740,8 +4057,8 @@
       "meat_type": null,
       "condition_flags": [
         "pcos_friendly",
-        "weight_loss",
-        "thyroid_friendly"
+        "thyroid_friendly",
+        "weight_loss"
       ],
       "difficulty": "medium",
       "treat_meal": false,
@@ -3757,7 +4074,9 @@
       "notes": "Soak soya chunks in hot water for 15 mins then squeeze dry before cooking. They double in volume when rehydrated.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 510,
+      "is_side_dish": false
     },
     {
       "id": "R094",
@@ -3782,8 +4101,12 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "anaemia_friendly",
+        "cholesterol_friendly",
+        "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
         "thyroid_friendly",
-        "diabetic_friendly",
         "weight_loss"
       ],
       "difficulty": "medium",
@@ -3800,7 +4123,9 @@
       "notes": "Gedagudi needs 6–8 hrs soaking before cooking. Batch cook and refrigerate for 3 days.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 430,
+      "is_side_dish": false
     },
     {
       "id": "R095",
@@ -3843,7 +4168,9 @@
       "notes": "Use 3g oil only. Eggs can be hard-boiled and added on the side, or cracked into the rajma gravy. High protein + fibre combo keeps hunger at bay.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 520,
+      "is_side_dish": false
     },
     {
       "id": "R096",
@@ -3866,9 +4193,9 @@
       ],
       "meat_type": "egg",
       "condition_flags": [
+        "pcos_friendly",
         "thyroid_friendly",
-        "weight_loss",
-        "pcos_friendly"
+        "weight_loss"
       ],
       "difficulty": "medium",
       "treat_meal": false,
@@ -3881,7 +4208,9 @@
       "notes": "Mung dal roti batter: soak split moong 2 hrs, grind with spices, cook thin on tawa. Higher protein than wheat roti.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 480,
+      "is_side_dish": false
     },
     {
       "id": "R097",
@@ -3921,7 +4250,9 @@
       "notes": "Marinate chicken in yogurt and spices 30 mins ahead. Grill or cook with minimal oil on non-stick pan. Load with raw veggies for crunch and volume.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 540,
+      "is_side_dish": false
     },
     {
       "id": "R098",
@@ -3946,8 +4277,11 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "cholesterol_friendly",
+        "diabetes_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
         "thyroid_friendly",
-        "diabetic_friendly",
         "weight_loss"
       ],
       "difficulty": "easy",
@@ -3966,7 +4300,9 @@
       "notes": "Rinse quinoa thoroughly before cooking to remove bitter saponins. Add chickpeas or boiled egg to boost protein further.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 290,
+      "is_side_dish": false
     },
     {
       "id": "R099",
@@ -4004,7 +4340,9 @@
       "notes": "Raw chiura requires no cooking — just rehydrate lightly if preferred. Swap egg for soyabean granules for a vegan version.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 580,
+      "is_side_dish": false
     },
     {
       "id": "R100",
@@ -4030,6 +4368,9 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "cholesterol_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
         "thyroid_friendly",
         "weight_loss"
       ],
@@ -4046,7 +4387,9 @@
       "location_tags": [
         "home",
         "street"
-      ]
+      ],
+      "sodium_mg": 200,
+      "is_side_dish": false
     },
     {
       "id": "R101",
@@ -4087,7 +4430,9 @@
       "notes": "A much cleaner version than restaurant aloo chaat — no sev or fried additions. Boil potatoes ahead and refrigerate.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 320,
+      "is_side_dish": false
     },
     {
       "id": "R102",
@@ -4125,7 +4470,9 @@
       "notes": "Use low-fat paneer to reduce calories further. Pair with curd or a small green chutney. Limit to 1 paratha as a snack.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 460,
+      "is_side_dish": false
     },
     {
       "id": "R103",
@@ -4150,8 +4497,12 @@
       ],
       "meat_type": null,
       "condition_flags": [
-        "weight_loss",
-        "thyroid_friendly"
+        "anaemia_friendly",
+        "cholesterol_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
+        "thyroid_friendly",
+        "weight_loss"
       ],
       "difficulty": "easy",
       "treat_meal": false,
@@ -4170,7 +4521,9 @@
       "location_tags": [
         "home",
         "street"
-      ]
+      ],
+      "sodium_mg": 190,
+      "is_side_dish": false
     },
     {
       "id": "R104",
@@ -4196,9 +4549,9 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "diabetes_friendly",
         "thyroid_friendly",
-        "weight_loss",
-        "diabetic_friendly"
+        "weight_loss"
       ],
       "difficulty": "easy",
       "treat_meal": false,
@@ -4211,7 +4564,9 @@
       "notes": "Avoid fruit juices — eat whole fruit for fibre. Walk 10 mins after this snack. Rotate between mango, papaya, guava, apple, and pear seasonally.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 50,
+      "is_side_dish": false
     },
     {
       "id": "R105",
@@ -4234,8 +4589,9 @@
       ],
       "meat_type": null,
       "condition_flags": [
-        "weight_loss",
-        "thyroid_friendly"
+        "hypertension_friendly",
+        "thyroid_friendly",
+        "weight_loss"
       ],
       "difficulty": "medium",
       "treat_meal": false,
@@ -4251,7 +4607,9 @@
       "notes": "Use minimal oil (5g) in the filling. Serve with tomato-chilli achar. Steam for 12–15 mins. Batch-freeze raw momos for quick dinners.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 480,
+      "is_side_dish": false
     },
     {
       "id": "R106",
@@ -4276,9 +4634,9 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "diabetes_friendly",
         "pcos_friendly",
-        "weight_loss",
-        "diabetic_friendly"
+        "weight_loss"
       ],
       "difficulty": "medium",
       "treat_meal": false,
@@ -4294,7 +4652,9 @@
       "notes": "Marinate paneer for at least 30 mins. Grill on high heat for char marks without extra oil. Good dinner option for days with a heavier carb lunch.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 490,
+      "is_side_dish": false
     },
     {
       "id": "R107",
@@ -4318,6 +4678,10 @@
       ],
       "meat_type": null,
       "condition_flags": [
+        "anaemia_friendly",
+        "cholesterol_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
         "pcos_friendly",
         "thyroid_friendly",
         "weight_loss"
@@ -4336,7 +4700,9 @@
       "notes": "Rehydrate soya granules in hot water 10 mins before stir-frying. Season well with cumin, chilli, and coriander for best flavour.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 420,
+      "is_side_dish": false
     },
     {
       "id": "R108",
@@ -4378,7 +4744,9 @@
       "notes": "Use low-fat paneer. Keep masala simple — just cumin, turmeric, and chilli. Don't overcook or paneer becomes rubbery.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 560,
+      "is_side_dish": false
     },
     {
       "id": "R109",
@@ -4418,7 +4786,9 @@
       "notes": "Use cold pre-cooked rice for better fried rice texture. Load up on veggies — aim for 2:1 veggies-to-rice ratio. Choose mushroom for a lower calorie version.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 510,
+      "is_side_dish": false
     },
     {
       "id": "R110",
@@ -4441,8 +4811,8 @@
       ],
       "meat_type": "chicken",
       "condition_flags": [
-        "weight_loss",
-        "pcos_friendly"
+        "pcos_friendly",
+        "weight_loss"
       ],
       "difficulty": "medium",
       "treat_meal": false,
@@ -4459,7 +4829,9 @@
       "notes": "Whole wheat dough gives extra fibre versus plain flour. Keep soup broth clear — season with salt, pepper, and herbs only.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 540,
+      "is_side_dish": false
     },
     {
       "id": "R111",
@@ -4484,9 +4856,9 @@
       ],
       "meat_type": "chicken",
       "condition_flags": [
+        "diabetes_friendly",
         "pcos_friendly",
-        "weight_loss",
-        "diabetic_friendly"
+        "weight_loss"
       ],
       "difficulty": "medium",
       "treat_meal": false,
@@ -4504,7 +4876,9 @@
       "notes": "Marinate chicken simply with cumin, salt, and lemon. Grill or pan-cook with minimal oil. Best assembled fresh before serving.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 380,
+      "is_side_dish": false
     },
     {
       "id": "R112",
@@ -4528,8 +4902,12 @@
       ],
       "meat_type": null,
       "condition_flags": [
-        "thyroid_friendly",
+        "anaemia_friendly",
+        "cholesterol_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
         "pcos_friendly",
+        "thyroid_friendly",
         "weight_loss"
       ],
       "difficulty": "medium",
@@ -4548,7 +4926,9 @@
       "notes": "Soak soya granules 10 mins in hot water, squeeze out moisture before adding to rice. Reduces the beany taste significantly.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 450,
+      "is_side_dish": false
     },
     {
       "id": "R113",
@@ -4589,7 +4969,9 @@
       "notes": "Boil noodles al dente and rinse cold to prevent sticking. Use whole-wheat noodles rather than refined for extra fibre. Load with veggies — capsicum, cabbage, carrot.",
       "location_tags": [
         "home"
-      ]
+      ],
+      "sodium_mg": 490,
+      "is_side_dish": false
     }
   ]
 }

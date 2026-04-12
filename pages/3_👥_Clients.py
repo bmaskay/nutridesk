@@ -8,7 +8,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import streamlit as st
-from utils.database import get_all_clients, get_client, delete_client
+from utils.database import get_all_clients, get_client, delete_client, add_session, get_sessions
 from utils.calculations import full_assessment, calculate_age
 from utils.header import render_header
 
@@ -168,5 +168,55 @@ for c in clients:
                 st.write(f"Cuisines: {', '.join(cuisines) if cuisines else '—'}")
                 allergies = full.get("allergies", [])
                 st.write(f"Allergies: {', '.join(allergies) if allergies else 'None'}")
+
+            # ── Session Notes ─────────────────────────────────────────────
+            st.markdown("---")
+            st.markdown("#### 📝 Session Notes")
+            _sessions = get_sessions(full["id"])
+            if _sessions:
+                for _s in reversed(_sessions[-5:]):  # show last 5, newest first
+                    _date = _s.get("session_date","")
+                    _note = _s.get("notes","").strip()
+                    _wt   = _s.get("weight_kg")
+                    _wt_str = f" · {_wt} kg" if _wt else ""
+                    if _note or _wt:
+                        st.markdown(
+                            f"<div style='background:#F9F5EF;border:1px solid #E5D9CC;"
+                            f"border-radius:8px;padding:8px 12px;margin-bottom:6px;"
+                            f"font-size:0.85rem'>"
+                            f"<b style='color:#40916C'>{_date}{_wt_str}</b><br>"
+                            f"{_note if _note else '<i style=\"color:#9CA3AF\">No text note</i>'}"
+                            f"</div>",
+                            unsafe_allow_html=True,
+                        )
+            else:
+                st.markdown(
+                    "<div style='color:#9CA3AF;font-size:0.85rem'>No session notes yet.</div>",
+                    unsafe_allow_html=True
+                )
+
+            _note_key  = f"snote_{full['id']}"
+            _wt_key    = f"swt_{full['id']}"
+            _note_cols = st.columns([2, 1, 1])
+            with _note_cols[0]:
+                _new_note = st.text_input(
+                    "Note", key=_note_key,
+                    placeholder="e.g. Client responded well, increased protein target"
+                )
+            with _note_cols[1]:
+                _new_wt = st.number_input(
+                    "Weight (kg)", key=_wt_key,
+                    min_value=0.0, max_value=300.0, value=0.0, step=0.1, format="%.1f"
+                )
+            with _note_cols[2]:
+                st.markdown("<br>", unsafe_allow_html=True)
+                if st.button("➕ Add Note", key=f"savenote_{full['id']}"):
+                    wt_val = _new_wt if _new_wt > 0 else None
+                    if _new_note.strip() or wt_val:
+                        add_session(full["id"], wt_val, _new_note.strip())
+                        st.success("Note saved!")
+                        st.rerun()
+                    else:
+                        st.warning("Enter a note or weight first.")
 
         st.markdown("")

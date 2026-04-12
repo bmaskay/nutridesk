@@ -231,7 +231,7 @@ def generate_pdf(
         leftMargin=MARGIN, rightMargin=MARGIN,
         topMargin=MARGIN, bottomMargin=MARGIN,
         title=f"NutriDesk Report – {client.get('name', '')}",
-        author="Ahara by Asha",
+        author="Āhāra by Asha",
     )
 
     s = _styles()
@@ -832,6 +832,59 @@ def generate_pdf(
             "before breakfast. Avoid large amounts of raw cruciferous vegetables.",
             s["body"]
         ))
+    if any("hypertension" in c.lower() for c in _client_conds):
+        story.append(Spacer(1, 0.2 * cm))
+        story.append(Paragraph(
+            "<b>Hypertension note:</b> Limit sodium to under 2,000 mg/day. Favour home-cooked "
+            "meals over takeaway. Reduce pickles, papads, and processed foods. Increase "
+            "potassium-rich foods (banana, sweet potato, spinach) and maintain a consistent "
+            "meal schedule.",
+            s["body"]
+        ))
+    if any("cholesterol" in c.lower() for c in _client_conds):
+        story.append(Spacer(1, 0.2 * cm))
+        story.append(Paragraph(
+            "<b>High cholesterol note:</b> Favour unsaturated fats (mustard oil, olive oil) "
+            "over saturated fats (ghee, butter, red meat fat). Increase soluble fibre from "
+            "oats, legumes, and vegetables. Avoid trans fats (vanaspati, commercially fried "
+            "foods). Aim for 25–35 g of fibre daily.",
+            s["body"]
+        ))
+    if any("ibs" in c.lower() or "digestive" in c.lower() for c in _client_conds):
+        story.append(Spacer(1, 0.2 * cm))
+        story.append(Paragraph(
+            "<b>IBS / Digestive note:</b> Eat slowly and chew thoroughly. Avoid very spicy, "
+            "high-fat, or raw-onion-heavy dishes during flare-ups. Keep a food diary to "
+            "identify personal triggers. Cooked vegetables are generally better tolerated "
+            "than raw.",
+            s["body"]
+        ))
+    if any("anaemia" in c.lower() or "iron" in c.lower() for c in _client_conds):
+        story.append(Spacer(1, 0.2 * cm))
+        story.append(Paragraph(
+            "<b>Anaemia / Iron note:</b> Pair iron-rich foods (dal, spinach, meat, chana) "
+            "with vitamin C sources (lemon, amla, tomato) at the same meal to enhance "
+            "absorption. Avoid tea or coffee within one hour of meals as tannins inhibit "
+            "iron uptake.",
+            s["body"]
+        ))
+    if any("fatty liver" in c.lower() for c in _client_conds):
+        story.append(Spacer(1, 0.2 * cm))
+        story.append(Paragraph(
+            "<b>Fatty liver note:</b> Avoid fried foods, refined sugars, and alcohol "
+            "completely. Prioritise high-fibre vegetables, legumes, and lean protein. "
+            "Even modest weight loss (5–10%) can significantly reduce liver fat.",
+            s["body"]
+        ))
+    if any("kidney" in c.lower() for c in _client_conds):
+        story.append(Spacer(1, 0.2 * cm))
+        story.append(Paragraph(
+            "<b>⚠ Kidney disease — specialist guidance required:</b> This plan provides "
+            "general dietary guidance only. Kidney disease requires a tailored renal diet "
+            "to manage protein, potassium, phosphorus, and fluid intake. Please consult a "
+            "nephrologist or renal dietitian before following any meal plan.",
+            s["body"]
+        ))
 
     # ── Disclaimer ─────────────────────────────────────────────────────────
 
@@ -839,7 +892,7 @@ def generate_pdf(
     story.append(_hr())
     story.append(Paragraph("Disclaimer", s["section"]))
     story.append(Paragraph(
-        f"This report was prepared by Ahara by Asha on {date.today().strftime('%d %B %Y')}. "
+        f"This report was prepared by Āhāra by Asha on {date.today().strftime('%d %B %Y')}. "
         "It is intended as personalised dietary and lifestyle guidance based on the information "
         "provided at the time of assessment. This report does not constitute medical advice and "
         "is not a substitute for consultation with a qualified physician or healthcare provider. "
