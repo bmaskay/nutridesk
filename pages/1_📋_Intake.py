@@ -123,11 +123,25 @@ st.markdown("---")
 
 # ── Progress steps ────────────────────────────────────────────────────────────
 
-cols = st.columns(4)
-for col, label in zip(cols, ["1 · Basic Stats", "2 · Lifestyle", "3 · Food Prefs", "4 · Snack Habits"]):
-    col.markdown(
-        f"<div style='background:#D8F3DC;padding:8px 12px;border-radius:8px;"
-        f"text-align:center;font-size:0.8rem;font-weight:600;color:#2D6A4F'>{label}</div>",
+# Step bar — Section 1 shows ✅ once client name has been entered
+_name_filled = bool(st.session_state.get("intake_name", "").strip())
+_steps = [
+    ("1", "Basic Stats",  _name_filled),
+    ("2", "Lifestyle",    False),
+    ("3", "Food Prefs",   False),
+    ("4", "Snacks",       False),
+    ("5", "Exercise",     False),
+    ("6", "Biomarkers",   False),
+]
+_step_cols = st.columns(6)
+for _col, (_num, _label, _done) in zip(_step_cols, _steps):
+    _bg   = "#2D6A4F" if _done else "#D8F3DC"
+    _fg   = "white"   if _done else "#2D6A4F"
+    _icon = "✅" if _done else _num
+    _col.markdown(
+        f"<div style='background:{_bg};color:{_fg};padding:7px 4px;border-radius:8px;"
+        f"text-align:center;font-size:0.78rem;font-weight:600'>"
+        f"{_icon} · {_label}</div>",
         unsafe_allow_html=True,
     )
 st.markdown("<br>", unsafe_allow_html=True)
@@ -141,7 +155,8 @@ with st.expander("📊 Section 1 — Basic Stats", expanded=True):
 
     with c1:
         name = st.text_input(
-            ":red[Full Name ✱]", value=prefill("name"), placeholder="e.g. Priya Sharma"
+            ":red[Full Name ✱]", value=prefill("name"), placeholder="e.g. Priya Sharma",
+            key="intake_name"
         )
         gender = st.selectbox(
             ":red[Gender ✱]", ["Female", "Male", "Other"],
@@ -285,6 +300,28 @@ with st.expander("🌙 Section 2 — Lifestyle", expanded=True):
         height=70,
         help="Optional: add detail about diagnoses, medications, or lab results here."
     )
+
+    # ── Menstrual cycle awareness (female / other clients only) ───────────────
+    cycle_status = prefill("cycle_status", "")
+    if gender in ("Female", "Other"):
+        CYCLE_OPTIONS = [
+            "—",
+            "Regular (21–35 day cycle)",
+            "Irregular / unpredictable",
+            "Post-menopausal",
+            "On oral contraceptives / hormonal therapy",
+            "Currently pregnant / postpartum",
+            "Prefer not to say",
+        ]
+        _cycle_default = cycle_status if cycle_status in CYCLE_OPTIONS else "—"
+        cycle_status = st.selectbox(
+            ":blue[Menstrual Cycle Status]",
+            CYCLE_OPTIONS,
+            index=CYCLE_OPTIONS.index(_cycle_default),
+            help="Optional — helps flag that weight fluctuations around cycle days are normal.",
+        )
+        if cycle_status == "—":
+            cycle_status = ""
 
 # ─────────────────────────────────────────────────────────────────────────────
 # SECTION 3: Food Preferences
@@ -595,6 +632,7 @@ if save_clicked:
             "notes":           med_details,
             "fitness_level":   fitness_level,
             "exercise_notes":  exercise_notes,
+            "cycle_status":    cycle_status if gender in ("Female", "Other") else "",
         }
 
         if existing_client:
@@ -644,17 +682,98 @@ if save_clicked:
         with m3:
             st.metric("TDEE", f"{assessment['tdee']} kcal")
 
+        # ── Plain-language interpretation ──────────────────────────────────
+        _adj   = assessment["goal_adjustment"]
+        _goal  = client_data.get("goal", "")
+        _wt    = client_data.get("weight_kg", 0)
+        _ideal_low  = assessment["ideal_weight_low"]
+        _ideal_high = assessment["ideal_weight_high"]
+        _weekly_rate = 0.5 if _goal == "Fat loss" else 0.25 if _goal == "Mild fat loss" else 0
+        _kg_to_target = max(round(_wt - _ideal_high, 1), 0) if _wt > _ideal_high else 0
+
+        if _adj < 0:
+            _goal_sentence = (
+                f"To reach their goal, {name} needs to eat roughly "
+                f"<b>{assessment['target_calories']} kcal/day</b> — that's "
+                f"{abs(_adj)} kcal below their daily burn. At this deficit, expect "
+                f"<b>~{_weekly_rate} kg/week</b> of loss."
+            )
+            if _kg_to_target > 0:
+                _weeks_est = round(_kg_to_target / _weekly_rate)
+                _goal_sentence += (
+                    f" To reach the healthy weight range of {_ideal_low}–{_ideal_high} kg "
+                    f"would take roughly <b>{_weeks_est} weeks</b>."
+                )
+        elif _adj > 0:
+            _goal_sentence = (
+                f"{name}'s target is <b>{assessment['target_calories']} kcal/day</b> — "
+                f"{_adj} kcal above their daily burn to support muscle gain."
+            )
+        else:
+            _goal_sentence = (
+                f"{name}'s target of <b>{assessment['target_calories']} kcal/day</b> "
+                f"matches their daily burn — designed to maintain current weight."
+            )
+
         st.markdown(
             "<div class='explain-box'>"
-            "<b>BMR</b> (Basal Metabolic Rate) — calories your body burns at complete rest, "
-            "just to keep organs functioning. Think of it as your engine idling. "
-            f"<br><b>TDEE</b> (Total Daily Energy Expenditure) — BMR multiplied by your activity level. "
-            f"This is your true daily calorie burn. "
-            f"Your goal adjustment brings the calorie target to <b>{assessment['target_calories']} kcal</b> "
-            f"({assessment['goal_adjustment']:+.0f} kcal from TDEE)."
+            f"{_goal_sentence}"
+            f"<br><br><span style='opacity:0.8'><b>BMR</b> (Basal Metabolic Rate) — "
+            f"{assessment['bmr']} kcal, the calories the body burns at complete rest. "
+            f"<b>TDEE</b> — {assessment['tdee']} kcal, BMR scaled by activity level.</span>"
             "</div>",
             unsafe_allow_html=True
         )
+
+        # ── Red flag / referral prompt ─────────────────────────────────────
+        _bmi       = assessment["bmi"]
+        _conditions = [c for c in client_data.get("medical_conditions", []) if c]
+        _bmi_flag  = _bmi >= 32.5
+        _multi_cond = len(_conditions) >= 2
+        if _bmi_flag or _multi_cond:
+            _flag_reasons = []
+            if _bmi >= 32.5:
+                _flag_reasons.append(f"BMI {_bmi} (Asian obese range)")
+            if _multi_cond:
+                _flag_reasons.append(f"{len(_conditions)} concurrent medical conditions")
+            st.warning(
+                "⚠️ **Clinical note:** " + " · ".join(_flag_reasons) + ". "
+                "Consider confirming GP clearance before starting a significant calorie "
+                "restriction. Nutritional intervention is appropriate alongside — not instead "
+                "of — medical management.",
+                icon=None,
+            )
+
+        # ── Kidney disease advisory ────────────────────────────────────────
+        if "Kidney disease" in _conditions:
+            st.error(
+                "🩺 **Kidney disease flagged:** Protein targets and potassium/phosphorus "
+                "intake require specialist dietitian review. Do not apply standard macro "
+                "splits — please refer to a renal dietitian or nephrologist."
+            )
+
+        # ── Cycle-aware note ───────────────────────────────────────────────
+        _cycle = client_data.get("cycle_status", "")
+        if _cycle in ("Irregular / unpredictable", "On oral contraceptives / hormonal therapy"):
+            st.info(
+                "🔵 **Cycle note:** Weight fluctuations of 1–3 kg are normal across the "
+                "menstrual cycle due to water retention, particularly in the luteal phase "
+                "(week before a period). Advise the client to weigh in at the same phase "
+                "each month for a fair comparison — day 1–3 of the cycle is usually the "
+                "most stable window."
+            )
+        elif _cycle == "Post-menopausal":
+            st.info(
+                "🔵 **Post-menopausal:** Fat redistribution to the abdomen is common after "
+                "menopause due to lower oestrogen. Waist circumference is a more meaningful "
+                "marker than BMI alone. Protein targets are especially important to preserve "
+                "muscle mass."
+            )
+        elif _cycle == "Currently pregnant / postpartum":
+            st.warning(
+                "⚠️ **Pregnant / postpartum:** Standard calorie restriction is not appropriate. "
+                "Please refer to current pregnancy nutrition guidelines or an obstetric dietitian."
+            )
 
         # Suggested Macros
         st.markdown("<br>", unsafe_allow_html=True)

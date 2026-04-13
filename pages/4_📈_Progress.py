@@ -66,6 +66,103 @@ m3.metric("Total Lost",      f"{abs(total_lost)} kg" if total_lost > 0 else "—
 m4.metric("Current BMI",     f"{current_bmi}", bmi_category(current_bmi))
 m5.metric("Check-ins",       len(sessions))
 
+# ── Plain-language trend interpretation ───────────────────────────────────────
+if len(sessions) >= 2:
+    from datetime import datetime as _dt, timedelta as _td, date as _date
+
+    # Overall trend
+    _goal        = client.get("goal", "")
+    _ideal_low   = assessment["ideal_weight_low"]
+    _ideal_high  = assessment["ideal_weight_high"]
+    _first_sess  = sessions[0]
+    _last_sess   = sessions[-1]
+
+    try:
+        _first_date = _dt.fromisoformat(_first_sess["session_date"]).date()
+        _last_date  = _dt.fromisoformat(_last_sess["session_date"]).date()
+    except Exception:
+        _first_date = _last_date = _date.today()
+
+    _weeks_elapsed = max((_last_date - _first_date).days / 7, 0.01)
+    _total_change  = round((_last_sess["weight_kg"] or 0) - (_first_sess["weight_kg"] or 0), 1)
+    _weekly_avg    = round(_total_change / _weeks_elapsed, 2)
+
+    # Compose interpretation
+    _interp_parts = []
+
+    if total_lost > 0:
+        _rate_ok = -0.6 <= _weekly_avg <= -0.1
+        _rate_fast = _weekly_avg < -0.6
+        if _rate_ok:
+            _interp_parts.append(
+                f"✅ **On track** — {client['name']} has lost **{total_lost} kg** "
+                f"over {_weeks_elapsed:.1f} weeks (~{abs(_weekly_avg)} kg/week), "
+                f"which is within the healthy rate of 0.25–0.5 kg/week."
+            )
+        elif _rate_fast:
+            _interp_parts.append(
+                f"⚡ **Fast loss** — {abs(_weekly_avg)} kg/week is above the recommended "
+                f"0.5 kg/week ceiling. Check for adequate protein intake and signs of "
+                f"muscle loss (fatigue, strength decline). Consider easing the deficit."
+            )
+        else:
+            _interp_parts.append(
+                f"📉 **Slow progress** — {abs(_weekly_avg)} kg/week over "
+                f"{_weeks_elapsed:.1f} weeks. This can reflect water fluctuation, "
+                f"adherence variation, or a need to reassess calorie targets."
+            )
+    elif total_lost < -0.5:
+        _interp_parts.append(
+            f"📈 **Weight gain of {abs(total_lost)} kg** since starting. "
+            f"If the goal is fat loss, review adherence and whether calorie targets "
+            f"are being followed. Small gains (<1 kg) can be normal water retention."
+        )
+    else:
+        _interp_parts.append(
+            f"⚖️ **Weight stable** — less than 0.5 kg change since starting. "
+            + ("This is the goal for a maintenance plan." if "Maintain" in _goal
+               else "If fat loss is the goal, check that the calorie target and meal plan are being followed.")
+        )
+
+    # Proximity to ideal range
+    if current_weight > _ideal_high + 1:
+        _kg_gap = round(current_weight - _ideal_high, 1)
+        if _weekly_avg and _weekly_avg < 0:
+            _wks_left = round(_kg_gap / abs(_weekly_avg))
+            _interp_parts.append(
+                f"🎯 **{_kg_gap} kg from the healthy range** ({_ideal_low}–{_ideal_high} kg). "
+                f"At the current rate, that's roughly **{_wks_left} more weeks**."
+            )
+        else:
+            _interp_parts.append(
+                f"🎯 **{_kg_gap} kg from the healthy range** ({_ideal_low}–{_ideal_high} kg)."
+            )
+    elif _ideal_low <= current_weight <= _ideal_high:
+        _interp_parts.append(
+            f"🌟 **{client['name']} is within the healthy weight range** "
+            f"({_ideal_low}–{_ideal_high} kg). Focus on maintenance and body composition."
+        )
+
+    # Recency flag
+    try:
+        _days_since = (_date.today() - _last_date).days
+        if _days_since > 28:
+            _interp_parts.append(
+                f"⏰ **Last check-in was {_days_since} days ago** — "
+                f"a monthly weigh-in keeps progress data meaningful."
+            )
+    except Exception:
+        pass
+
+    if _interp_parts:
+        for _part in _interp_parts:
+            st.markdown(
+                f"<div style='background:#F0F9FF;border-left:3px solid #38BDF8;"
+                f"border-radius:0 6px 6px 0;padding:8px 14px;margin-bottom:6px;"
+                f"font-size:0.88rem;color:#0C4A6E'>{_part}</div>",
+                unsafe_allow_html=True,
+            )
+
 st.markdown("---")
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────

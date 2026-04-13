@@ -36,11 +36,18 @@ if not clients:
         st.switch_page("pages/1_📋_Intake.py")
     st.stop()
 
-# ── Search + header actions ───────────────────────────────────────────────────
+# ── Search + sort + header actions ───────────────────────────────────────────
 
-col_search, col_add = st.columns([3, 1])
+col_search, col_sort, col_add = st.columns([2.5, 1.5, 1])
 with col_search:
     search_q = st.text_input("🔍 Search clients", placeholder="Name, goal, gender...")
+with col_sort:
+    sort_by = st.selectbox(
+        "Sort by",
+        ["Date added (newest)", "Date added (oldest)", "Name A–Z", "Name Z–A",
+         "Goal", "BMI (low→high)", "BMI (high→low)"],
+        label_visibility="collapsed",
+    )
 with col_add:
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("➕ New Client", width="stretch"):
@@ -54,7 +61,26 @@ if search_q:
                or q in (c.get("goal") or "").lower()
                or q in (c.get("gender") or "").lower()]
 
-st.markdown(f"**{len(clients)} client(s) found**")
+# ── Apply sort ────────────────────────────────────────────────────────────────
+from utils.calculations import calculate_bmi
+
+if sort_by == "Date added (oldest)":
+    clients = sorted(clients, key=lambda c: c.get("created_at", ""))
+elif sort_by == "Name A–Z":
+    clients = sorted(clients, key=lambda c: c["name"].lower())
+elif sort_by == "Name Z–A":
+    clients = sorted(clients, key=lambda c: c["name"].lower(), reverse=True)
+elif sort_by == "Goal":
+    clients = sorted(clients, key=lambda c: c.get("goal") or "")
+elif sort_by == "BMI (low→high)":
+    clients = sorted(clients, key=lambda c: calculate_bmi(
+        c.get("weight_kg") or 0, c.get("height_cm") or 1))
+elif sort_by == "BMI (high→low)":
+    clients = sorted(clients, key=lambda c: calculate_bmi(
+        c.get("weight_kg") or 0, c.get("height_cm") or 1), reverse=True)
+# "Date added (newest)" is already the default DB order — no change needed
+
+st.markdown(f"**{len(clients)} client(s)** &nbsp;·&nbsp; sorted by *{sort_by}*")
 st.markdown("---")
 
 # ── Confirm delete state ──────────────────────────────────────────────────────
@@ -180,12 +206,13 @@ for c in clients:
                     _wt   = _s.get("weight_kg")
                     _wt_str = f" · {_wt} kg" if _wt else ""
                     if _note or _wt:
+                        _note_body = _note if _note else "<i style='color:#9CA3AF'>No text note</i>"
                         st.markdown(
                             f"<div style='background:#F9F5EF;border:1px solid #E5D9CC;"
                             f"border-radius:8px;padding:8px 12px;margin-bottom:6px;"
                             f"font-size:0.85rem'>"
                             f"<b style='color:#40916C'>{_date}{_wt_str}</b><br>"
-                            f"{_note if _note else '<i style=\"color:#9CA3AF\">No text note</i>'}"
+                            f"{_note_body}"
                             f"</div>",
                             unsafe_allow_html=True,
                         )

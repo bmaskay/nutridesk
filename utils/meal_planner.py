@@ -419,6 +419,89 @@ def build_grocery_list(plan: dict) -> dict:
     return {k: sorted(v) for k, v in grouped.items() if v}
 
 
+def swap_single_recipe(
+    plan: dict,
+    day: str,
+    slot: str,
+    position: int,
+    client: dict,
+    assessment: dict,
+) -> dict:
+    """
+    Replace one recipe in the plan with a different valid alternative.
+
+    Args:
+        plan:       The full 7-day plan dict (will be mutated in place).
+        day:        e.g. "Monday"
+        slot:       "breakfast" | "lunch" | "dinner" | "snack"
+        position:   Index within the slot's recipe list (0 = option A, 1 = option B)
+        client:     Full client dict
+        assessment: Full assessment dict
+
+    Returns the modified plan.
+    """
+    from utils.calculations import MEAL_DISTRIBUTION
+
+    # Collect all recipe IDs already in the plan (to avoid repeats)
+    used_ids: set = set()
+    for _day, _dp in plan.items():
+        for _slot, _recipes in _dp.items():
+            for _r in _recipes:
+                if _r:
+                    used_ids.add(_r.get("id"))
+
+    # Target kcal for the slot
+    target_kcal = assessment.get("target_calories", 1800)
+    _dist = MEAL_DISTRIBUTION
+    slot_targets = {
+        "breakfast": target_kcal * _dist["Breakfast"],
+        "lunch":     target_kcal * _dist["Lunch"],
+        "dinner":    target_kcal * _dist["Dinner"],
+        "snack":     target_kcal * _dist["Snack"],
+    }
+    slot_target = slot_targets.get(slot, target_kcal * 0.3)
+
+    # Category mapping
+    cat_map = {"breakfast": "breakfast", "lunch": "lunch",
+               "dinner": "dinner", "snack": "snack"}
+    category = cat_map.get(slot, slot)
+
+    # Current recipe id to exclude
+    current_slot = plan[day].get(slot, [])
+    current_id = current_slot[position].get("id") if position < len(current_slot) else None
+    if current_id:
+        used_ids.discard(current_id)  # allow swapping back in edge cases
+
+    all_recipes = load_recipes()
+    filtered = filter_recipes(
+        all_recipes,
+        diet_type=client.get("diet_type", "Non-vegetarian"),
+        allergies=client.get("allergies", []),
+        dislikes=client.get("dislikes", []),
+        preferred_cuisines=client.get("cuisine_pref", []),
+        medical_conditions=client.get("medical_conditions", []),
+        preferred_meats=client.get("meat_choices", []),
+        preferred_vegs=client.get("veg_choices", []),
+    )
+
+    alternatives = pick_recipes(
+        filtered, category, slot_target, n=1,
+        exclude_ids=used_ids | ({current_id} if current_id else set()),
+    )
+
+    # Fall back without the used-IDs constraint if nothing found
+    if not alternatives:
+        alternatives = pick_recipes(
+            filtered, category, slot_target, n=1,
+            exclude_ids={current_id} if current_id else set(),
+        )
+
+    if alternatives:
+        plan[day][slot][position] = alternatives[0]
+
+    return plan
+
+
 def snack_swap_suggestions(client: dict) -> list[dict]:
     """Return 5 healthy snack alternatives from the recipe library."""
     all_recipes = load_recipes()
