@@ -74,14 +74,19 @@ except Exception:
     BODY_FONT_ITALIC = "Helvetica-Oblique"
 
 # ── Brand colours ──────────────────────────────────────────────────────────
+GREEN_DARKEST = HexColor("#1E5C40")
 GREEN_DARK  = HexColor("#2D6A4F")
 GREEN_MID   = HexColor("#40916C")
+GREEN_LIGHT = HexColor("#52B788")
 GREEN_PALE  = HexColor("#D8F3DC")
 CREAM       = HexColor("#FBF7F2")
 CREAM_DARK  = HexColor("#F0E8DC")
+CREAM_MID   = HexColor("#EDE0D0")
+TEXT_DARK   = HexColor("#111827")
 TEXT_MID    = HexColor("#4B5563")
 TEXT_LIGHT  = HexColor("#9CA3AF")
 ORANGE      = HexColor("#D97706")
+AMBER_PALE  = HexColor("#FFF7ED")
 WHITE       = colors.white
 BLACK       = colors.black
 
@@ -93,7 +98,8 @@ def _styles():
     s = {}
     s["cover_title"] = ParagraphStyle(
         "cover_title", fontName=BODY_FONT_BOLD,
-        fontSize=32, textColor=WHITE, alignment=TA_CENTER, spaceAfter=6,
+        fontSize=30, textColor=WHITE, alignment=TA_CENTER, spaceAfter=4,
+        leading=36,
     )
     s["cover_sub"] = ParagraphStyle(
         "cover_sub", fontName=BODY_FONT,
@@ -174,6 +180,26 @@ def _hr():
     return HRFlowable(width="100%", thickness=0.5, color=GREEN_PALE, spaceAfter=6)
 
 
+def _section_heading(text: str, s: dict):
+    """Section heading with a left green accent bar."""
+    inner = Table(
+        [[Paragraph("", ParagraphStyle("_sa")),
+          Paragraph(text, s["section"])]],
+        colWidths=[0.28 * cm, W - 2 * MARGIN - 0.28 * cm],
+    )
+    inner.setStyle(TableStyle([
+        ("BACKGROUND",    (0, 0), (0, -1), GREEN_MID),
+        ("BACKGROUND",    (1, 0), (1, -1), WHITE),
+        ("LEFTPADDING",   (0, 0), (-1, -1), 0),
+        ("RIGHTPADDING",  (0, 0), (-1, -1), 0),
+        ("TOPPADDING",    (0, 0), (-1, -1), 0),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+        ("LEFTPADDING",   (1, 0), (1, -1), 8),
+        ("VALIGN",        (0, 0), (-1, -1), "MIDDLE"),
+    ]))
+    return inner
+
+
 def _stat_table(data: list[tuple], col_widths=None):
     """Two-column label/value table for stats."""
     col_widths = col_widths or [7 * cm, 8 * cm]
@@ -239,73 +265,143 @@ def generate_pdf(
 
     # ── Cover page ───────────────────────────────────────────────────────────
 
-    story.append(Spacer(1, 3.5 * cm))
+    story.append(Spacer(1, 2.5 * cm))
 
-    # Brand block
-    cover_brand = Table(
-        [[Paragraph("NutriDesk", s["cover_title"])],
-         [Paragraph("Āhāra by Asha", ParagraphStyle(
-             "ca", fontName=BODY_FONT, fontSize=14, textColor=GREEN_PALE,
-             alignment=TA_CENTER, spaceAfter=2))],
-         [Paragraph("@Asha.Nutrition", ParagraphStyle(
-             "ch", fontName=BODY_FONT, fontSize=9, textColor=GREEN_PALE,
-             alignment=TA_CENTER))],
-        ],
-        colWidths=[W - 2 * MARGIN]
-    )
-    cover_brand.setStyle(TableStyle([
-        ("BACKGROUND",    (0, 0), (-1, -1), GREEN_DARK),
-        ("TOPPADDING",    (0, 0), (-1, -1), 22),
-        ("BOTTOMPADDING", (0, -1), (-1, -1), 20),
-        ("BOTTOMPADDING", (0, 0), (-1, -2), 2),
-        ("LEFTPADDING",   (0, 0), (-1, -1), 20),
-        ("RIGHTPADDING",  (0, 0), (-1, -1), 20),
-        ("LINEBELOW",     (0, -1), (-1, -1), 4, GREEN_MID),
+    # ── Hero brand block (dark gradient header bar) ────────────────────────
+    _CW = W - 2 * MARGIN
+    hero_data = [
+        [Paragraph("🌿  NutriDesk", ParagraphStyle(
+            "cv_t", fontName=BODY_FONT_BOLD, fontSize=30,
+            textColor=WHITE, alignment=TA_CENTER, spaceAfter=4,
+        ))],
+        [Paragraph("Āhāra by Asha", ParagraphStyle(
+            "cv_s", fontName=BODY_FONT, fontSize=13,
+            textColor=GREEN_PALE, alignment=TA_CENTER, spaceAfter=0,
+        ))],
+        [Paragraph("@Asha.Nutrition", ParagraphStyle(
+            "cv_h", fontName=BODY_FONT, fontSize=8.5,
+            textColor=HexColor("#B7DFC7"), alignment=TA_CENTER,
+        ))],
+    ]
+    hero = Table(hero_data, colWidths=[_CW])
+    hero.setStyle(TableStyle([
+        ("BACKGROUND",    (0, 0), (-1, -1), GREEN_DARKEST),
+        ("TOPPADDING",    (0, 0), (-1, 0),  24),
+        ("TOPPADDING",    (0, 1), (-1, 1),  2),
+        ("TOPPADDING",    (0, 2), (-1, 2),  3),
+        ("BOTTOMPADDING", (0, 0), (-1, 1),  2),
+        ("BOTTOMPADDING", (0, 2), (-1, 2),  22),
+        ("LEFTPADDING",   (0, 0), (-1, -1), 24),
+        ("RIGHTPADDING",  (0, 0), (-1, -1), 24),
+        ("LINEBELOW",     (0, -1), (-1, -1), 5, GREEN_LIGHT),
     ]))
-    story.append(cover_brand)
+    story.append(hero)
 
-    story.append(Spacer(1, 2 * cm))
+    story.append(Spacer(1, 1.8 * cm))
 
+    # ── Client name section ───────────────────────────────────────────────
     story.append(Paragraph(
         "PERSONALISED NUTRITION REPORT",
-        ParagraphStyle("ct2", fontName=BODY_FONT_BOLD, fontSize=9,
-                       textColor=TEXT_LIGHT, alignment=TA_CENTER, spaceAfter=6)
+        ParagraphStyle("ct2", fontName=BODY_FONT_BOLD, fontSize=8,
+                       textColor=TEXT_LIGHT, alignment=TA_CENTER,
+                       spaceAfter=6, letterSpacing=2),
     ))
     story.append(Paragraph(
         client.get("name", "Client"),
-        ParagraphStyle("cn", fontName=BODY_FONT_BOLD, fontSize=26,
-                       textColor=GREEN_DARK, alignment=TA_CENTER, spaceAfter=6)
+        ParagraphStyle("cn", fontName=BODY_FONT_BOLD, fontSize=28,
+                       textColor=GREEN_DARK, alignment=TA_CENTER,
+                       spaceAfter=4, leading=34),
+    ))
+    story.append(Paragraph(
+        client.get("goal", ""),
+        ParagraphStyle("cgoal", fontName=BODY_FONT, fontSize=11,
+                       textColor=GREEN_MID, alignment=TA_CENTER,
+                       spaceAfter=0),
     ))
 
-    story.append(Spacer(1, 1.2 * cm))
+    story.append(Spacer(1, 1.4 * cm))
 
-    # Cover summary strip — goal, calorie target, date
+    # ── Three-column summary strip ─────────────────────────────────────────
     _goal_str = client.get("goal", "")
     _kcal_str = f"{assessment.get('target_calories', 0):.0f} kcal/day"
     _date_str = date.today().strftime("%d %B %Y")
-    cover_strip = Table(
-        [[Paragraph(_goal_str, ParagraphStyle("cs1", fontName=BODY_FONT_BOLD,
-                    fontSize=9, textColor=GREEN_DARK, alignment=TA_CENTER)),
-          Paragraph(_kcal_str, ParagraphStyle("cs2", fontName=BODY_FONT_BOLD,
-                    fontSize=9, textColor=GREEN_DARK, alignment=TA_CENTER)),
-          Paragraph(_date_str, ParagraphStyle("cs3", fontName=BODY_FONT,
-                    fontSize=9, textColor=TEXT_MID, alignment=TA_CENTER))]],
-        colWidths=[(W - 2 * MARGIN) / 3] * 3
-    )
+
+    def _cover_col(top_label, value, sub=""):
+        return [
+            Paragraph(top_label, ParagraphStyle(
+                "csl", fontName=BODY_FONT_BOLD, fontSize=7,
+                textColor=TEXT_LIGHT, alignment=TA_CENTER,
+                spaceAfter=3, letterSpacing=1,
+            )),
+            Paragraph(value, ParagraphStyle(
+                "csv", fontName=BODY_FONT_BOLD, fontSize=13,
+                textColor=GREEN_DARK, alignment=TA_CENTER,
+                spaceAfter=1,
+            )),
+            Paragraph(sub, ParagraphStyle(
+                "css", fontName=BODY_FONT, fontSize=8,
+                textColor=TEXT_LIGHT, alignment=TA_CENTER,
+            )),
+        ]
+
+    strip_data = [[
+        _cover_col("GOAL", _goal_str),
+        _cover_col("CALORIE TARGET", _kcal_str),
+        _cover_col("REPORT DATE", _date_str),
+    ]]
+    cover_strip = Table(strip_data, colWidths=[_CW / 3] * 3)
     cover_strip.setStyle(TableStyle([
-        ("BACKGROUND",    (0, 0), (-1, -1), GREEN_PALE),
-        ("TOPPADDING",    (0, 0), (-1, -1), 8),
-        ("BOTTOMPADDING", (0, 0), (-1, -1), 8),
-        ("LEFTPADDING",   (0, 0), (-1, -1), 8),
-        ("GRID",          (0, 0), (-1, -1), 0.3, CREAM_DARK),
+        ("BACKGROUND",    (0, 0), (-1, -1), CREAM),
+        ("TOPPADDING",    (0, 0), (-1, -1), 14),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 14),
+        ("LEFTPADDING",   (0, 0), (-1, -1), 10),
+        ("RIGHTPADDING",  (0, 0), (-1, -1), 10),
+        ("BOX",           (0, 0), (-1, -1), 1, CREAM_DARK),
+        ("INNERGRID",     (0, 0), (-1, -1), 0.5, CREAM_DARK),
+        ("VALIGN",        (0, 0), (-1, -1), "TOP"),
+        ("LINEABOVE",     (0, 0), (-1, 0),  2, GREEN_MID),
     ]))
     story.append(cover_strip)
+
+    story.append(Spacer(1, 0.8 * cm))
+
+    # ── Quick stats row (BMI, protein, water) ─────────────────────────────
+    _bmi    = assessment.get("bmi", "—")
+    _prot   = assessment.get("protein_g", "—")
+    _water  = assessment.get("hydration_L", "—")
+    _tdee   = assessment.get("tdee", "—")
+
+    qs_data = [[
+        _cover_col("BMI", str(_bmi), assessment.get("bmi_category", "")),
+        _cover_col("PROTEIN", f"{_prot}g/day", "Daily target"),
+        _cover_col("WATER", f"{_water}L/day", "Daily target"),
+        _cover_col("TDEE", f"{_tdee} kcal", "Maintenance"),
+    ]]
+    qs = Table(qs_data, colWidths=[_CW / 4] * 4)
+    qs.setStyle(TableStyle([
+        ("BACKGROUND",    (0, 0), (-1, -1), WHITE),
+        ("TOPPADDING",    (0, 0), (-1, -1), 12),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 12),
+        ("LEFTPADDING",   (0, 0), (-1, -1), 8),
+        ("RIGHTPADDING",  (0, 0), (-1, -1), 8),
+        ("BOX",           (0, 0), (-1, -1), 1, CREAM_DARK),
+        ("INNERGRID",     (0, 0), (-1, -1), 0.5, CREAM_DARK),
+        ("VALIGN",        (0, 0), (-1, -1), "TOP"),
+    ]))
+    story.append(qs)
+
+    story.append(Spacer(1, 0.6 * cm))
+    story.append(Paragraph(
+        "Prepared by Āhāra by Asha  ·  This report is for personal use only  ·  Not a substitute for medical advice",
+        ParagraphStyle("cv_disc", fontName=BODY_FONT_ITALIC, fontSize=7.5,
+                       textColor=TEXT_LIGHT, alignment=TA_CENTER),
+    ))
 
     story.append(PageBreak())
 
     # ── Page 2: Client Profile & Nutrition Targets ───────────────────────────
 
-    story.append(Paragraph("Client Profile", s["section"]))
+    story.append(_section_heading("Client Profile", s))
     story.append(_hr())
 
     bmi_cat = assessment.get("bmi_category", "")
@@ -355,7 +451,7 @@ def generate_pdf(
 
     # ── Macros Breakdown ──────────────────────────────────────────────────
     story.append(Spacer(1, 0.4 * cm))
-    story.append(Paragraph("Macro Breakdown", s["section"]))
+    story.append(_section_heading("Macro Breakdown", s))
     story.append(_hr())
 
     _p_g   = assessment.get("protein_g", 0) or 0
@@ -395,17 +491,19 @@ def generate_pdf(
     _BAR_WIDTHS = [4.5 * cm, 3.5 * cm, 3.5 * cm, 3.5 * cm]
     _macro_table = Table(_macro_data, colWidths=_BAR_WIDTHS)
     _macro_table.setStyle(TableStyle([
-        ("BACKGROUND",    (0, 0), (-1, 0),  GREEN_DARK),
-        ("BACKGROUND",    (0, 1), (-1, 1),  HexColor("#E9F5EC")),
-        ("BACKGROUND",    (0, 2), (-1, 2),  HexColor("#FFF8EC")),
-        ("BACKGROUND",    (0, 3), (-1, 3),  HexColor("#FEF3C7")),
+        ("BACKGROUND",    (0, 0), (-1, 0),  GREEN_DARKEST),
+        ("BACKGROUND",    (0, 1), (-1, 1),  HexColor("#F0FDF4")),
+        ("BACKGROUND",    (0, 2), (-1, 2),  HexColor("#FFFDF0")),
+        ("BACKGROUND",    (0, 3), (-1, 3),  HexColor("#FEF9EC")),
         ("FONTNAME",      (0, 0), (-1, -1), BODY_FONT),
         ("FONTSIZE",      (0, 0), (-1, -1), 8.5),
         ("GRID",          (0, 0), (-1, -1), 0.4, HexColor("#E5D9CC")),
+        ("LINEBELOW",     (0, 0), (-1, 0),  1, GREEN_LIGHT),
         ("VALIGN",        (0, 0), (-1, -1), "MIDDLE"),
-        ("TOPPADDING",    (0, 0), (-1, -1), 6),
-        ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
-        ("LEFTPADDING",   (0, 0), (-1, -1), 8),
+        ("TOPPADDING",    (0, 0), (-1, -1), 7),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 7),
+        ("LEFTPADDING",   (0, 0), (-1, -1), 10),
+        ("FONTNAME",      (1, 1), (1, -1),  BODY_FONT_BOLD),
     ]))
     story.append(_macro_table)
     story.append(Paragraph(
@@ -417,7 +515,7 @@ def generate_pdf(
     # ── 7-Day Meal Plan — own page ────────────────────────────────────────
 
     story.append(PageBreak())
-    story.append(Paragraph("7-Day Meal Plan", s["section"]))
+    story.append(_section_heading("7-Day Meal Plan", s))
     story.append(_hr())
     story.append(Paragraph(
         "Lunch and dinner each show two options — choose either on the day. "
@@ -488,15 +586,16 @@ def generate_pdf(
             repeatRows=0,
         )
         day_table.setStyle(TableStyle([
-            ("BACKGROUND",   (0, 0), (0, 0), GREEN_MID),
-            ("BACKGROUND",   (1, 0), (-1, 0), CREAM),
-            *treat_styles,                          # treat meal cells: amber tint
-            ("VALIGN",       (0, 0), (-1, -1), "TOP"),
-            ("TOPPADDING",   (0, 0), (-1, -1), 7),
-            ("BOTTOMPADDING",(0, 0), (-1, -1), 7),
-            ("LEFTPADDING",  (0, 0), (-1, -1), 6),
-            ("RIGHTPADDING", (0, 0), (-1, -1), 6),
-            ("GRID",         (0, 0), (-1, -1), 0.4, CREAM_DARK),
+            ("BACKGROUND",    (0, 0), (0, 0), GREEN_DARK),
+            ("BACKGROUND",    (1, 0), (-1, 0), WHITE),
+            *treat_styles,
+            ("VALIGN",        (0, 0), (-1, -1), "TOP"),
+            ("TOPPADDING",    (0, 0), (-1, -1), 8),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 8),
+            ("LEFTPADDING",   (0, 0), (-1, -1), 7),
+            ("RIGHTPADDING",  (0, 0), (-1, -1), 7),
+            ("GRID",          (0, 0), (-1, -1), 0.4, CREAM_DARK),
+            ("LINEBELOW",     (0, 0), (-1, 0),  0.8, CREAM_MID),
         ]))
 
         # Column headers row (only for first day)
@@ -527,7 +626,7 @@ def generate_pdf(
     # ── Page: Guidance (Snack Swaps + Supplements + Rules) ────────────────
 
     story.append(PageBreak())
-    story.append(Paragraph("Snack Swaps", s["section"]))
+    story.append(_section_heading("Snack Swaps", s))
     story.append(_hr())
 
     for snack in snack_swaps[:5]:
@@ -542,7 +641,7 @@ def generate_pdf(
     # ── Supplements ────────────────────────────────────────────────────────
 
     story.append(Spacer(1, 0.3 * cm))
-    story.append(Paragraph("Supplement Recommendations", s["section"]))
+    story.append(_section_heading("Supplement Recommendations", s))
     story.append(_hr())
 
     conditions = _decode_list(client.get("medical_conditions", [])).split(", ") if client.get("medical_conditions") else []
@@ -569,7 +668,7 @@ def generate_pdf(
     # ── Fat Loss Rules ─────────────────────────────────────────────────────
 
     story.append(Spacer(1, 0.3 * cm))
-    story.append(Paragraph("Your Fat Loss Rules", s["section"]))
+    story.append(_section_heading("Your Fat Loss Rules", s))
     story.append(_hr())
 
     rules = [
@@ -592,7 +691,7 @@ def generate_pdf(
 
     if goal in ("Fat loss", "Mild fat loss") and weight:
         story.append(Spacer(1, 0.3 * cm))
-        story.append(Paragraph("Realistic Timeline", s["section"]))
+        story.append(_section_heading("Realistic Timeline", s))
         story.append(_hr())
 
         ideal_low  = assessment.get("ideal_weight_low", 0)
@@ -619,7 +718,7 @@ def generate_pdf(
     # ── Section 8: Exercise Plan ───────────────────────────────────────────
 
     story.append(PageBreak())
-    story.append(Paragraph("Exercise Plan", s["section"]))
+    story.append(_section_heading("Exercise Plan", s))
     story.append(_hr())
 
     fitness_level  = client.get("fitness_level") or "Moderate"
@@ -742,7 +841,7 @@ def generate_pdf(
     # ── Section 9: Lifestyle Guidelines ───────────────────────────────────
 
     story.append(Spacer(1, 0.6 * cm))
-    story.append(Paragraph("Lifestyle Guidelines", s["section"]))
+    story.append(_section_heading("Lifestyle Guidelines", s))
     story.append(_hr())
 
     _lifestyle = [
@@ -855,7 +954,7 @@ def generate_pdf(
 
     story.append(Spacer(1, 0.5 * cm))
     story.append(_hr())
-    story.append(Paragraph("Disclaimer", s["section"]))
+    story.append(_section_heading("Disclaimer", s))
     story.append(Paragraph(
         f"This report was prepared by Āhāra by Asha on {date.today().strftime('%d %B %Y')}. "
         "It is intended as personalised dietary and lifestyle guidance based on the information "
