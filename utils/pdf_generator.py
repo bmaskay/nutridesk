@@ -267,33 +267,33 @@ def generate_pdf(
 
     story.append(Spacer(1, 2.5 * cm))
 
-    # ── Hero brand block (dark gradient header bar) ────────────────────────
+    # ── Hero brand block ──────────────────────────────────────────────────
     _CW = W - 2 * MARGIN
     hero_data = [
-        [Paragraph("🌿  NutriDesk", ParagraphStyle(
+        [Paragraph("NutriDesk", ParagraphStyle(
             "cv_t", fontName=BODY_FONT_BOLD, fontSize=30,
-            textColor=WHITE, alignment=TA_CENTER, spaceAfter=4,
+            textColor=WHITE, alignment=TA_CENTER, leading=36, spaceAfter=0,
         ))],
-        [Paragraph("Āhāra by Asha", ParagraphStyle(
+        [Paragraph("Ahara by Asha", ParagraphStyle(
             "cv_s", fontName=BODY_FONT, fontSize=13,
-            textColor=GREEN_PALE, alignment=TA_CENTER, spaceAfter=0,
+            textColor=GREEN_PALE, alignment=TA_CENTER, leading=18, spaceAfter=0,
         ))],
         [Paragraph("@Asha.Nutrition", ParagraphStyle(
-            "cv_h", fontName=BODY_FONT, fontSize=8.5,
-            textColor=HexColor("#B7DFC7"), alignment=TA_CENTER,
+            "cv_h", fontName=BODY_FONT, fontSize=9,
+            textColor=HexColor("#B7DFC7"), alignment=TA_CENTER, leading=14, spaceAfter=0,
         ))],
     ]
     hero = Table(hero_data, colWidths=[_CW])
     hero.setStyle(TableStyle([
         ("BACKGROUND",    (0, 0), (-1, -1), GREEN_DARKEST),
-        ("TOPPADDING",    (0, 0), (-1, 0),  24),
-        ("TOPPADDING",    (0, 1), (-1, 1),  2),
-        ("TOPPADDING",    (0, 2), (-1, 2),  3),
-        ("BOTTOMPADDING", (0, 0), (-1, 1),  2),
+        ("TOPPADDING",    (0, 0), (-1, 0),  22),
+        ("TOPPADDING",    (0, 1), (-1, 1),   6),
+        ("TOPPADDING",    (0, 2), (-1, 2),   4),
+        ("BOTTOMPADDING", (0, 0), (-1, 0),   0),
+        ("BOTTOMPADDING", (0, 1), (-1, 1),   0),
         ("BOTTOMPADDING", (0, 2), (-1, 2),  22),
         ("LEFTPADDING",   (0, 0), (-1, -1), 24),
         ("RIGHTPADDING",  (0, 0), (-1, -1), 24),
-        ("LINEBELOW",     (0, -1), (-1, -1), 5, GREEN_LIGHT),
     ]))
     story.append(hero)
 
@@ -312,13 +312,6 @@ def generate_pdf(
                        textColor=GREEN_DARK, alignment=TA_CENTER,
                        spaceAfter=4, leading=34),
     ))
-    story.append(Paragraph(
-        client.get("goal", ""),
-        ParagraphStyle("cgoal", fontName=BODY_FONT, fontSize=11,
-                       textColor=GREEN_MID, alignment=TA_CENTER,
-                       spaceAfter=0),
-    ))
-
     story.append(Spacer(1, 1.4 * cm))
 
     # ── Three-column summary strip ─────────────────────────────────────────
@@ -331,16 +324,17 @@ def generate_pdf(
             Paragraph(top_label, ParagraphStyle(
                 "csl", fontName=BODY_FONT_BOLD, fontSize=7,
                 textColor=TEXT_LIGHT, alignment=TA_CENTER,
-                spaceAfter=3, letterSpacing=1,
+                leading=10, spaceAfter=4,
             )),
             Paragraph(value, ParagraphStyle(
                 "csv", fontName=BODY_FONT_BOLD, fontSize=13,
                 textColor=GREEN_DARK, alignment=TA_CENTER,
-                spaceAfter=1,
+                leading=16, spaceAfter=5,
             )),
             Paragraph(sub, ParagraphStyle(
                 "css", fontName=BODY_FONT, fontSize=8,
                 textColor=TEXT_LIGHT, alignment=TA_CENTER,
+                leading=11,
             )),
         ]
 
@@ -527,8 +521,8 @@ def generate_pdf(
     DAYS_ORDER = ["Monday", "Tuesday", "Wednesday", "Thursday",
                   "Friday", "Saturday", "Sunday"]
 
-    col_w = [(W - 2 * MARGIN - 2.5 * cm) / 3]
-    col_widths = [2.5 * cm] + col_w * 3
+    col_w = [(W - 2 * MARGIN - 3.1 * cm) / 3]
+    col_widths = [3.1 * cm] + col_w * 3
 
     for day in DAYS_ORDER:
         if day not in plan:
@@ -829,7 +823,7 @@ def generate_pdf(
             ("TOPPADDING",  (0, 0), (-1, -1), 5),
             ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
         ]))
-        story.append(_circ_table)
+        story.append(KeepTogether([_circ_table]))
 
     story.append(Spacer(1, 0.3 * cm))
     story.append(Paragraph(
