@@ -157,6 +157,21 @@ def _styles():
         "timeline_box", fontName=BODY_FONT_BOLD,
         fontSize=10, textColor=GREEN_DARK, alignment=TA_CENTER,
     )
+    # Bullet with hanging indent — second line aligns with text, not bullet
+    s["bullet"] = ParagraphStyle(
+        "bullet", fontName=BODY_FONT,
+        fontSize=9.5, textColor=TEXT_MID, leading=14, spaceAfter=5,
+        leftIndent=14, firstLineIndent=-14,
+    )
+    s["bullet_bold"] = ParagraphStyle(
+        "bullet_bold", fontName=BODY_FONT_BOLD,
+        fontSize=9.5, textColor=TEXT_MID, leading=14, spaceAfter=5,
+        leftIndent=14, firstLineIndent=-14,
+    )
+    s["subheading"] = ParagraphStyle(
+        "subheading", fontName=BODY_FONT_BOLD,
+        fontSize=10, textColor=GREEN_DARK, spaceAfter=3, spaceBefore=8,
+    )
     return s
 
 
@@ -617,31 +632,63 @@ def generate_pdf(
 
         story.append(Spacer(1, 0.15 * cm))
 
-    # ── Page: Guidance (Snack Swaps + Supplements + Rules) ────────────────
+    # ── Page: Guidance (Snack Swaps + Supplements + Fat Loss Rules + Lifestyle) ──
 
     story.append(PageBreak())
+
+    # ── Snack Swaps ────────────────────────────────────────────────────────
     story.append(_section_heading("Snack Swaps", s))
     story.append(_hr())
+    story.append(Paragraph(
+        "Replace your usual snacks with these better options. Each fits your calorie "
+        "target while keeping protein high.",
+        s["small"]
+    ))
+    story.append(Spacer(1, 0.15 * cm))
 
-    for snack in snack_swaps[:5]:
-        kcal = snack.get("calories", 0)
-        prot = snack.get("protein_g", 0)
-        serv = snack.get("serving_description", "")
-        story.append(Paragraph(
-            f"• <b>{snack['name_en']}</b> — {kcal} kcal · {prot}g protein · {serv}",
-            s["body"]
-        ))
+    if snack_swaps:
+        _sw_hdr_style = ParagraphStyle("swh", fontName=BODY_FONT_BOLD, fontSize=8.5,
+                                       textColor=HexColor("#F0FDF4"))
+        _sw_body_style = ParagraphStyle("swb", fontName=BODY_FONT, fontSize=8.5,
+                                        textColor=TEXT_MID)
+        _sw_data = [[
+            Paragraph("Snack Option", _sw_hdr_style),
+            Paragraph("Calories", _sw_hdr_style),
+            Paragraph("Protein", _sw_hdr_style),
+            Paragraph("Serving", _sw_hdr_style),
+        ]]
+        for snack in snack_swaps[:5]:
+            _sw_data.append([
+                Paragraph(snack["name_en"], _sw_body_style),
+                Paragraph(f"{snack.get('calories', 0)} kcal", _sw_body_style),
+                Paragraph(f"{snack.get('protein_g', 0)}g", _sw_body_style),
+                Paragraph(snack.get("serving_description", "—"), _sw_body_style),
+            ])
+        _CW_local = W - 2 * MARGIN
+        _sw_table = Table(_sw_data, colWidths=[_CW_local*0.40, _CW_local*0.18,
+                                               _CW_local*0.14, _CW_local*0.28])
+        _sw_table.setStyle(TableStyle([
+            ("BACKGROUND",    (0, 0), (-1, 0),  GREEN_DARK),
+            ("ROWBACKGROUNDS",(0, 1), (-1, -1), [WHITE, CREAM]),
+            ("FONTNAME",      (0, 0), (-1, -1), BODY_FONT),
+            ("FONTSIZE",      (0, 0), (-1, -1), 8.5),
+            ("GRID",          (0, 0), (-1, -1), 0.4, CREAM_DARK),
+            ("TOPPADDING",    (0, 0), (-1, -1), 6),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+            ("LEFTPADDING",   (0, 0), (-1, -1), 8),
+            ("VALIGN",        (0, 0), (-1, -1), "MIDDLE"),
+        ]))
+        story.append(_sw_table)
 
-    # ── Supplements ────────────────────────────────────────────────────────
-
-    story.append(Spacer(1, 0.3 * cm))
+    # ── Supplement Recommendations ─────────────────────────────────────────
+    story.append(Spacer(1, 0.35 * cm))
     story.append(_section_heading("Supplement Recommendations", s))
     story.append(_hr())
 
     conditions = _decode_list(client.get("medical_conditions", [])).split(", ") if client.get("medical_conditions") else []
     supplements = [
         ("Vitamin D3 + K2", "Essential for South Asians. 1000–2000 IU D3 daily with a fatty meal."),
-        ("Vitamin B12", "Critical if vegetarian/vegan. 500 mcg daily or as advised."),
+        ("Vitamin B12",      "Critical if vegetarian/vegan. 500 mcg daily or as advised."),
         ("Omega-3 (Fish Oil)", "2–3 g EPA+DHA daily. Anti-inflammatory, supports fat loss and heart health."),
         ("Magnesium Glycinate", "200–400 mg before bed. Supports sleep, stress, and blood sugar."),
     ]
@@ -652,16 +699,43 @@ def generate_pdf(
     if "Hypothyroidism / thyroid" in conditions:
         supplements.append(("Selenium", "200 mcg daily. Supports thyroid hormone conversion."))
 
+    _sup_hdr = ParagraphStyle("suph", fontName=BODY_FONT_BOLD, fontSize=8.5,
+                               textColor=HexColor("#F0FDF4"))
+    _sup_name = ParagraphStyle("supn", fontName=BODY_FONT_BOLD, fontSize=8.5,
+                                textColor=GREEN_DARK)
+    _sup_detail = ParagraphStyle("supd", fontName=BODY_FONT, fontSize=8.5,
+                                  textColor=TEXT_MID, leading=12)
+    _sup_data = [[
+        Paragraph("Supplement", _sup_hdr),
+        Paragraph("Recommendation", _sup_hdr),
+    ]]
     for name, detail in supplements:
-        story.append(Paragraph(f"• <b>{name}</b> — {detail}", s["body"]))
+        _sup_data.append([
+            Paragraph(name, _sup_name),
+            Paragraph(detail, _sup_detail),
+        ])
+    _CW_local = W - 2 * MARGIN
+    _sup_table = Table(_sup_data, colWidths=[_CW_local * 0.35, _CW_local * 0.65])
+    _sup_table.setStyle(TableStyle([
+        ("BACKGROUND",    (0, 0), (-1, 0),  GREEN_DARK),
+        ("ROWBACKGROUNDS",(0, 1), (-1, -1), [WHITE, CREAM]),
+        ("FONTNAME",      (0, 0), (-1, -1), BODY_FONT),
+        ("FONTSIZE",      (0, 0), (-1, -1), 8.5),
+        ("GRID",          (0, 0), (-1, -1), 0.4, CREAM_DARK),
+        ("TOPPADDING",    (0, 0), (-1, -1), 6),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+        ("LEFTPADDING",   (0, 0), (-1, -1), 8),
+        ("VALIGN",        (0, 0), (-1, -1), "TOP"),
+    ]))
+    story.append(_sup_table)
+    story.append(Spacer(1, 0.12 * cm))
     story.append(Paragraph(
         "Always consult a physician before starting supplements, especially if on medication.",
         s["small"]
     ))
 
     # ── Fat Loss Rules ─────────────────────────────────────────────────────
-
-    story.append(Spacer(1, 0.3 * cm))
+    story.append(Spacer(1, 0.35 * cm))
     story.append(_section_heading("Your Fat Loss Rules", s))
     story.append(_hr())
 
@@ -676,15 +750,88 @@ def generate_pdf(
         "Progress photos every 4 weeks tell more than the scale — muscle gain can mask fat loss on the scale.",
     ]
     for r in rules:
-        story.append(Paragraph(f"• {r}", s["body"]))
+        story.append(Paragraph(f"• {r}", s["bullet"]))
 
-    # ── Realistic Timeline (inline, no extra page) ────────────────────────
+    # ── Lifestyle Guidelines ───────────────────────────────────────────────
+    story.append(Spacer(1, 0.35 * cm))
+    story.append(_section_heading("Lifestyle Guidelines", s))
+    story.append(_hr())
 
+    _lifestyle = [
+        "Drink at least 2–3 litres of water a day",
+        "Eat slowly and chew your food very well (at least 20–30 times per bite)",
+        "Stick to your meal timings — consistent eating windows support metabolism",
+        "Expose yourself to sunlight at sunrise and sunset",
+        "At least 6–8 hours of sleep is mandatory",
+        "No gadgets 30 minutes before going to sleep",
+        "Finish dinner 2–3 hours before bedtime",
+        "Fixed sleeping and waking time every day — even on weekends",
+        "For every 1 hour of sitting, move around for at least 1–2 minutes",
+        "Use only 3–4 tsp of cold-pressed oil per day (mustard / olive / ghee)",
+    ]
+    for rule in _lifestyle:
+        story.append(Paragraph(f"• {rule}", s["bullet"]))
+
+    story.append(Spacer(1, 0.25 * cm))
+    story.append(Paragraph("Avoid completely:", s["subheading"]))
+
+    _client_diet = client.get("diet_type", "Non-vegetarian")
+    _avoid = [
+        "Maida and its products", "Fried food", "Oily food", "Sugar and sweets",
+        "Fruit juices (fresh or packaged)", "Bakery items", "Pineapple", "Raw papaya",
+        "Packaged and processed food", "Packet soup", "Cold drinks", "Alcohol", "Smoking / tobacco",
+    ]
+    if _client_diet not in ("Vegetarian", "Vegan", "Eggetarian"):
+        _avoid.insert(7, "Processed meat")
+    for a in _avoid:
+        story.append(Paragraph(f"• {a}", s["bullet"]))
+
+    # Condition-specific notes
+    _client_conds = _decode_list(client.get("medical_conditions", [])).split(", ") if client.get("medical_conditions") else []
+    _cond_notes = []
+    if "PCOS" in _client_conds:
+        _cond_notes.append(("<b>PCOS note:</b> Consistency in sleep timing and stress management is "
+                            "especially important — cortisol spikes worsen hormonal imbalance."))
+    if any("diabetes" in c.lower() for c in _client_conds):
+        _cond_notes.append(("<b>Diabetes note:</b> Walk within 15 minutes of finishing a meal to help "
+                            "blunt post-meal glucose spikes. Never skip meals."))
+    if any("thyroid" in c.lower() for c in _client_conds):
+        _cond_notes.append(("<b>Thyroid note:</b> Take thyroid medication on an empty stomach 30–60 "
+                            "minutes before breakfast. Avoid large amounts of raw cruciferous vegetables."))
+    if any("hypertension" in c.lower() for c in _client_conds):
+        _cond_notes.append(("<b>Hypertension note:</b> Limit sodium to under 2,000 mg/day. Favour "
+                            "home-cooked meals. Increase potassium-rich foods (banana, sweet potato, "
+                            "spinach) and maintain consistent meal timings."))
+    if any("cholesterol" in c.lower() for c in _client_conds):
+        _cond_notes.append(("<b>High cholesterol note:</b> Favour unsaturated fats (mustard oil, olive "
+                            "oil) over saturated fats. Increase soluble fibre from oats, legumes, and "
+                            "vegetables. Aim for 25–35 g of fibre daily."))
+    if any("ibs" in c.lower() or "digestive" in c.lower() for c in _client_conds):
+        _cond_notes.append(("<b>IBS / Digestive note:</b> Eat slowly and chew thoroughly. Avoid very "
+                            "spicy or high-fat dishes during flare-ups. Cooked vegetables are better "
+                            "tolerated than raw."))
+    if any("anaemia" in c.lower() or "iron" in c.lower() for c in _client_conds):
+        _cond_notes.append(("<b>Anaemia / Iron note:</b> Pair iron-rich foods (dal, spinach, meat, "
+                            "chana) with vitamin C sources (lemon, amla, tomato). Avoid tea or coffee "
+                            "within one hour of meals — tannins inhibit iron uptake."))
+    if any("fatty liver" in c.lower() for c in _client_conds):
+        _cond_notes.append(("<b>Fatty liver note:</b> Avoid fried foods, refined sugars, and alcohol "
+                            "completely. Prioritise high-fibre vegetables, legumes, and lean protein."))
+    if any("kidney" in c.lower() for c in _client_conds):
+        _cond_notes.append(("<b>Kidney disease — specialist guidance required:</b> Kidney disease "
+                            "requires a tailored renal diet. Consult a nephrologist or renal dietitian "
+                            "before following any meal plan."))
+    if _cond_notes:
+        story.append(Spacer(1, 0.2 * cm))
+        for note in _cond_notes:
+            story.append(Paragraph(f"• {note}", s["bullet"]))
+
+    # ── Realistic Timeline ─────────────────────────────────────────────────
     goal = client.get("goal", "")
     weight = client.get("weight_kg", 0)
 
     if goal in ("Fat loss", "Mild fat loss") and weight:
-        story.append(Spacer(1, 0.3 * cm))
+        story.append(Spacer(1, 0.35 * cm))
         story.append(_section_heading("Realistic Timeline", s))
         story.append(_hr())
 
@@ -695,21 +842,21 @@ def generate_pdf(
         months     = round(weeks / 4.3, 1)
 
         timeline_data = [
-            ["Current Weight",         f"{weight} kg"],
-            ["Target Weight (ideal)",  f"{ideal_low} kg"],
-            ["Fat to Lose",            f"{kg_to_lose} kg"],
-            ["Estimated Rate",         f"{weekly} kg/week (sustainable)"],
-            ["Estimated Duration",     f"{weeks} weeks (~{months} months)"],
+            ["Current Weight",        f"{weight} kg"],
+            ["Target Weight (ideal)", f"{ideal_low} kg"],
+            ["Fat to Lose",           f"{kg_to_lose} kg"],
+            ["Estimated Rate",        f"{weekly} kg/week (sustainable)"],
+            ["Estimated Duration",    f"{weeks} weeks (~{months} months)"],
         ]
         story.append(_stat_table(timeline_data))
-        story.append(Spacer(1, 0.3 * cm))
+        story.append(Spacer(1, 0.25 * cm))
         story.append(Paragraph(
             "Sustainable fat loss is 0.25–0.5 kg per week. Faster loss risks muscle loss, "
             "metabolic adaptation, and nutrient deficiencies. Slow and steady wins this race.",
             s["small"]
         ))
 
-    # ── Section 8: Exercise Plan ───────────────────────────────────────────
+    # ── Exercise Plan page ─────────────────────────────────────────────────
 
     story.append(PageBreak())
     story.append(_section_heading("Exercise Plan", s))
@@ -726,20 +873,40 @@ def generate_pdf(
     _skips  = _skips_map.get(fitness_level, 350)
     _steps  = _steps_map.get(fitness_level, 8500)
 
-    story.append(Paragraph(
-        f"Fitness Level: <b>{fitness_level}</b> &nbsp;|&nbsp; "
-        f"Circuit Rounds: <b>{_rounds}</b> &nbsp;|&nbsp; "
-        f"Daily Skipping: <b>{_skips:,} skips</b> &nbsp;|&nbsp; "
-        f"Step Target: <b>{_steps:,} steps/day</b>",
-        s["body"]
-    ))
+    # ── Fitness summary: 4-column stat bar (no mid-item line breaks) ───────
+    _CW_local = W - 2 * MARGIN
+    _fit_lbl = ParagraphStyle("fitl", fontName=BODY_FONT_BOLD, fontSize=7.5,
+                               textColor=TEXT_LIGHT, alignment=TA_CENTER, leading=10, spaceAfter=3)
+    _fit_val = ParagraphStyle("fitv", fontName=BODY_FONT_BOLD, fontSize=12,
+                               textColor=GREEN_DARK, alignment=TA_CENTER, leading=15, spaceAfter=0)
+    _fit_data = [[
+        [Paragraph("FITNESS LEVEL",   _fit_lbl), Paragraph(fitness_level,       _fit_val)],
+        [Paragraph("CIRCUIT ROUNDS",  _fit_lbl), Paragraph(str(_rounds),        _fit_val)],
+        [Paragraph("DAILY SKIPPING",  _fit_lbl), Paragraph(f"{_skips:,} skips", _fit_val)],
+        [Paragraph("STEP TARGET",     _fit_lbl), Paragraph(f"{_steps:,}/day",   _fit_val)],
+    ]]
+    _fit_table = Table(_fit_data, colWidths=[_CW_local / 4] * 4)
+    _fit_table.setStyle(TableStyle([
+        ("BACKGROUND",    (0, 0), (-1, -1), CREAM),
+        ("BOX",           (0, 0), (-1, -1), 1, CREAM_DARK),
+        ("INNERGRID",     (0, 0), (-1, -1), 0.5, CREAM_DARK),
+        ("LINEABOVE",     (0, 0), (-1, 0),  2, GREEN_MID),
+        ("TOPPADDING",    (0, 0), (-1, -1), 10),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 10),
+        ("LEFTPADDING",   (0, 0), (-1, -1), 6),
+        ("RIGHTPADDING",  (0, 0), (-1, -1), 6),
+        ("VALIGN",        (0, 0), (-1, -1), "TOP"),
+    ]))
+    story.append(_fit_table)
+
     if exercise_notes:
+        story.append(Spacer(1, 0.15 * cm))
         story.append(Paragraph(f"Notes: {exercise_notes}", s["small"]))
 
     story.append(Spacer(1, 0.3 * cm))
 
     # Daily movement targets
-    story.append(Paragraph("Daily Movement", s["subsection"] if "subsection" in s else s["body"]))
+    story.append(Paragraph("Daily Movement", s["subheading"]))
     _move_rules = [
         "Daily skipping and step targets apply on all exercise days (5–6 days per week).",
         "After Breakfast — 10-minute stroll",
@@ -749,7 +916,7 @@ def generate_pdf(
         "For every 1 hour of sitting, move around for at least 1–2 minutes.",
     ]
     for mr in _move_rules:
-        story.append(Paragraph(f"• {mr}", s["body"]))
+        story.append(Paragraph(f"• {mr}", s["bullet"]))
 
     story.append(Spacer(1, 0.35 * cm))
 
@@ -773,11 +940,7 @@ def generate_pdf(
     }
     _round_names = {1: "Round 1", 2: "Round 2", 3: "Round 3"}
 
-    _GREEN_DARK  = HexColor("#2D6A4F")
-    _GREEN_LIGHT = HexColor("#D8F3DC")
-    _CREAM       = HexColor("#FBF7F2")
-
-    # Category badge labels for each exercise
+    _EX_CREAM = HexColor("#FBF7F2")
     _ex_badge = {
         "Jumping Jacks":                 "CARDIO",
         "Crunches":                      "CORE",
@@ -797,31 +960,31 @@ def generate_pdf(
 
         _circ_data = [[
             Paragraph(_round_names[rnum], s["table_hdr"]),
-            Paragraph("Exercise", s["table_hdr"]),
-            Paragraph("Reps / Duration", s["table_hdr"]),
+            Paragraph("Exercise",         s["table_hdr"]),
+            Paragraph("Reps / Duration",  s["table_hdr"]),
         ]]
-        for i, (ex_name, reps_d) in enumerate(_circuit):
+        for ex_name, reps_d in _circuit:
             reps_val = reps_d[eff]
             reps_str = reps_val if isinstance(reps_val, str) else f"{reps_val} reps"
             badge = _ex_badge.get(ex_name, "")
             _circ_data.append([
-                Paragraph(badge, s["ex_badge"]),
-                Paragraph(ex_name, s["body"]),
+                Paragraph(badge,    s["ex_badge"]),
+                Paragraph(ex_name,  s["body"]),
                 Paragraph(reps_str, s["body"]),
             ])
 
         _circ_table = Table(_circ_data, colWidths=[2.5 * cm, 10 * cm, 4 * cm])
         _circ_table.setStyle(TableStyle([
-            ("BACKGROUND",  (0, 0), (-1, 0), _GREEN_DARK),
-            ("TEXTCOLOR",   (0, 0), (-1, 0), colors.white),
-            ("FONTNAME",    (0, 0), (-1, 0), BODY_FONT_BOLD),
-            ("FONTNAME",    (0, 1), (-1, -1), BODY_FONT),
-            ("FONTSIZE",    (0, 0), (-1, -1), 9),
-            ("ROWBACKGROUNDS", (0, 1), (-1, -1), [_CREAM, colors.white]),
-            ("GRID",        (0, 0), (-1, -1), 0.4, colors.HexColor("#E5D9CC")),
-            ("VALIGN",      (0, 0), (-1, -1), "MIDDLE"),
-            ("TOPPADDING",  (0, 0), (-1, -1), 5),
-            ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+            ("BACKGROUND",     (0, 0), (-1, 0),  GREEN_DARK),
+            ("TEXTCOLOR",      (0, 0), (-1, 0),  colors.white),
+            ("FONTNAME",       (0, 0), (-1, 0),  BODY_FONT_BOLD),
+            ("FONTNAME",       (0, 1), (-1, -1), BODY_FONT),
+            ("FONTSIZE",       (0, 0), (-1, -1), 9),
+            ("ROWBACKGROUNDS", (0, 1), (-1, -1), [_EX_CREAM, colors.white]),
+            ("GRID",           (0, 0), (-1, -1), 0.4, colors.HexColor("#E5D9CC")),
+            ("VALIGN",         (0, 0), (-1, -1), "MIDDLE"),
+            ("TOPPADDING",     (0, 0), (-1, -1), 5),
+            ("BOTTOMPADDING",  (0, 0), (-1, -1), 5),
         ]))
         story.append(KeepTogether([_circ_table]))
 
@@ -832,125 +995,13 @@ def generate_pdf(
         s["small"]
     ))
 
-    # ── Section 9: Lifestyle Guidelines ───────────────────────────────────
-
-    story.append(Spacer(1, 0.6 * cm))
-    story.append(_section_heading("Lifestyle Guidelines", s))
-    story.append(_hr())
-
-    _lifestyle = [
-        "Drink at least 2–3 litres of water a day",
-        "Eat slowly and chew your food very well (at least 20–30 times per bite)",
-        "Stick to your meal timings — consistent eating windows support metabolism",
-        "Expose yourself to sunlight at sunrise and sunset",
-        "At least 6–8 hours of sleep is mandatory",
-        "No gadgets 30 minutes before going to sleep",
-        "Finish dinner 2–3 hours before bedtime",
-        "Fixed sleeping and waking time every day — even on weekends",
-        "For every 1 hour of sitting, move around for at least 1–2 minutes",
-        "Use only 3–4 tsp of cold-pressed oil per day (mustard / olive / ghee)",
-    ]
-    for rule in _lifestyle:
-        story.append(Paragraph(f"• {rule}", s["body"]))
-
-    story.append(Spacer(1, 0.35 * cm))
-    story.append(Paragraph("<b>Avoid completely:</b>", s["body"]))
-
-    _client_diet = client.get("diet_type", "Non-vegetarian")
-    _avoid = [
-        "Maida and its products", "Fried food", "Oily food", "Sugar and sweets",
-        "Fruit juices (fresh or packaged)", "Bakery items", "Pineapple", "Raw papaya",
-        "Packaged and processed food", "Packet soup", "Cold drinks", "Alcohol", "Smoking / tobacco",
-    ]
-    if _client_diet not in ("Vegetarian", "Vegan", "Eggetarian"):
-        _avoid.insert(7, "Processed meat")
-
-    story.append(Paragraph("  ".join(f"• {a}" for a in _avoid), s["body"]))
-
-    # Condition-specific notes
-    _client_conds = _decode_list(client.get("medical_conditions", [])).split(", ") if client.get("medical_conditions") else []
-    if "PCOS" in _client_conds:
-        story.append(Spacer(1, 0.2 * cm))
-        story.append(Paragraph(
-            "<b>PCOS note:</b> Consistency in sleep timing and stress management is especially "
-            "important — cortisol spikes worsen hormonal imbalance.",
-            s["body"]
-        ))
-    if any("diabetes" in c.lower() for c in _client_conds):
-        story.append(Spacer(1, 0.2 * cm))
-        story.append(Paragraph(
-            "<b>Diabetes note:</b> Walk within 15 minutes of finishing a meal to help blunt "
-            "post-meal glucose spikes. Never skip meals.",
-            s["body"]
-        ))
-    if any("thyroid" in c.lower() for c in _client_conds):
-        story.append(Spacer(1, 0.2 * cm))
-        story.append(Paragraph(
-            "<b>Thyroid note:</b> Take thyroid medication on an empty stomach 30–60 minutes "
-            "before breakfast. Avoid large amounts of raw cruciferous vegetables.",
-            s["body"]
-        ))
-    if any("hypertension" in c.lower() for c in _client_conds):
-        story.append(Spacer(1, 0.2 * cm))
-        story.append(Paragraph(
-            "<b>Hypertension note:</b> Limit sodium to under 2,000 mg/day. Favour home-cooked "
-            "meals over takeaway. Reduce pickles, papads, and processed foods. Increase "
-            "potassium-rich foods (banana, sweet potato, spinach) and maintain a consistent "
-            "meal schedule.",
-            s["body"]
-        ))
-    if any("cholesterol" in c.lower() for c in _client_conds):
-        story.append(Spacer(1, 0.2 * cm))
-        story.append(Paragraph(
-            "<b>High cholesterol note:</b> Favour unsaturated fats (mustard oil, olive oil) "
-            "over saturated fats (ghee, butter, red meat fat). Increase soluble fibre from "
-            "oats, legumes, and vegetables. Avoid trans fats (vanaspati, commercially fried "
-            "foods). Aim for 25–35 g of fibre daily.",
-            s["body"]
-        ))
-    if any("ibs" in c.lower() or "digestive" in c.lower() for c in _client_conds):
-        story.append(Spacer(1, 0.2 * cm))
-        story.append(Paragraph(
-            "<b>IBS / Digestive note:</b> Eat slowly and chew thoroughly. Avoid very spicy, "
-            "high-fat, or raw-onion-heavy dishes during flare-ups. Keep a food diary to "
-            "identify personal triggers. Cooked vegetables are generally better tolerated "
-            "than raw.",
-            s["body"]
-        ))
-    if any("anaemia" in c.lower() or "iron" in c.lower() for c in _client_conds):
-        story.append(Spacer(1, 0.2 * cm))
-        story.append(Paragraph(
-            "<b>Anaemia / Iron note:</b> Pair iron-rich foods (dal, spinach, meat, chana) "
-            "with vitamin C sources (lemon, amla, tomato) at the same meal to enhance "
-            "absorption. Avoid tea or coffee within one hour of meals as tannins inhibit "
-            "iron uptake.",
-            s["body"]
-        ))
-    if any("fatty liver" in c.lower() for c in _client_conds):
-        story.append(Spacer(1, 0.2 * cm))
-        story.append(Paragraph(
-            "<b>Fatty liver note:</b> Avoid fried foods, refined sugars, and alcohol "
-            "completely. Prioritise high-fibre vegetables, legumes, and lean protein. "
-            "Even modest weight loss (5–10%) can significantly reduce liver fat.",
-            s["body"]
-        ))
-    if any("kidney" in c.lower() for c in _client_conds):
-        story.append(Spacer(1, 0.2 * cm))
-        story.append(Paragraph(
-            "<b>⚠ Kidney disease — specialist guidance required:</b> This plan provides "
-            "general dietary guidance only. Kidney disease requires a tailored renal diet "
-            "to manage protein, potassium, phosphorus, and fluid intake. Please consult a "
-            "nephrologist or renal dietitian before following any meal plan.",
-            s["body"]
-        ))
-
     # ── Disclaimer ─────────────────────────────────────────────────────────
-
     story.append(Spacer(1, 0.5 * cm))
     story.append(_hr())
     story.append(_section_heading("Disclaimer", s))
+    story.append(Spacer(1, 0.2 * cm))
     story.append(Paragraph(
-        f"This report was prepared by Āhāra by Asha on {date.today().strftime('%d %B %Y')}. "
+        f"This report was prepared by Ahara by Asha on {date.today().strftime('%d %B %Y')}. "
         "It is intended as personalised dietary and lifestyle guidance based on the information "
         "provided at the time of assessment. This report does not constitute medical advice and "
         "is not a substitute for consultation with a qualified physician or healthcare provider. "
