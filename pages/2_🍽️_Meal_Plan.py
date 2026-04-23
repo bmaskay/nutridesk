@@ -336,28 +336,51 @@ if plan and plan_client == client_id:
             st.switch_page("pages/5_💪_Exercise_Plan.py")
 
     # ── PDF Export ────────────────────────────────────────────────────────────
+    # pdf_bytes stored in session_state so the download button survives reruns
+    # (nesting st.download_button inside if st.button() loses bytes on rerun)
 
     st.markdown("---")
     st.markdown("### 📄 Export Report")
 
-    if st.button("📥 Generate PDF Report", width="content"):
-        with st.spinner("Generating PDF..."):
-            try:
-                pdf_bytes = generate_pdf(
-                    client=client,
-                    assessment=assessment,
-                    plan=plan,
-                    snack_swaps=swaps,
-                )
-                st.download_button(
-                    label="⬇️ Download PDF",
-                    data=pdf_bytes,
-                    file_name=f"NutriDesk_{client['name'].replace(' ','_')}_Plan.pdf",
-                    mime="application/pdf",
-                    width="content",
-                )
-            except Exception as e:
-                st.error(f"PDF generation error: {e}")
+    _pdf_key   = f"pdf_bytes_{client_id}"
+    _pdf_error = f"pdf_error_{client_id}"
+
+    pdf_col, dl_col = st.columns([1, 2])
+
+    with pdf_col:
+        if st.button("📥 Generate PDF", key="gen_pdf_btn", use_container_width=True):
+            st.session_state.pop(_pdf_key, None)
+            st.session_state.pop(_pdf_error, None)
+            with st.spinner("Generating PDF…"):
+                try:
+                    pdf_bytes = generate_pdf(
+                        client=client,
+                        assessment=assessment,
+                        plan=plan,
+                        snack_swaps=swaps,
+                    )
+                    st.session_state[_pdf_key] = pdf_bytes
+                except Exception as e:
+                    import traceback
+                    st.session_state[_pdf_error] = (str(e), traceback.format_exc())
+
+    with dl_col:
+        if st.session_state.get(_pdf_error):
+            _emsg, _etb = st.session_state[_pdf_error]
+            st.error(f"PDF error: {_emsg}")
+            with st.expander("Details"):
+                st.code(_etb)
+        elif st.session_state.get(_pdf_key):
+            _fname = f"NutriDesk_{client['name'].replace(' ', '_')}_Plan.pdf"
+            st.download_button(
+                label="⬇️ Download PDF",
+                data=st.session_state[_pdf_key],
+                file_name=_fname,
+                mime="application/pdf",
+                key="dl_pdf_btn",
+                use_container_width=True,
+            )
+            st.caption("Report ready — click to save.")
 
 else:
     st.info("👆 Click **Generate New Plan** or **Load Last Plan** to get started.")
