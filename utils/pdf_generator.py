@@ -734,22 +734,82 @@ def generate_pdf(
         s["small"]
     ))
 
-    # ── Fat Loss Rules ─────────────────────────────────────────────────────
+    # ── Goal-specific Rules ────────────────────────────────────────────────
     story.append(Spacer(1, 0.35 * cm))
-    story.append(_section_heading("Your Fat Loss Rules", s))
-    story.append(_hr())
 
-    rules = [
-        "Eat protein at every meal — it keeps you full and protects muscle while you lose fat.",
-        "Drink your daily water target before 7 PM to avoid night-time trips to the bathroom.",
-        "No skipping meals — eating less often slows your metabolism and leads to overeating later.",
-        "Choose home-cooked options at least 5 out of 7 days. Restaurant meals average 30–40% more calories than they look.",
-        "Treat meals are planned, not spontaneous — one enjoyable meal per week, not per day.",
-        "Sleep 7–8 hours. Poor sleep raises cortisol, increases cravings for carbs and sugar, and stalls fat loss.",
-        "Track your weight weekly (same day, same time, after bathroom). Ignore day-to-day fluctuations.",
-        "Progress photos every 4 weeks tell more than the scale — muscle gain can mask fat loss on the scale.",
-    ]
-    for r in rules:
+    _goal_rules_map = {
+        "Fat loss": {
+            "heading": "Your Fat Loss Rules",
+            "rules": [
+                "Eat protein at every meal — it keeps you full and protects muscle while you lose fat.",
+                "Drink your daily water target before 7 PM to avoid night-time trips to the bathroom.",
+                "No skipping meals — eating less often slows your metabolism and leads to overeating later.",
+                "Choose home-cooked options at least 5 out of 7 days. Restaurant meals average 30–40% more calories than they look.",
+                "Treat meals are planned, not spontaneous — one enjoyable meal per week, not per day.",
+                "Sleep 7–8 hours. Poor sleep raises cortisol, increases cravings for carbs and sugar, and stalls fat loss.",
+                "Track your weight weekly (same day, same time, after bathroom). Ignore day-to-day fluctuations.",
+                "Progress photos every 4 weeks tell more than the scale — muscle gain can mask fat loss on the scale.",
+            ],
+        },
+        "Mild fat loss": {
+            "heading": "Your Fat Loss Rules",
+            "rules": [
+                "Eat protein at every meal — it keeps you full and protects muscle during a calorie deficit.",
+                "Drink your daily water target before 7 PM to avoid night-time trips to the bathroom.",
+                "No skipping meals — a mild deficit works best with consistent, balanced meals throughout the day.",
+                "Choose home-cooked options at least 5 out of 7 days. Small daily calorie savings compound into real results.",
+                "Treat meals are planned, not spontaneous — enjoy one per week without guilt, then return to the plan.",
+                "Sleep 7–8 hours. Poor sleep raises cortisol, increases cravings, and slows even a mild fat loss pace.",
+                "Track your weight weekly (same day, same time). Progress at this pace is slower — trust the process.",
+                "Progress photos every 4 weeks are your best measure — a mild deficit preserves muscle, so the scale moves slowly.",
+            ],
+        },
+        "Maintain weight": {
+            "heading": "Your Maintenance Rules",
+            "rules": [
+                "Eat protein at every meal — it preserves muscle mass and keeps you satisfied at maintenance calories.",
+                "Consistency is your goal: same meal timings, same portions, and the same habits every week.",
+                "Track your weight weekly (same day, same time). If it trends up or down for 2+ weeks, adjust portions slightly.",
+                "No skipping meals — under-eating leads to overeating later and makes maintenance harder than it needs to be.",
+                "Home-cooked meals at least 5 out of 7 days — restaurant portions make it easy to drift above maintenance unnoticed.",
+                "Sleep 7–8 hours. Even at maintenance, poor sleep disrupts hunger hormones and drives unnecessary snacking.",
+                "Exercise regularly — without it, maintenance calories gradually cause body-fat creep as muscle reduces over time.",
+                "One planned treat meal per week is sustainable. What breaks maintenance is unplanned, frequent indulgences.",
+            ],
+        },
+        "Lean muscle gain": {
+            "heading": "Your Lean Muscle Rules",
+            "rules": [
+                "Hit your protein target every single day — muscle is built from amino acids, and there are no shortcuts.",
+                "Eat in a small surplus — enough to build muscle, not so much that excess fat accumulates quickly.",
+                "Never skip meals — muscles need a consistent supply of fuel and protein across the whole day.",
+                "Don't fear carbohydrates — they fuel your workouts and spare protein for muscle repair rather than energy.",
+                "Time protein around your training: aim for a protein-rich meal within 1–2 hours of exercise.",
+                "Sleep 7–8 hours — growth hormone peaks during deep sleep; this is when your muscles actually grow.",
+                "Track progress with measurements and strength gains, not just the scale — the scale moves slowly during lean gains.",
+                "Progress photos every 4 weeks: lean muscle gain changes your shape more than your weight.",
+            ],
+        },
+        "Muscle gain": {
+            "heading": "Your Muscle Building Rules",
+            "rules": [
+                "Hit your calorie AND protein targets every day — both matter equally for muscle growth.",
+                "Eat 4–5 times a day if needed — frequent meals make reaching a muscle-building surplus far more manageable.",
+                "Never skip your post-workout meal — have a protein-rich meal within 1–2 hours of training.",
+                "Embrace carbohydrates — they fuel heavy training sessions and replenish muscle glycogen for recovery.",
+                "Sleep 7–8 hours without compromise — muscle repair and growth hormone release happen almost entirely during sleep.",
+                "Track progress with strength gains, measurements, and photos — body weight alone is a poor indicator.",
+                "Expect some fat gain alongside muscle — a surplus makes this inevitable; it is normal and manageable.",
+                "Consistency over months beats intensity over days — show up, eat enough, recover well, repeat.",
+            ],
+        },
+    }
+
+    _goal_key = client.get("goal", "Fat loss")
+    _goal_content = _goal_rules_map.get(_goal_key, _goal_rules_map["Fat loss"])
+    story.append(_section_heading(_goal_content["heading"], s))
+    story.append(_hr())
+    for r in _goal_content["rules"]:
         story.append(Paragraph(f"• {r}", s["bullet"]))
 
     # ── Lifestyle Guidelines ───────────────────────────────────────────────
@@ -827,7 +887,7 @@ def generate_pdf(
             story.append(Paragraph(f"• {note}", s["bullet"]))
 
     # ── Realistic Timeline ─────────────────────────────────────────────────
-    goal = client.get("goal", "")
+    goal   = client.get("goal", "")
     weight = client.get("weight_kg", 0)
 
     if goal in ("Fat loss", "Mild fat loss") and weight:
@@ -855,6 +915,42 @@ def generate_pdf(
             "metabolic adaptation, and nutrient deficiencies. Slow and steady wins this race.",
             s["small"]
         ))
+
+    elif goal in ("Lean muscle gain", "Muscle gain") and weight:
+        story.append(Spacer(1, 0.35 * cm))
+        story.append(_section_heading("Realistic Timeline", s))
+        story.append(_hr())
+
+        # Realistic natural muscle gain: ~0.5 kg/month lean, ~1 kg/month bulk
+        monthly_gain = 0.5 if goal == "Lean muscle gain" else 1.0
+        gain_3m  = round(monthly_gain * 3,  1)
+        gain_6m  = round(monthly_gain * 6,  1)
+        gain_12m = round(monthly_gain * 12, 1)
+
+        timeline_data = [
+            ["Current Weight",       f"{weight} kg"],
+            ["Expected Gain Rate",   f"{monthly_gain} kg/month (realistic natural gain)"],
+            ["3-Month Projection",   f"+{gain_3m} kg  →  ~{round(weight + gain_3m, 1)} kg"],
+            ["6-Month Projection",   f"+{gain_6m} kg  →  ~{round(weight + gain_6m, 1)} kg"],
+            ["12-Month Projection",  f"+{gain_12m} kg  →  ~{round(weight + gain_12m, 1)} kg"],
+        ]
+        story.append(_stat_table(timeline_data))
+        story.append(Spacer(1, 0.25 * cm))
+
+        if goal == "Lean muscle gain":
+            story.append(Paragraph(
+                "Lean muscle gain is intentionally slow — 0.5 kg per month is realistic and keeps "
+                "fat gain minimal. Faster weight gain at this stage usually means excess fat, not muscle. "
+                "Trust the process, track your strength, and let the shape change speak for itself.",
+                s["small"]
+            ))
+        else:
+            story.append(Paragraph(
+                "A muscle-building surplus supports 0.5–1 kg of total weight gain per month, "
+                "a portion of which will be muscle and some fat — this is normal. "
+                "Focus on progressive overload in training and consistent daily nutrition for best results.",
+                s["small"]
+            ))
 
     # ── Exercise Plan page ─────────────────────────────────────────────────
 
