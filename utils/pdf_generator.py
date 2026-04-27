@@ -261,6 +261,7 @@ def generate_pdf(
     assessment: dict,
     plan: dict,
     snack_swaps: list[dict],
+    biomarkers: list = None,
     output_path: str = None,
 ) -> bytes:
     """
@@ -836,13 +837,93 @@ def generate_pdf(
     story.append(Paragraph("Avoid completely:", s["subheading"]))
 
     _client_diet = client.get("diet_type", "Non-vegetarian")
-    _avoid = [
-        "Maida and its products", "Fried food", "Oily food", "Sugar and sweets",
-        "Fruit juices (fresh or packaged)", "Bakery items", "Pineapple", "Raw papaya",
-        "Packaged and processed food", "Packet soup", "Cold drinks", "Alcohol", "Smoking / tobacco",
+    _goal_avoid  = client.get("goal", "Fat loss")
+    _bm          = (biomarkers or [])
+    _latest_bm   = _bm[-1] if _bm else {}
+
+    # ── Universal avoids (apply to everyone) ──────────────────────────────
+    _avoid_universal = [
+        "Packaged and ultra-processed food",
+        "Packet soup and instant noodles",
+        "Alcohol",
+        "Smoking and tobacco products",
     ]
+
+    # ── Goal-specific avoids ───────────────────────────────────────────────
+    _avoid_by_goal = {
+        "Fat loss": [
+            "Maida and all maida-based products",
+            "Fried and deep-fried food",
+            "Oily and greasy food",
+            "Sugar, sweets, and desserts",
+            "Fruit juices (fresh or packaged) — eat whole fruit instead",
+            "Bakery items, biscuits, and bread",
+            "Cold drinks and sweetened beverages",
+            "Pineapple and raw papaya (high glycaemic load)",
+        ],
+        "Mild fat loss": [
+            "Maida and all maida-based products",
+            "Fried and deep-fried food",
+            "Sugar and sweets",
+            "Cold drinks and sweetened beverages",
+            "Bakery items and biscuits",
+            "Fruit juices — opt for whole fruit instead",
+        ],
+        "Maintain weight": [
+            "Fried and deep-fried food",
+            "Sugar and sweets in excess",
+            "Cold drinks and sweetened beverages",
+            "Bakery items and ultra-processed snacks",
+        ],
+        "Lean muscle gain": [
+            "Fried food (empty calories that crowd out nutrients)",
+            "Sugar and confectionery",
+            "Cold drinks and sweetened beverages",
+            "Alcohol (blunts muscle protein synthesis)",
+        ],
+        "Muscle gain": [
+            "Excessive fried food (limits clean calorie budget)",
+            "Cold drinks and sweetened beverages",
+            "Alcohol (directly inhibits muscle protein synthesis)",
+            "Junk food that displaces whole-food nutrition",
+        ],
+    }
+    _avoid = list(_avoid_universal)
+    _avoid.extend(_avoid_by_goal.get(_goal_avoid, _avoid_by_goal["Fat loss"]))
+
+    # ── Biomarker-specific additions ───────────────────────────────────────
+    _fg  = float(_latest_bm.get("fasting_glucose") or 0)
+    _a1c = float(_latest_bm.get("hba1c") or 0)
+    _tc  = float(_latest_bm.get("total_cholesterol") or 0)
+    _ldl = float(_latest_bm.get("ldl") or 0)
+    _tg  = float(_latest_bm.get("triglycerides") or 0)
+    _tsh = float(_latest_bm.get("tsh") or 0)
+    _fer = float(_latest_bm.get("ferritin") or 0)
+
+    _bm_additions = []
+    if _fg > 100 or _a1c > 5.7:
+        if not any("sugar" in a.lower() for a in _avoid):
+            _bm_additions.append("Refined sugar, sweets, and sugary desserts (elevated blood glucose)")
+        _bm_additions.append("White bread, refined flour products, and sugary drinks (spike blood glucose)")
+    if _tc > 200 or _ldl > 130:
+        if not any("fried" in a.lower() for a in _avoid):
+            _bm_additions.append("Fried food and saturated fats (elevated cholesterol)")
+        _bm_additions.append("Processed red meat and full-fat dairy in excess (raises LDL)")
+    if _tg > 150:
+        _bm_additions.append("Refined carbohydrates and sugary drinks (elevates triglycerides)")
+    if _tsh > 4.5:
+        _bm_additions.append("Raw cruciferous vegetables in large quantities — cook them (thyroid)")
+    if 0 < _fer < 30:
+        _bm_additions.append("Tea and coffee within 1 hour of meals — tannins block iron absorption")
+
+    for item in _bm_additions:
+        if item not in _avoid:
+            _avoid.append(item)
+
     if _client_diet not in ("Vegetarian", "Vegan", "Eggetarian"):
-        _avoid.insert(7, "Processed meat")
+        _insert_at = next((i for i, a in enumerate(_avoid) if "fried" in a.lower()), len(_avoid))
+        _avoid.insert(_insert_at + 1, "Processed and cured meat (salami, sausages, deli cuts)")
+
     for a in _avoid:
         story.append(Paragraph(f"• {a}", s["bullet"]))
 

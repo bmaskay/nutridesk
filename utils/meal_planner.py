@@ -174,6 +174,17 @@ def filter_recipes(
     return filtered
 
 
+def _cuisine_matches(recipe_cuisine: str, preferred_cuisines: list[str]) -> bool:
+    """True if the recipe's cuisine overlaps with any of the client's preferences.
+    Handles compound values like 'Continental / South Asian' correctly."""
+    parts = [p.strip().lower() for p in recipe_cuisine.replace("/", "|").split("|")]
+    prefs = [p.strip().lower() for p in preferred_cuisines]
+    return any(
+        any(pref in part or part in pref for part in parts)
+        for pref in prefs
+    )
+
+
 def pick_recipes(
     pool: list[dict],
     category: str,
@@ -181,12 +192,18 @@ def pick_recipes(
     n: int = 1,
     exclude_ids: set = None,
     tolerance: float = 0.25,
+    preferred_cuisines: list[str] = None,
 ) -> list[dict]:
     """
     Select n recipes from pool matching category and within calorie tolerance.
     Prefers higher-scored recipes. Falls back to full category if range is tight.
+
+    Cuisine guarantee: if preferred_cuisines are provided and n >= 2, at least
+    one result will be from a preferred cuisine when such recipes exist in the pool.
+    For n=1 (breakfast), a preferred-cuisine recipe is chosen if available.
     """
     exclude_ids = exclude_ids or set()
+    pref = preferred_cuisines or []
 
     cat_pool = [
         r for r in pool
@@ -205,10 +222,60 @@ def pick_recipes(
     if not candidates:
         return []
 
-    # Sort by score, sample from top portion to keep variety
     candidates.sort(key=lambda r: r.get("_score", 0), reverse=True)
     top = candidates[: max(n * 3, len(candidates) // 2 + 1)]
-    return random.sample(top, min(n, len(top)))
+    results = random.sample(top, min(n, len(top)))
+
+    # ── Cuisine guarantee ──────────────────────────────────────────────────
+    if pref:
+        already_pref = any(_cuisine_matches(r.get("cuisine", ""), pref) for r in results)
+        if not already_pref:
+            # Find a preferred-cuisine candidate not already selected
+            selected_ids = {r.get("id") for r in results}
+            pref_candidates = [
+                r for r in cat_pool
+                if _cuisine_matches(r.get("cuisine", ""), pref)
+                and r.get("id") not in selected_ids
+            ]
+            if pref_candidates:
+                pref_candidates.sort(key=lambda r: r.get("_score", 0), reverse=True)
+                pref_pick = pref_candidates[0]
+                if len(results) >= 2:
+                    results[-1] = pref_pick   # replace lowest-priority slot
+                else:
+                    results = [pref_pick]     # for n=1 slots (breakfast)
+
+    return results
+
+
+def _count_treat_meals(day_plan: dict) -> int:
+    """Count how many treat_meal=True recipes appear across a single day's slots."""
+    return sum(
+        1 for slot in ("breakfast", "lunch", "dinner", "snack")
+        for r in day_plan.get(slot, [])
+        if r.get("treat_meal")
+    )
+
+
+def _replace_treat(
+    recipe: dict,
+    pool: list[dict],
+    category: str,
+    target_kcal: float,
+    exclude_ids: set,
+) -> dict:
+    """Return a non-treat alternative for recipe, or the original if none found."""
+    non_treat = [
+        r for r in pool
+        if r.get("category", "").lower() == category
+        and not r.get("treat_meal")
+        and r.get("id") not in exclude_ids
+        and r.get("id") != recipe.get("id")
+    ]
+    if not non_treat:
+        return recipe
+    non_treat.sort(key=lambda r: r.get("_score", 0), reverse=True)
+    return random.choice(non_treat[: max(1, len(non_treat) // 2)])
 
 
 def generate_meal_plan(
@@ -282,14 +349,48 @@ def generate_meal_plan(
         day = days_of_week[i % 7]
 
         breakfast, snacks = [], []
+        _pref_cuisines = client.get("cuisine_pref") or []
+
         if use_breakfast:
             breakfast = pick_recipes(filtered, "breakfast", b_target, n=1,
-                                     exclude_ids=used_breakfast)
-        lunch  = pick_recipes(filtered, "lunch",  l_target, n=2, exclude_ids=used_lunch)  if use_lunch  else []
-        dinner = pick_recipes(filtered, "dinner", d_target, n=2, exclude_ids=used_dinner) if use_dinner else []
+                                     exclude_ids=used_breakfast,
+                                     preferred_cuisines=_pref_cuisines)
+        lunch  = pick_recipes(filtered, "lunch",  l_target, n=2, exclude_ids=used_lunch,
+                              preferred_cuisines=_pref_cuisines)  if use_lunch  else []
+        dinner = pick_recipes(filtered, "dinner", d_target, n=2, exclude_ids=used_dinner,
+                              preferred_cuisines=_pref_cuisines) if use_dinner else []
         if snack_count >= 1:
             snacks = pick_recipes(filtered, "snack", s_target, n=snack_count,
-                                  exclude_ids=used_snack)
+                                  exclude_ids=used_snack,
+                                  preferred_cuisines=_pref_cuisines)
+
+        # ── Treat-meal cap: max 1 treat per day ───────────────────────────
+        # Check all picked slots and replace extras (lower-priority slots first)
+        _day_draft = {"breakfast": breakfast, "lunch": lunch,
+                      "dinner": dinner, "snack": snacks}
+        _all_used  = ({r["id"] for r in breakfast} | {r["id"] for r in lunch}
+                      | {r["id"] for r in dinner}  | {r["id"] for r in snacks})
+        _treat_found = False
+        for _slot in ("breakfast", "lunch", "dinner", "snack"):
+            _slot_recipes = _day_draft[_slot]
+            for _idx, _r in enumerate(_slot_recipes):
+                if _r.get("treat_meal"):
+                    if _treat_found:
+                        # Already have one treat today — swap this one out
+                        _replacement = _replace_treat(
+                            _r, filtered, _slot, {
+                                "breakfast": b_target, "lunch": l_target,
+                                "dinner": d_target, "snack": s_target,
+                            }.get(_slot, d_target),
+                            _all_used - {_r["id"]},
+                        )
+                        _slot_recipes[_idx] = _replacement
+                    else:
+                        _treat_found = True
+        breakfast = _day_draft["breakfast"]
+        lunch     = _day_draft["lunch"]
+        dinner    = _day_draft["dinner"]
+        snacks    = _day_draft["snack"]
 
         for r in breakfast: used_breakfast.add(r["id"])
         for r in lunch:     used_lunch.add(r["id"])

@@ -4972,6 +4972,1221 @@
       ],
       "sodium_mg": 490,
       "is_side_dish": false
+    },
+    {
+      "id": "R114",
+      "name_en": "Grilled Chicken Salad Bowl",
+      "name_ne": "ग्रिल्ड चिकन सलाद",
+      "category": "lunch",
+      "cuisine": "Continental",
+      "serving_description": "1 large bowl (approx 400g)",
+      "prep_time_mins": 20,
+      "cooking_method": "grill / tawa",
+      "is_batch_cookable": true,
+      "calories": 420,
+      "protein_g": 42,
+      "carbs_g": 15,
+      "fat_g": 22,
+      "fiber_g": 5,
+      "dietary_tags": [
+        "contains-meat",
+        "high-protein",
+        "gluten-free",
+        "quick"
+      ],
+      "meat_type": "chicken",
+      "condition_flags": [
+        "pcos_friendly",
+        "thyroid_friendly",
+        "fatty_liver_friendly",
+        "diabetes_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Sliced grilled chicken breast over a bed of mixed greens, cherry tomatoes, cucumber, red onion, and capsicum — dressed with olive oil, lemon juice, and a pinch of oregano. High protein, low carb, and genuinely satisfying. One of the most popular home-cooked continental lunches.",
+      "key_ingredients": [
+        "chicken breast",
+        "mixed salad greens",
+        "cherry tomatoes",
+        "cucumber",
+        "capsicum",
+        "red onion",
+        "olive oil",
+        "lemon"
+      ],
+      "notes": "Marinate chicken in garlic, lemon, olive oil, salt, and pepper for 15 min before grilling. Can use a regular tawa on medium heat — no grill needed. Add sunflower seeds or walnuts for healthy fat and crunch. Works as meal prep — grill a batch and assemble salads through the week.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 380,
+      "is_side_dish": false
+    },
+    {
+      "id": "R115",
+      "name_en": "Whole Wheat Pasta Arrabiata",
+      "name_ne": "होल व्हीट पास्ता अर्राबियाता",
+      "category": "lunch",
+      "cuisine": "Continental",
+      "serving_description": "1 bowl (approx 350g cooked)",
+      "prep_time_mins": 25,
+      "cooking_method": "stove",
+      "is_batch_cookable": true,
+      "calories": 420,
+      "protein_g": 14,
+      "carbs_g": 68,
+      "fat_g": 11,
+      "fiber_g": 8,
+      "dietary_tags": [
+        "vegetarian",
+        "vegan"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "cholesterol_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Whole wheat pasta tossed in a spicy homemade tomato sauce — crushed tomatoes, garlic, dried chili flakes, olive oil, and fresh basil. A classic Italian staple that is genuinely easy to make at home and far lighter than restaurant versions. Whole wheat pasta gives nearly double the fibre of regular pasta.",
+      "key_ingredients": [
+        "whole wheat pasta (penne or spaghetti)",
+        "crushed tomatoes",
+        "garlic",
+        "olive oil",
+        "dried chili flakes",
+        "fresh basil or dried oregano"
+      ],
+      "notes": "Use 70–80g dry pasta per serving. Keep oil to 1 tbsp — the flavour comes from garlic and tomatoes, not oil. Available in major supermarkets in Kathmandu (Bhatbhateni, Salesways). Add a small handful of kidney beans or chickpeas to boost protein if desired.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 320,
+      "is_side_dish": false
+    },
+    {
+      "id": "R116",
+      "name_en": "Whole Wheat Veggie and Egg Wrap",
+      "name_ne": "होल व्हीट तरकारी र अण्डा र्‍याप",
+      "category": "lunch",
+      "cuisine": "Continental",
+      "serving_description": "1 large wrap (approx 300g)",
+      "prep_time_mins": 15,
+      "cooking_method": "tawa",
+      "is_batch_cookable": false,
+      "calories": 390,
+      "protein_g": 20,
+      "carbs_g": 44,
+      "fat_g": 14,
+      "fiber_g": 6,
+      "dietary_tags": [
+        "eggetarian",
+        "quick"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "pcos_friendly",
+        "cholesterol_friendly",
+        "hypertension_friendly",
+        "diabetes_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "A whole wheat tortilla or roti spread with hummus or light cream cheese, filled with two scrambled eggs, lettuce, sliced tomato, cucumber, and thinly sliced capsicum. Rolled tight and eaten fresh. Quick, balanced, and one of the most popular grab-and-go continental lunches at home.",
+      "key_ingredients": [
+        "whole wheat tortilla or chapati",
+        "eggs",
+        "hummus or low-fat cream cheese",
+        "lettuce",
+        "tomato",
+        "cucumber",
+        "capsicum"
+      ],
+      "notes": "A large chapati works perfectly if whole wheat tortillas are hard to find. Scramble eggs with just a pinch of salt and pepper — no oil needed in a non-stick pan. Add a squeeze of lemon or a dash of hot sauce for flavour. Takes under 15 minutes from start to finish.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 420,
+      "is_side_dish": false
+    },
+    {
+      "id": "R117",
+      "name_en": "Savory Congee (Chinese Rice Porridge)",
+      "name_ne": "कन्जी (चिनियाँ चामल ढिँडो)",
+      "category": "breakfast",
+      "cuisine": "Chinese",
+      "serving_description": "1 bowl (approx 400ml)",
+      "prep_time_mins": 25,
+      "cooking_method": "stove / pressure cooker",
+      "is_batch_cookable": true,
+      "calories": 310,
+      "protein_g": 12,
+      "carbs_g": 46,
+      "fat_g": 8,
+      "fiber_g": 2,
+      "dietary_tags": [
+        "vegetarian",
+        "gluten-free",
+        "easy-to-digest"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "ibs_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
+        "thyroid_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Plain rice simmered long and slow in water or light broth until creamy and thick — the Chinese equivalent of comfort porridge. Topped with fresh ginger strips, spring onion, a soft-boiled egg, and a drizzle of sesame oil. Simple, deeply satisfying, and incredibly easy on the digestive system. One of the most widely eaten Chinese breakfasts across Asia.",
+      "key_ingredients": [
+        "white or brown rice",
+        "ginger",
+        "spring onion",
+        "egg (soft boiled)",
+        "sesame oil",
+        "soy sauce (low sodium)",
+        "salt"
+      ],
+      "notes": "Use a 1:8 rice-to-water ratio and simmer on low for 30–40 min, stirring occasionally. Pressure cooker cuts this to under 15 min. Brown rice works but takes longer. Add shredded chicken or tofu for a higher-protein version (~380 cal). Soy sauce is available at major supermarkets in Kathmandu. Sesame oil is sold at Asian grocery stores and larger supermarkets.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 310,
+      "is_side_dish": false
+    },
+    {
+      "id": "R118",
+      "name_en": "Chinese Tomato and Egg Stir-fry with Rice",
+      "name_ne": "चिनियाँ टमाटर र अण्डा भुटुवा भात",
+      "category": "breakfast",
+      "cuisine": "Chinese",
+      "serving_description": "1 plate — egg stir-fry + 1 cup rice (approx 380g)",
+      "prep_time_mins": 15,
+      "cooking_method": "stove",
+      "is_batch_cookable": false,
+      "calories": 370,
+      "protein_g": 16,
+      "carbs_g": 46,
+      "fat_g": 13,
+      "fiber_g": 3,
+      "dietary_tags": [
+        "eggetarian",
+        "quick"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "pcos_friendly",
+        "thyroid_friendly",
+        "diabetes_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Arguably the most popular home-cooked Chinese dish in the world — two eggs scrambled in a hot wok with ripe tomatoes, a splash of soy sauce, and a drizzle of sesame oil, finished with spring onion. Served over a small bowl of steamed rice. The combination is tangy, savoury, and ready in under 15 minutes. A common breakfast or light meal across China and the broader Asian diaspora.",
+      "key_ingredients": [
+        "eggs",
+        "ripe tomatoes",
+        "spring onion",
+        "soy sauce",
+        "sesame oil",
+        "steamed white or brown rice",
+        "salt",
+        "sugar (pinch, optional)"
+      ],
+      "notes": "The trick: cook eggs first on high heat, remove, then cook tomatoes briefly, and add eggs back at the end so they stay soft and fluffy. A tiny pinch of sugar balances the tomato acidity — do not skip it. Use 1 tsp sesame oil maximum. Easy to make with leftover rice from the night before. Substitute tomatoes with any seasonal vegetable if needed.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 390,
+      "is_side_dish": false
+    },
+    {
+      "id": "R119",
+      "name_en": "Greek Yogurt Parfait with Granola and Banana",
+      "name_ne": "दही, ग्रानोला र केरा परफे",
+      "category": "breakfast",
+      "cuisine": "Continental",
+      "serving_description": "1 tall glass or bowl (approx 350g)",
+      "prep_time_mins": 5,
+      "cooking_method": "no-cook",
+      "is_batch_cookable": false,
+      "calories": 365,
+      "protein_g": 18,
+      "carbs_g": 55,
+      "fat_g": 7,
+      "fiber_g": 4,
+      "dietary_tags": [
+        "vegetarian",
+        "quick",
+        "high-protein"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "pcos_friendly",
+        "thyroid_friendly",
+        "cholesterol_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Thick strained dahi (or hung curd) layered with crunchy granola and sliced banana — finished with a drizzle of honey. Ready in 5 minutes, no cooking required. High in protein and genuinely filling. One of the most popular continental breakfasts worldwide, and easily made at home in Kathmandu.",
+      "key_ingredients": [
+        "strained dahi (hung curd)",
+        "granola",
+        "banana",
+        "honey"
+      ],
+      "notes": "Strain regular dahi overnight in a muslin cloth for Greek-style thickness. Granola is available at Bhatbhateni and Salesways. Substitute banana with any seasonal fruit (apple, mango, papaya). Avoid honey for strict diabetics — use a few berries instead.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 80,
+      "is_side_dish": false
+    },
+    {
+      "id": "R120",
+      "name_en": "Avocado and Poached Egg Toast",
+      "name_ne": "एभोकाडो र अण्डा टोस्ट",
+      "category": "breakfast",
+      "cuisine": "Continental",
+      "serving_description": "2 slices toast with topping (approx 280g)",
+      "prep_time_mins": 12,
+      "cooking_method": "stove / toaster",
+      "is_batch_cookable": false,
+      "calories": 390,
+      "protein_g": 17,
+      "carbs_g": 38,
+      "fat_g": 20,
+      "fiber_g": 7,
+      "dietary_tags": [
+        "contains-egg",
+        "high-protein",
+        "quick"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "pcos_friendly",
+        "cholesterol_friendly",
+        "diabetes_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Whole wheat toast topped with mashed ripe avocado seasoned with lemon juice, salt, and chili flakes, finished with a poached or fried egg. The combination of healthy fat from avocado and protein from egg keeps you full for hours. Probably the most iconic continental breakfast of the last decade — and for good reason.",
+      "key_ingredients": [
+        "whole wheat bread",
+        "avocado",
+        "egg",
+        "lemon",
+        "chili flakes",
+        "salt"
+      ],
+      "notes": "Avocados are available at Bhatbhateni, Salesways, and Sato Mall in Kathmandu. Use a ripe avocado (yields to gentle pressure). A fried egg works perfectly if poaching feels tricky. Add a pinch of cumin for a South Asian twist.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 320,
+      "is_side_dish": false
+    },
+    {
+      "id": "R121",
+      "name_en": "Banana Oat Pancakes",
+      "name_ne": "केरा र ओट्स पानकेक",
+      "category": "breakfast",
+      "cuisine": "Continental",
+      "serving_description": "4 small pancakes (approx 300g batter, cooked)",
+      "prep_time_mins": 15,
+      "cooking_method": "tawa / non-stick pan",
+      "is_batch_cookable": true,
+      "calories": 420,
+      "protein_g": 20,
+      "carbs_g": 54,
+      "fat_g": 13,
+      "fiber_g": 5,
+      "dietary_tags": [
+        "contains-egg",
+        "gluten-free",
+        "high-protein"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "pcos_friendly",
+        "thyroid_friendly",
+        "cholesterol_friendly",
+        "diabetes_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Just three ingredients — a ripe banana, rolled oats, and eggs — blended into a batter and cooked as small pancakes. Naturally gluten-free, no flour needed, no added sugar. Crispy on the outside, soft inside. A favourite high-protein breakfast among fitness-conscious home cooks.",
+      "key_ingredients": [
+        "rolled oats",
+        "ripe banana",
+        "eggs",
+        "cinnamon",
+        "vanilla extract"
+      ],
+      "notes": "Blend 60g oats, 1 ripe banana, and 2 eggs until smooth. Cook on a lightly oiled non-stick pan over medium-low heat — flip when bubbles form. Top with a drizzle of honey or fresh fruit instead of syrup. The riper the banana, the sweeter and easier to blend.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 120,
+      "is_side_dish": false
+    },
+    {
+      "id": "R122",
+      "name_en": "Moong Dal Chilla (Savoury Lentil Crepe)",
+      "name_ne": "मुग दालको चिल्ला",
+      "category": "breakfast",
+      "cuisine": "Indian",
+      "serving_description": "3 medium chillas (approx 280g cooked)",
+      "prep_time_mins": 20,
+      "cooking_method": "tawa",
+      "is_batch_cookable": false,
+      "calories": 340,
+      "protein_g": 20,
+      "carbs_g": 48,
+      "fat_g": 6,
+      "fiber_g": 8,
+      "dietary_tags": [
+        "vegetarian",
+        "vegan",
+        "high-protein",
+        "high-fiber",
+        "gluten-free"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "diabetes_friendly",
+        "pcos_friendly",
+        "cholesterol_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
+        "anaemia_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Soaked yellow moong dal blended into a smooth batter with ginger, green chili, onion, and coriander, then cooked into thin savoury crepes on a hot tawa. One of the most nutritionally efficient Indian breakfasts — high protein, high fibre, very low fat, naturally gluten-free, and easy to digest.",
+      "key_ingredients": [
+        "yellow moong dal",
+        "ginger",
+        "green chili",
+        "onion",
+        "coriander",
+        "cumin seeds",
+        "salt"
+      ],
+      "notes": "Soak 80g moong dal for at least 2 hours (or overnight for easier blending). The batter should be pourable like dosa batter — add water gradually. Cook on a well-seasoned tawa with minimal oil. Serve with mint chutney or a small bowl of dahi. Can add grated carrot or spinach to the batter.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 210,
+      "is_side_dish": false
+    },
+    {
+      "id": "R123",
+      "name_en": "Paneer Bhurji with Whole Wheat Roti",
+      "name_ne": "पनीर भुर्जी र रोटी",
+      "category": "breakfast",
+      "cuisine": "Indian",
+      "serving_description": "1 serving bhurji + 2 rotis (approx 350g)",
+      "prep_time_mins": 20,
+      "cooking_method": "stove / tawa",
+      "is_batch_cookable": false,
+      "calories": 455,
+      "protein_g": 22,
+      "carbs_g": 50,
+      "fat_g": 18,
+      "fiber_g": 5,
+      "dietary_tags": [
+        "vegetarian",
+        "high-protein"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "pcos_friendly",
+        "thyroid_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Crumbled paneer scrambled with onion, tomato, capsicum, turmeric, and cumin — served hot with two whole wheat rotis. The Indian equivalent of scrambled eggs, paneer bhurji is fast, high-protein, and deeply satisfying. A popular breakfast and light dinner across North Indian and Nepali households.",
+      "key_ingredients": [
+        "paneer",
+        "onion",
+        "tomato",
+        "capsicum",
+        "green chili",
+        "turmeric",
+        "cumin",
+        "whole wheat flour"
+      ],
+      "notes": "Use 70–80g paneer per serving to keep calories in check. Crumble fine for best texture. A teaspoon of oil is enough — paneer releases some fat as it cooks. Add a pinch of garam masala at the end for aroma. Pairs well with a small bowl of dahi on the side.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 390,
+      "is_side_dish": false
+    },
+    {
+      "id": "R124",
+      "name_en": "Poha with Vegetables and Peanuts",
+      "name_ne": "तरकारी र बदाम सहितको पोहा",
+      "category": "breakfast",
+      "cuisine": "Indian",
+      "serving_description": "1 plate (approx 300g cooked)",
+      "prep_time_mins": 15,
+      "cooking_method": "stove",
+      "is_batch_cookable": false,
+      "calories": 340,
+      "protein_g": 9,
+      "carbs_g": 56,
+      "fat_g": 9,
+      "fiber_g": 4,
+      "dietary_tags": [
+        "vegetarian",
+        "vegan",
+        "gluten-free",
+        "quick"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "hypertension_friendly",
+        "ibs_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Flattened rice (chiura/poha) tempered with mustard seeds, curry leaves, and turmeric, then tossed with sautéed onion, peas, and carrot — finished with roasted peanuts, fresh coriander, and a squeeze of lemon. Light, fragrant, and ready in 15 minutes. One of the most popular breakfasts across India and common in Nepali-Indian households.",
+      "key_ingredients": [
+        "poha (flattened rice / chiura)",
+        "onion",
+        "green peas",
+        "carrot",
+        "roasted peanuts",
+        "mustard seeds",
+        "curry leaves",
+        "turmeric",
+        "lemon"
+      ],
+      "notes": "Rinse the poha briefly and drain — it should be moist but not soggy. The peanuts are essential for crunch and protein — do not skip them. Add a sliced potato for a more filling version. Serve immediately — poha becomes sticky and loses texture if left to sit.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 180,
+      "is_side_dish": false
+    },
+    {
+      "id": "R125",
+      "name_en": "Tuna Salad Sandwich on Whole Wheat",
+      "name_ne": "टुना सलाद स्यान्डविच",
+      "category": "lunch",
+      "cuisine": "Continental",
+      "serving_description": "2 slices sandwich (approx 280g)",
+      "prep_time_mins": 10,
+      "cooking_method": "no-cook",
+      "is_batch_cookable": false,
+      "calories": 375,
+      "protein_g": 35,
+      "carbs_g": 38,
+      "fat_g": 8,
+      "fiber_g": 5,
+      "dietary_tags": [
+        "contains-meat",
+        "high-protein",
+        "quick"
+      ],
+      "meat_type": "fish",
+      "condition_flags": [
+        "pcos_friendly",
+        "thyroid_friendly",
+        "cholesterol_friendly",
+        "diabetes_friendly",
+        "anaemia_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Canned tuna mixed with a spoonful of light mayo or hung curd, diced red onion, and a squeeze of lemon — layered with lettuce, sliced tomato, and cucumber between two slices of whole wheat bread. One of the simplest high-protein lunches you can make in under 10 minutes.",
+      "key_ingredients": [
+        "canned tuna in water",
+        "whole wheat bread",
+        "hung curd or light mayo",
+        "red onion",
+        "lettuce",
+        "tomato",
+        "cucumber",
+        "lemon"
+      ],
+      "notes": "Canned tuna (Del Monte, Ayam) is available at Bhatbhateni, Salesways, and larger general stores. Drain well before mixing. Hung curd works as a healthier mayo substitute. Toast the bread lightly for better texture. Add a pinch of black pepper and dijon mustard if available.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 480,
+      "is_side_dish": false
+    },
+    {
+      "id": "R126",
+      "name_en": "Greek Salad with Chickpeas",
+      "name_ne": "ग्रीक सलाद र चना",
+      "category": "lunch",
+      "cuisine": "Continental",
+      "serving_description": "1 large bowl (approx 380g)",
+      "prep_time_mins": 10,
+      "cooking_method": "no-cook",
+      "is_batch_cookable": true,
+      "calories": 360,
+      "protein_g": 14,
+      "carbs_g": 48,
+      "fat_g": 13,
+      "fiber_g": 10,
+      "dietary_tags": [
+        "vegetarian",
+        "vegan",
+        "gluten-free",
+        "high-fiber",
+        "quick"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "cholesterol_friendly",
+        "hypertension_friendly",
+        "fatty_liver_friendly",
+        "diabetes_friendly",
+        "pcos_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Cooked chickpeas tossed with diced tomato, cucumber, red onion, capsicum, and olives — dressed simply with olive oil, lemon juice, and dried oregano. Protein-rich, high in fibre, and genuinely refreshing. Works as a standalone lunch or alongside a bowl of soup.",
+      "key_ingredients": [
+        "cooked chickpeas (chana)",
+        "tomato",
+        "cucumber",
+        "red onion",
+        "capsicum",
+        "olives",
+        "olive oil",
+        "lemon",
+        "oregano"
+      ],
+      "notes": "Canned chickpeas save time — drain and rinse well. Olives are available at larger supermarkets; skip or use sliced capsicum instead if unavailable. A small amount of crumbled paneer or feta adds protein if desired. Dress just before serving to keep vegetables crisp.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 350,
+      "is_side_dish": false
+    },
+    {
+      "id": "R127",
+      "name_en": "Chinese Stir-fried Chicken and Vegetables with Rice",
+      "name_ne": "चिनियाँ भुटेको चिकन तरकारी र भात",
+      "category": "lunch",
+      "cuisine": "Chinese",
+      "serving_description": "1 plate chicken stir-fry + rice (approx 420g)",
+      "prep_time_mins": 20,
+      "cooking_method": "stove / wok",
+      "is_batch_cookable": false,
+      "calories": 445,
+      "protein_g": 36,
+      "carbs_g": 48,
+      "fat_g": 11,
+      "fiber_g": 5,
+      "dietary_tags": [
+        "contains-meat",
+        "high-protein",
+        "gluten-free"
+      ],
+      "meat_type": "chicken",
+      "condition_flags": [
+        "pcos_friendly",
+        "thyroid_friendly",
+        "diabetes_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Sliced chicken breast stir-fried on high heat with broccoli, carrot, capsicum, mushroom, and spring onion — seasoned with garlic, ginger, soy sauce, and a drizzle of sesame oil. Served over steamed rice. The home version of a Chinese restaurant classic, made with a fraction of the oil.",
+      "key_ingredients": [
+        "chicken breast",
+        "broccoli",
+        "carrot",
+        "capsicum",
+        "mushroom",
+        "spring onion",
+        "garlic",
+        "ginger",
+        "soy sauce",
+        "sesame oil",
+        "steamed white rice"
+      ],
+      "notes": "High heat is the secret — use the hottest flame your stove allows and keep ingredients moving. Slice chicken thin for fast cooking. Cook each vegetable for 1–2 minutes max to keep the crunch. Substitute broccoli with bok choy, cabbage, or whatever vegetables are fresh.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 620,
+      "is_side_dish": false
+    },
+    {
+      "id": "R128",
+      "name_en": "Chinese Chicken Noodle Soup",
+      "name_ne": "चिनियाँ चिकन नुडल सूप",
+      "category": "lunch",
+      "cuisine": "Chinese",
+      "serving_description": "1 large bowl (approx 500ml)",
+      "prep_time_mins": 25,
+      "cooking_method": "stove",
+      "is_batch_cookable": true,
+      "calories": 420,
+      "protein_g": 34,
+      "carbs_g": 48,
+      "fat_g": 6,
+      "fiber_g": 4,
+      "dietary_tags": [
+        "contains-meat",
+        "high-protein"
+      ],
+      "meat_type": "chicken",
+      "condition_flags": [
+        "pcos_friendly",
+        "thyroid_friendly",
+        "ibs_friendly",
+        "anaemia_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Shredded chicken breast simmered in a clear ginger-garlic broth with egg noodles, bok choy, and mushrooms — finished with spring onion and a few drops of sesame oil. Comforting, high-protein, and genuinely low in fat. The kind of soup that works equally well as a light lunch or recovery meal.",
+      "key_ingredients": [
+        "chicken breast",
+        "egg noodles or rice noodles",
+        "bok choy or cabbage",
+        "mushroom",
+        "spring onion",
+        "ginger",
+        "garlic",
+        "soy sauce (low sodium)",
+        "sesame oil"
+      ],
+      "notes": "Simmer chicken in 2 cups water with ginger and garlic for 15 min, shred, then cook noodles in the same broth. Use low-sodium soy sauce to keep sodium reasonable. Rice noodles are a gluten-free option. Batch-cook the broth and store for up to 3 days.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 580,
+      "is_side_dish": false
+    },
+    {
+      "id": "R129",
+      "name_en": "Chole (Spiced Chickpea Curry) with Rice",
+      "name_ne": "छोले र भात",
+      "category": "lunch",
+      "cuisine": "Indian",
+      "serving_description": "1 bowl chole + 1 cup rice (approx 400g)",
+      "prep_time_mins": 30,
+      "cooking_method": "stove / pressure cooker",
+      "is_batch_cookable": true,
+      "calories": 460,
+      "protein_g": 16,
+      "carbs_g": 74,
+      "fat_g": 9,
+      "fiber_g": 12,
+      "dietary_tags": [
+        "vegetarian",
+        "vegan",
+        "high-fiber",
+        "gluten-free"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "cholesterol_friendly",
+        "fatty_liver_friendly",
+        "hypertension_friendly",
+        "anaemia_friendly"
+      ],
+      "difficulty": "medium",
+      "treat_meal": false,
+      "description": "Chickpeas slow-cooked in a deeply spiced tomato-onion gravy — cumin, coriander, amchur, garam masala, and dried chili — served with steamed white rice. A North Indian staple that is high in plant protein, fibre, and genuinely filling. One of the most popular vegan lunches in the region.",
+      "key_ingredients": [
+        "chickpeas (kabuli chana)",
+        "onion",
+        "tomato",
+        "ginger",
+        "garlic",
+        "cumin",
+        "coriander powder",
+        "amchur (dry mango powder)",
+        "garam masala",
+        "white rice"
+      ],
+      "notes": "Use dried chickpeas soaked overnight for best flavour, or canned for speed. The tamarind or amchur gives the signature tangy note — do not skip it. Batch-cook chole and refrigerate for up to 4 days. Serve with a small onion-tomato salad and a squeeze of lemon.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 380,
+      "is_side_dish": false
+    },
+    {
+      "id": "R130",
+      "name_en": "Tofu Buddha Bowl with Sesame Dressing",
+      "name_ne": "टोफु बुद्ध बाउल",
+      "category": "lunch",
+      "cuisine": "Pan-Asian",
+      "serving_description": "1 large bowl (approx 420g)",
+      "prep_time_mins": 20,
+      "cooking_method": "stove / oven",
+      "is_batch_cookable": true,
+      "calories": 420,
+      "protein_g": 22,
+      "carbs_g": 44,
+      "fat_g": 18,
+      "fiber_g": 7,
+      "dietary_tags": [
+        "vegetarian",
+        "vegan",
+        "gluten-free",
+        "high-protein"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "pcos_friendly",
+        "cholesterol_friendly",
+        "fatty_liver_friendly",
+        "thyroid_friendly",
+        "hypertension_friendly"
+      ],
+      "difficulty": "medium",
+      "treat_meal": false,
+      "description": "Pan-fried firm tofu over a base of brown rice or quinoa with shredded carrot, cucumber ribbons, red cabbage, and edamame (or cooked chickpeas), drizzled with a nutty sesame-soy-lemon dressing. Colourful, filling, and genuinely nutritious — a popular meal-prep lunch across fitness circles.",
+      "key_ingredients": [
+        "firm tofu",
+        "brown rice or quinoa",
+        "carrot",
+        "cucumber",
+        "red cabbage",
+        "edamame or chickpeas",
+        "sesame seeds",
+        "tahini or peanut butter",
+        "soy sauce",
+        "lemon"
+      ],
+      "notes": "Press tofu for 15 min before cooking to remove excess water — it crisps much better. Pan-fry in 1 tsp oil on medium-high until golden. Edamame is available frozen at larger Kathmandu supermarkets; chickpeas work just as well. Dressing: 1 tbsp tahini or peanut butter + 1 tsp soy + lemon juice + a splash of water to thin.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 480,
+      "is_side_dish": false
+    },
+    {
+      "id": "R131",
+      "name_en": "Dal Makhani with Jeera Rice",
+      "name_ne": "दाल मखनी र जीरा भात",
+      "category": "lunch",
+      "cuisine": "Indian",
+      "serving_description": "1 bowl dal + 1 cup rice (approx 380g)",
+      "prep_time_mins": 40,
+      "cooking_method": "pressure cooker / stove",
+      "is_batch_cookable": true,
+      "calories": 480,
+      "protein_g": 18,
+      "carbs_g": 70,
+      "fat_g": 13,
+      "fiber_g": 10,
+      "dietary_tags": [
+        "vegetarian",
+        "high-fiber"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "cholesterol_friendly",
+        "anaemia_friendly"
+      ],
+      "difficulty": "medium",
+      "treat_meal": false,
+      "description": "Whole black lentils and kidney beans slow-cooked until creamy with tomato, butter, cream, and aromatic spices — served with cumin-tempered white rice. A restaurant favourite that can be made at home with minimal active effort. Rich, deeply flavoured, and high in fibre. The key is long, slow cooking.",
+      "key_ingredients": [
+        "whole black lentils (kali dal / urad)",
+        "kidney beans (rajma)",
+        "tomato",
+        "onion",
+        "ginger",
+        "garlic",
+        "butter",
+        "cream (1 tbsp)",
+        "cumin seeds",
+        "white rice"
+      ],
+      "notes": "Soak lentils overnight and pressure-cook for 20–25 min. Simmer the dal in the tomato-onion base for at least 20 more minutes — this is what develops the creaminess. Use just 1 tbsp butter and 1 tbsp cream for a lighter version. Batch-cooks well — flavour improves significantly the next day.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 420,
+      "is_side_dish": false
+    },
+    {
+      "id": "R132",
+      "name_en": "Herb-Crusted Chicken with Roasted Vegetables",
+      "name_ne": "हर्ब चिकन र भुटेका तरकारी",
+      "category": "dinner",
+      "cuisine": "Continental",
+      "serving_description": "200g chicken + vegetable side (approx 450g total)",
+      "prep_time_mins": 35,
+      "cooking_method": "tawa / oven",
+      "is_batch_cookable": true,
+      "calories": 420,
+      "protein_g": 44,
+      "carbs_g": 14,
+      "fat_g": 20,
+      "fiber_g": 6,
+      "dietary_tags": [
+        "contains-meat",
+        "high-protein",
+        "gluten-free",
+        "low-calorie"
+      ],
+      "meat_type": "chicken",
+      "condition_flags": [
+        "pcos_friendly",
+        "thyroid_friendly",
+        "diabetes_friendly",
+        "fatty_liver_friendly",
+        "cholesterol_friendly"
+      ],
+      "difficulty": "medium",
+      "treat_meal": false,
+      "description": "Chicken breast coated in a crust of garlic, dried herbs (oregano, thyme, rosemary), olive oil, and lemon zest, then cooked on a cast-iron tawa or baked until golden — served alongside roasted broccoli, carrot, capsicum, and zucchini. High protein, very low carb, excellent for fat loss or muscle gain clients who want a clean dinner.",
+      "key_ingredients": [
+        "chicken breast",
+        "garlic",
+        "olive oil",
+        "lemon",
+        "dried oregano and thyme",
+        "broccoli",
+        "carrot",
+        "capsicum",
+        "zucchini or potato"
+      ],
+      "notes": "Marinate chicken in garlic, lemon juice, olive oil, and herbs for at least 30 min before cooking. A covered tawa on medium heat works perfectly — no oven required. Add a small serving of rice or roti to boost carbs for muscle-gain clients.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 360,
+      "is_side_dish": false
+    },
+    {
+      "id": "R133",
+      "name_en": "Whole Wheat Spaghetti with Chicken Mince Tomato Sauce",
+      "name_ne": "होल व्हीट स्पागेटी र चिकन मिन्स",
+      "category": "dinner",
+      "cuisine": "Continental",
+      "serving_description": "1 plate pasta with sauce (approx 400g cooked)",
+      "prep_time_mins": 30,
+      "cooking_method": "stove",
+      "is_batch_cookable": true,
+      "calories": 510,
+      "protein_g": 32,
+      "carbs_g": 62,
+      "fat_g": 14,
+      "fiber_g": 8,
+      "dietary_tags": [
+        "contains-meat",
+        "high-protein"
+      ],
+      "meat_type": "chicken",
+      "condition_flags": [
+        "pcos_friendly",
+        "thyroid_friendly"
+      ],
+      "difficulty": "medium",
+      "treat_meal": false,
+      "description": "Whole wheat spaghetti tossed in a slow-cooked sauce of chicken mince, crushed tomatoes, garlic, onion, and Italian herbs. A leaner take on the classic Bolognese — chicken mince has a fraction of the saturated fat of beef while still delivering real depth of flavour. Popular and genuinely satisfying.",
+      "key_ingredients": [
+        "whole wheat spaghetti",
+        "chicken mince",
+        "crushed tomatoes",
+        "onion",
+        "garlic",
+        "olive oil",
+        "dried oregano",
+        "basil",
+        "salt"
+      ],
+      "notes": "Cook the mince until browned before adding tomatoes — this builds flavour. Simmer the sauce for at least 20 min on low heat. Whole wheat pasta is available at Bhatbhateni. Use 80g dry pasta per serving. Add a small sprinkle of parmesan at the end if available.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 430,
+      "is_side_dish": false
+    },
+    {
+      "id": "R134",
+      "name_en": "Palak Paneer with Whole Wheat Roti",
+      "name_ne": "पालक पनीर र रोटी",
+      "category": "dinner",
+      "cuisine": "Indian",
+      "serving_description": "1 bowl palak paneer + 2 rotis (approx 400g)",
+      "prep_time_mins": 30,
+      "cooking_method": "stove / tawa",
+      "is_batch_cookable": true,
+      "calories": 455,
+      "protein_g": 22,
+      "carbs_g": 54,
+      "fat_g": 17,
+      "fiber_g": 8,
+      "dietary_tags": [
+        "vegetarian",
+        "high-protein",
+        "high-fiber"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "pcos_friendly",
+        "anaemia_friendly",
+        "cholesterol_friendly"
+      ],
+      "difficulty": "medium",
+      "treat_meal": false,
+      "description": "Blanched spinach blended into a smooth green gravy with garlic, ginger, and mild spices, with cubes of paneer simmered through until soft. Served with two whole wheat rotis. One of the most popular Indian vegetarian dinners — iron-rich from the spinach, protein-rich from the paneer.",
+      "key_ingredients": [
+        "spinach (palak)",
+        "paneer",
+        "onion",
+        "tomato",
+        "ginger",
+        "garlic",
+        "cumin",
+        "garam masala",
+        "whole wheat flour"
+      ],
+      "notes": "Blanch spinach for 2 min then immediately cool in water — this keeps the green colour vivid. Use 70–80g paneer per serving. A tablespoon of cream is optional — the dish is excellent without it. Low-fat paneer significantly reduces the calorie count.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 410,
+      "is_side_dish": false
+    },
+    {
+      "id": "R135",
+      "name_en": "Fish Curry with Steamed Rice",
+      "name_ne": "माछाको तरकारी र भात",
+      "category": "dinner",
+      "cuisine": "South Asian",
+      "serving_description": "150g fish curry + 1 cup rice (approx 400g total)",
+      "prep_time_mins": 30,
+      "cooking_method": "stove",
+      "is_batch_cookable": false,
+      "calories": 455,
+      "protein_g": 34,
+      "carbs_g": 46,
+      "fat_g": 13,
+      "fiber_g": 3,
+      "dietary_tags": [
+        "contains-meat",
+        "high-protein",
+        "gluten-free"
+      ],
+      "meat_type": "fish",
+      "condition_flags": [
+        "pcos_friendly",
+        "thyroid_friendly",
+        "cholesterol_friendly",
+        "anaemia_friendly",
+        "diabetes_friendly"
+      ],
+      "difficulty": "medium",
+      "treat_meal": false,
+      "description": "Fresh fish simmered in a light tomato-onion curry with mustard seeds, turmeric, coriander, and a small amount of coconut milk — served over steamed white rice. A universally beloved South Asian dinner, rich in omega-3 fatty acids and lean protein. Works with rohu, tilapia, bekti, or any firm white fish.",
+      "key_ingredients": [
+        "fresh fish (rohu / tilapia / bekti)",
+        "tomato",
+        "onion",
+        "ginger",
+        "garlic",
+        "turmeric",
+        "coriander powder",
+        "mustard seeds",
+        "coconut milk (light)",
+        "steamed white rice"
+      ],
+      "notes": "Use firm white fish — it holds together better in curry. Marinate fish in turmeric and salt for 10 min before cooking. Add coconut milk at the end off the heat to prevent curdling. Fresh fish is available at Kalimati and local bazaars; frozen works fine too.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 420,
+      "is_side_dish": false
+    },
+    {
+      "id": "R136",
+      "name_en": "Mapo-Style Spiced Tofu with Steamed Rice",
+      "name_ne": "माइपो टोफु र भात",
+      "category": "dinner",
+      "cuisine": "Chinese",
+      "serving_description": "1 bowl tofu + 1 cup rice (approx 400g)",
+      "prep_time_mins": 20,
+      "cooking_method": "stove / wok",
+      "is_batch_cookable": false,
+      "calories": 390,
+      "protein_g": 18,
+      "carbs_g": 46,
+      "fat_g": 14,
+      "fiber_g": 3,
+      "dietary_tags": [
+        "vegetarian",
+        "vegan",
+        "gluten-free",
+        "quick"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "pcos_friendly",
+        "thyroid_friendly",
+        "cholesterol_friendly",
+        "fatty_liver_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Soft tofu cubes simmered in a savoury, mildly spicy sauce of garlic, ginger, soy sauce, and chili — a simplified home-friendly version of the classic Sichuan mapo tofu, without the hard-to-find fermented bean paste. Quick, warming, and a very different way to eat tofu for clients who find it bland.",
+      "key_ingredients": [
+        "soft or silken tofu",
+        "garlic",
+        "ginger",
+        "soy sauce (low sodium)",
+        "chili flakes or fresh chili",
+        "spring onion",
+        "sesame oil",
+        "steamed white rice"
+      ],
+      "notes": "Handle soft tofu gently — add it to the sauce last and simmer on low heat to warm through without breaking. For more protein, add 50g chicken mince or cooked edamame to the sauce. Sichuan peppercorns (if available) add the signature tingly numbing flavour.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 520,
+      "is_side_dish": false
+    },
+    {
+      "id": "R137",
+      "name_en": "Thai Green Curry with Chicken and Rice",
+      "name_ne": "थाई ग्रीन करी र भात",
+      "category": "dinner",
+      "cuisine": "Thai",
+      "serving_description": "1 bowl curry + 1 cup rice (approx 450g total)",
+      "prep_time_mins": 30,
+      "cooking_method": "stove",
+      "is_batch_cookable": true,
+      "calories": 490,
+      "protein_g": 30,
+      "carbs_g": 48,
+      "fat_g": 16,
+      "fiber_g": 4,
+      "dietary_tags": [
+        "contains-meat",
+        "high-protein",
+        "gluten-free"
+      ],
+      "meat_type": "chicken",
+      "condition_flags": [
+        "pcos_friendly",
+        "thyroid_friendly"
+      ],
+      "difficulty": "medium",
+      "treat_meal": false,
+      "description": "Chicken breast simmered in a fragrant green curry sauce made from Thai green curry paste, light coconut milk, kaffir lime leaves, lemongrass, and Thai basil — with capsicum and zucchini. Served over steamed jasmine or white rice. A restaurant favourite that's surprisingly straightforward at home with the right paste.",
+      "key_ingredients": [
+        "chicken breast",
+        "Thai green curry paste",
+        "light coconut milk",
+        "kaffir lime leaves (optional)",
+        "lemongrass",
+        "capsicum",
+        "zucchini or green beans",
+        "Thai basil or regular basil",
+        "steamed rice"
+      ],
+      "notes": "Thai green curry paste (Mae Ploy, Maesri) is available at larger Kathmandu supermarkets and Asian grocery stores. Use light coconut milk to keep calories reasonable. A full tin of regular coconut milk adds 200+ extra calories. Substitute chicken with tofu or mixed vegetables for a vegetarian version.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 560,
+      "is_side_dish": false
+    },
+    {
+      "id": "R138",
+      "name_en": "Hummus with Veggie Sticks",
+      "name_ne": "हम्मस र तरकारी स्टिक",
+      "category": "snack",
+      "cuisine": "Continental",
+      "serving_description": "4 tbsp hummus + 150g vegetables (approx 230g)",
+      "prep_time_mins": 10,
+      "cooking_method": "no-cook",
+      "is_batch_cookable": true,
+      "calories": 200,
+      "protein_g": 8,
+      "carbs_g": 24,
+      "fat_g": 8,
+      "fiber_g": 7,
+      "dietary_tags": [
+        "vegetarian",
+        "vegan",
+        "gluten-free",
+        "high-fiber",
+        "quick"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "cholesterol_friendly",
+        "diabetes_friendly",
+        "hypertension_friendly",
+        "pcos_friendly",
+        "fatty_liver_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Store-bought or homemade hummus served with carrot sticks, cucumber batons, and capsicum strips. One of the most satisfying low-calorie snacks available — the chickpea base provides protein and fibre, the raw vegetables add crunch and micronutrients. Far better than biscuits or namkeen for the same hunger cue.",
+      "key_ingredients": [
+        "hummus (chickpea dip)",
+        "carrot",
+        "cucumber",
+        "capsicum"
+      ],
+      "notes": "Hummus is available ready-made at major supermarkets in Kathmandu. To make at home: blend cooked chickpeas, tahini, lemon, garlic, olive oil, and salt — takes 5 minutes. Batch-prep veggie sticks for the week and store in water in the fridge. Pairs well as a mid-afternoon snack.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 280,
+      "is_side_dish": false
+    },
+    {
+      "id": "R139",
+      "name_en": "Hard Boiled Eggs with Cucumber and Whole Wheat Crackers",
+      "name_ne": "उमालेको अण्डा, काक्रो र क्र्याकर",
+      "category": "snack",
+      "cuisine": "Continental",
+      "serving_description": "2 eggs + cucumbers + 4 crackers (approx 250g)",
+      "prep_time_mins": 12,
+      "cooking_method": "boil",
+      "is_batch_cookable": true,
+      "calories": 240,
+      "protein_g": 15,
+      "carbs_g": 18,
+      "fat_g": 12,
+      "fiber_g": 3,
+      "dietary_tags": [
+        "contains-egg",
+        "high-protein",
+        "quick"
+      ],
+      "meat_type": null,
+      "condition_flags": [
+        "pcos_friendly",
+        "thyroid_friendly",
+        "diabetes_friendly"
+      ],
+      "difficulty": "easy",
+      "treat_meal": false,
+      "description": "Two hard-boiled eggs with sliced cucumber and four whole wheat crackers. Simple, portable, high-protein, and genuinely filling. The kind of snack that takes under 15 minutes to prepare and keeps hunger at bay for hours without adding unnecessary calories.",
+      "key_ingredients": [
+        "eggs",
+        "cucumber",
+        "whole wheat crackers",
+        "salt",
+        "black pepper"
+      ],
+      "notes": "Boil eggs in advance and refrigerate for up to 5 days in the shell — the most convenient meal-prep snack available. Whole wheat crackers are available at most supermarkets. Add a pinch of chaat masala or paprika on the eggs for flavour. Swap crackers for a small roti if preferred.",
+      "location_tags": [
+        "home"
+      ],
+      "sodium_mg": 220,
+      "is_side_dish": false
     }
   ]
 }
