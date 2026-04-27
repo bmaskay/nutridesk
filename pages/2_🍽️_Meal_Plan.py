@@ -126,6 +126,34 @@ plan = st.session_state.get("current_plan")
 swaps = st.session_state.get("current_swaps", [])
 plan_client = st.session_state.get("plan_client_id")
 
+# ── Auto-initialise plan on page load ─────────────────────────────────────
+# Runs whenever there is no plan loaded for the current client.
+# Priority: 1) already in session → skip  2) saved in DB → load  3) new client → generate
+if not (plan and plan_client == client_id):
+    _saved = get_latest_meal_plan(client_id)
+    if _saved:
+        st.session_state["current_plan"]   = _saved["plan"]
+        st.session_state["current_swaps"]  = snack_swap_suggestions(client)
+        st.session_state["plan_client_id"] = client_id
+        st.session_state.pop("auto_generate_plan", None)
+    elif st.session_state.pop("auto_generate_plan", False):
+        with st.spinner(f"Building meal plan for {client['name']}…"):
+            _plan  = generate_meal_plan(client, assessment)
+            _swaps = snack_swap_suggestions(client)
+            save_meal_plan(client_id, _plan, {
+                "calories": assessment["target_calories"],
+                "protein":  assessment["protein_g"],
+                "carbs":    assessment["carbs_g"],
+                "fat":      assessment["fat_g"],
+            })
+            st.session_state["current_plan"]   = _plan
+            st.session_state["current_swaps"]  = _swaps
+            st.session_state["plan_client_id"] = client_id
+    # Re-read so the rest of the page sees the updated values
+    plan       = st.session_state.get("current_plan")
+    swaps      = st.session_state.get("current_swaps", [])
+    plan_client = st.session_state.get("plan_client_id")
+
 if plan and plan_client == client_id:
     st.markdown("---")
     st.markdown(f"### 7-Day Plan for {client['name']}")

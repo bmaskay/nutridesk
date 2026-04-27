@@ -796,4 +796,5 @@ if save_clicked:
         )
 
         if st.button("➡️ Generate Meal Plan Now"):
+            st.session_state["auto_generate_plan"] = True
             st.switch_page("pages/2_🍽️_Meal_Plan.py")
