@@ -372,24 +372,38 @@ if plan and plan_client == client_id:
                 st.code(_etb)
         elif st.session_state.get(_pdf_key):
             import base64 as _b64
+            import streamlit.components.v1 as _components
             _fname = f"NutriDesk_{client['name'].replace(' ', '_')}_Plan.pdf"
             _b64_pdf = _b64.b64encode(st.session_state[_pdf_key]).decode()
-            # Pure client-side download — no Streamlit rerun, page stays exactly where it is
-            st.markdown(
-                f'''<a href="data:application/pdf;base64,{_b64_pdf}"
-                       download="{_fname}"
-                       style="display:inline-block;width:100%;padding:10px 0;
-                              background:#2D6A4F;color:#fff;font-weight:600;
-                              font-size:0.9rem;text-align:center;border-radius:8px;
-                              text-decoration:none;letter-spacing:0.3px;
-                              box-shadow:0 1px 3px rgba(0,0,0,.15);
-                              transition:background .2s;"
-                       onmouseover="this.style.background='#1B4332'"
-                       onmouseout="this.style.background='#2D6A4F'">
-                    ⬇️ Download PDF
-                </a>''',
-                unsafe_allow_html=True,
-            )
+            # JS blob download — triggers a real file-save dialog, no Streamlit rerun,
+            # no inline PDF view, page stays exactly where it was.
+            _components.html(f"""
+<style>
+  body {{ margin:0; padding:0; }}
+  button {{
+    width:100%; padding:10px 0; background:#2D6A4F; color:#fff;
+    font-weight:600; font-size:0.88rem; border:none; border-radius:8px;
+    cursor:pointer; letter-spacing:0.3px; box-shadow:0 1px 3px rgba(0,0,0,.15);
+    transition:background .15s;
+  }}
+  button:hover {{ background:#1B4332; }}
+</style>
+<button onclick="dl()">⬇️ Download PDF</button>
+<script>
+function dl() {{
+  const b64 = '{_b64_pdf}';
+  const bin = atob(b64);
+  const buf = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i);
+  const blob = new Blob([buf], {{type: 'application/pdf'}});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = '{_fname}';
+  a.click();
+  URL.revokeObjectURL(url);
+}}
+</script>""", height=46)
             st.caption("Report ready — click to save.")
 
 else:
