@@ -970,7 +970,7 @@ def generate_pdf(
     _workouts = [
         # (label, day_hint, accent_colour, exercises)
         (
-            "Workout A  —  Monday / Thursday",
+            "Workout A",
             "Cardio + Core Foundation",
             GREEN_DARK,
             [
@@ -987,7 +987,7 @@ def generate_pdf(
             ],
         ),
         (
-            "Workout B  —  Tuesday / Friday",
+            "Workout B",
             "Oblique + Core Strength",
             GREEN_DARKEST,
             [
@@ -1004,7 +1004,7 @@ def generate_pdf(
             ],
         ),
         (
-            "Workout C  —  Wednesday / Saturday",
+            "Workout C",
             "Lower Body + Full Body",
             HexColor("#1A4731"),
             [
@@ -1061,20 +1061,23 @@ def generate_pdf(
     ))
 
     # ── Disclaimer ─────────────────────────────────────────────────────────
-    story.append(Spacer(1, 0.5 * cm))
-    story.append(_hr())
-    story.append(_section_heading("Disclaimer", s))
-    story.append(Spacer(1, 0.2 * cm))
-    story.append(Paragraph(
-        f"This report was prepared by Āhāra by Asha on {date.today().strftime('%d %B %Y')}. "
-        "It is intended as personalised dietary and lifestyle guidance based on the information "
-        "provided at the time of assessment. This report does not constitute medical advice and "
-        "is not a substitute for consultation with a qualified physician or healthcare provider. "
-        "Individual results may vary. Please consult your doctor before making any significant "
-        "changes to your diet, exercise routine, or supplement intake, particularly if you have "
-        "an existing medical condition or are on medication.",
-        s["disclaimer"]
-    ))
+    # KeepTogether ensures the whole block stays on one page — never splits mid-paragraph
+    story.append(KeepTogether([
+        Spacer(1, 0.5 * cm),
+        _hr(),
+        _section_heading("Disclaimer", s),
+        Spacer(1, 0.2 * cm),
+        Paragraph(
+            f"This report was prepared by Āhāra by Asha on {date.today().strftime('%d %B %Y')}. "
+            "It is intended as personalised dietary and lifestyle guidance based on the information "
+            "provided at the time of assessment. This report does not constitute medical advice and "
+            "is not a substitute for consultation with a qualified physician or healthcare provider. "
+            "Individual results may vary. Please consult your doctor before making any significant "
+            "changes to your diet, exercise routine, or supplement intake, particularly if you have "
+            "an existing medical condition or are on medication.",
+            s["disclaimer"]
+        ),
+    ]))
 
     doc.build(story)
     pdf_bytes = buffer.getvalue()

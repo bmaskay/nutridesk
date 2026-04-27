@@ -371,14 +371,24 @@ if plan and plan_client == client_id:
             with st.expander("Details"):
                 st.code(_etb)
         elif st.session_state.get(_pdf_key):
+            import base64 as _b64
             _fname = f"NutriDesk_{client['name'].replace(' ', '_')}_Plan.pdf"
-            st.download_button(
-                label="⬇️ Download PDF",
-                data=st.session_state[_pdf_key],
-                file_name=_fname,
-                mime="application/pdf",
-                key="dl_pdf_btn",
-                use_container_width=True,
+            _b64_pdf = _b64.b64encode(st.session_state[_pdf_key]).decode()
+            # Pure client-side download — no Streamlit rerun, page stays exactly where it is
+            st.markdown(
+                f'''<a href="data:application/pdf;base64,{_b64_pdf}"
+                       download="{_fname}"
+                       style="display:inline-block;width:100%;padding:10px 0;
+                              background:#2D6A4F;color:#fff;font-weight:600;
+                              font-size:0.9rem;text-align:center;border-radius:8px;
+                              text-decoration:none;letter-spacing:0.3px;
+                              box-shadow:0 1px 3px rgba(0,0,0,.15);
+                              transition:background .2s;"
+                       onmouseover="this.style.background='#1B4332'"
+                       onmouseout="this.style.background='#2D6A4F'">
+                    ⬇️ Download PDF
+                </a>''',
+                unsafe_allow_html=True,
             )
             st.caption("Report ready — click to save.")
 
