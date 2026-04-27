@@ -289,7 +289,7 @@ def generate_pdf(
             "cv_t", fontName=BODY_FONT_BOLD, fontSize=30,
             textColor=WHITE, alignment=TA_CENTER, leading=36, spaceAfter=0,
         ))],
-        [Paragraph("Ahara by Asha", ParagraphStyle(
+        [Paragraph("Āhāra by Asha", ParagraphStyle(
             "cv_s", fontName=BODY_FONT, fontSize=13,
             textColor=GREEN_PALE, alignment=TA_CENTER, leading=18, spaceAfter=0,
         ))],
@@ -459,7 +459,7 @@ def generate_pdf(
     story.append(profile_table)
 
     # ── Macros Breakdown ──────────────────────────────────────────────────
-    story.append(Spacer(1, 0.4 * cm))
+    story.append(Spacer(1, 0.9 * cm))
     story.append(_section_heading("Macro Breakdown", s))
     story.append(_hr())
 
@@ -881,7 +881,7 @@ def generate_pdf(
                                textColor=GREEN_DARK, alignment=TA_CENTER, leading=15, spaceAfter=0)
     _fit_data = [[
         [Paragraph("FITNESS LEVEL",   _fit_lbl), Paragraph(fitness_level,       _fit_val)],
-        [Paragraph("CIRCUIT ROUNDS",  _fit_lbl), Paragraph(str(_rounds),        _fit_val)],
+        [Paragraph("WORKOUTS / WEEK", _fit_lbl), Paragraph("5 – 6",              _fit_val)],
         [Paragraph("DAILY SKIPPING",  _fit_lbl), Paragraph(f"{_skips:,} skips", _fit_val)],
         [Paragraph("STEP TARGET",     _fit_lbl), Paragraph(f"{_steps:,}/day",   _fit_val)],
     ]]
@@ -920,53 +920,117 @@ def generate_pdf(
 
     story.append(Spacer(1, 0.35 * cm))
 
-    # Circuit exercises
-    _circuit = [
-        ("Jumping Jacks",                  {"Beginner": "30", "Moderate": "40", "Advanced": "50"}),
-        ("Crunches",                        {"Beginner":  "8", "Moderate": "10", "Advanced": "12"}),
-        ("Leg Raise",                       {"Beginner":  "8", "Moderate": "10", "Advanced": "12"}),
-        ("Elbow-to-Knee Oblique Crunches",  {"Beginner":  "8", "Moderate": "10", "Advanced": "12"}),
-        ("Russian Twist (2L bottle)",       {"Beginner":  "8", "Moderate": "10", "Advanced": "12"}),
-        ("Leg Straight Hold",               {"Beginner": "30 sec", "Moderate": "45 sec", "Advanced": "1 min"}),
-        ("Heel Touch",                      {"Beginner":  "8", "Moderate": "10", "Advanced": "12"}),
-        ("Cross Leg",                       {"Beginner":  "8", "Moderate": "10", "Advanced": "12"}),
-        ("Bicycle Crunches",                {"Beginner":  "8", "Moderate": "10", "Advanced": "12"}),
-        ("Plank",                           {"Beginner": "30 sec", "Moderate": "45 sec", "Advanced": "1 min"}),
+    # ── Weekly workout schedule ────────────────────────────────────────────
+    story.append(Paragraph("Weekly Schedule", s["subheading"]))
+    _CW_local = W - 2 * MARGIN
+    _sched_hdr = ParagraphStyle("sch", fontName=BODY_FONT_BOLD, fontSize=8.5,
+                                 textColor=HexColor("#F0FDF4"))
+    _sched_day = ParagraphStyle("scd", fontName=BODY_FONT_BOLD, fontSize=8.5,
+                                 textColor=GREEN_DARK)
+    _sched_txt = ParagraphStyle("sct", fontName=BODY_FONT, fontSize=8.5,
+                                 textColor=TEXT_MID)
+    _sched_data = [
+        [Paragraph("Days",    _sched_hdr),
+         Paragraph("Workout", _sched_hdr),
+         Paragraph("Focus",   _sched_hdr)],
+        [Paragraph("Monday / Thursday",   _sched_day),
+         Paragraph("Workout A",           _sched_txt),
+         Paragraph("Cardio + Core",       _sched_txt)],
+        [Paragraph("Tuesday / Friday",    _sched_day),
+         Paragraph("Workout B",           _sched_txt),
+         Paragraph("Oblique + Core Strength", _sched_txt)],
+        [Paragraph("Wednesday / Saturday", _sched_day),
+         Paragraph("Workout C",           _sched_txt),
+         Paragraph("Lower Body + Full Body", _sched_txt)],
+        [Paragraph("Sunday",              _sched_day),
+         Paragraph("Rest",               _sched_txt),
+         Paragraph("Active recovery — gentle walk only", _sched_txt)],
     ]
-    _rep_scale = {
-        1: {"Beginner": "Beginner", "Moderate": "Moderate", "Advanced": "Advanced"},
-        2: {"Beginner": "Beginner", "Moderate": "Beginner",  "Advanced": "Moderate"},
-        3: {"Beginner": "Beginner", "Moderate": "Beginner",  "Advanced": "Beginner"},
-    }
-    _round_names = {1: "Round 1", 2: "Round 2", 3: "Round 3"}
+    _sched_table = Table(_sched_data,
+                         colWidths=[_CW_local*0.35, _CW_local*0.22, _CW_local*0.43])
+    _sched_table.setStyle(TableStyle([
+        ("BACKGROUND",    (0, 0), (-1, 0),  GREEN_DARK),
+        ("ROWBACKGROUNDS",(0, 1), (-1, -1), [WHITE, CREAM]),
+        ("BACKGROUND",    (0, 4), (-1, 4),  HexColor("#F0FDF4")),
+        ("FONTNAME",      (0, 0), (-1, -1), BODY_FONT),
+        ("FONTSIZE",      (0, 0), (-1, -1), 8.5),
+        ("GRID",          (0, 0), (-1, -1), 0.4, CREAM_DARK),
+        ("TOPPADDING",    (0, 0), (-1, -1), 6),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+        ("LEFTPADDING",   (0, 0), (-1, -1), 8),
+        ("VALIGN",        (0, 0), (-1, -1), "MIDDLE"),
+    ]))
+    story.append(KeepTogether([_sched_table]))
+    story.append(Spacer(1, 0.4 * cm))
 
+    # ── Three rotating workouts ────────────────────────────────────────────
+    # Each is a full circuit — do once through, rest 60–90 s, then move on.
     _EX_CREAM = HexColor("#FBF7F2")
-    _ex_badge = {
-        "Jumping Jacks":                 "CARDIO",
-        "Crunches":                      "CORE",
-        "Leg Raise":                     "CORE",
-        "Elbow-to-Knee Oblique Crunches":"OBLIQUE",
-        "Russian Twist (2L bottle)":     "OBLIQUE",
-        "Leg Straight Hold":             "HOLD",
-        "Heel Touch":                    "OBLIQUE",
-        "Cross Leg":                     "CORE",
-        "Bicycle Crunches":              "CARDIO",
-        "Plank":                         "PLANK",
-    }
 
-    for rnum in range(1, _rounds + 1):
-        story.append(Spacer(1, 0.25 * cm))
-        eff = _rep_scale[rnum][fitness_level]
+    _workouts = [
+        # (label, day_hint, accent_colour, exercises)
+        (
+            "Workout A  —  Monday / Thursday",
+            "Cardio + Core Foundation",
+            GREEN_DARK,
+            [
+                ("Jumping Jacks",    "CARDIO",  {"Beginner": "30",     "Moderate": "40",     "Advanced": "50"}),
+                ("High Knees",       "CARDIO",  {"Beginner": "20",     "Moderate": "30",     "Advanced": "40"}),
+                ("Crunches",         "CORE",    {"Beginner": "10",     "Moderate": "15",     "Advanced": "20"}),
+                ("Leg Raise",        "CORE",    {"Beginner": "8",      "Moderate": "12",     "Advanced": "15"}),
+                ("Bicycle Crunches", "CARDIO",  {"Beginner": "16",     "Moderate": "20",     "Advanced": "24"}),
+                ("Plank",            "HOLD",    {"Beginner": "20 sec", "Moderate": "40 sec", "Advanced": "60 sec"}),
+                ("Heel Touch",       "OBLIQUE", {"Beginner": "10",     "Moderate": "14",     "Advanced": "18"}),
+                ("Dead Bug",         "CORE",    {"Beginner": "6",      "Moderate": "8",      "Advanced": "10"}),
+                ("Mountain Climbers","CARDIO",  {"Beginner": "10",     "Moderate": "16",     "Advanced": "20"}),
+                ("Cross Leg Crunch", "CORE",    {"Beginner": "8",      "Moderate": "12",     "Advanced": "15"}),
+            ],
+        ),
+        (
+            "Workout B  —  Tuesday / Friday",
+            "Oblique + Core Strength",
+            GREEN_DARKEST,
+            [
+                ("Jumping Jacks",                 "CARDIO",  {"Beginner": "30",     "Moderate": "40",     "Advanced": "50"}),
+                ("Russian Twist (2L bottle)",      "OBLIQUE", {"Beginner": "10",     "Moderate": "14",     "Advanced": "18"}),
+                ("Elbow-to-Knee Oblique Crunches", "OBLIQUE", {"Beginner": "8",      "Moderate": "10",     "Advanced": "12"}),
+                ("Leg Straight Hold",              "HOLD",    {"Beginner": "20 sec", "Moderate": "35 sec", "Advanced": "50 sec"}),
+                ("Side Plank — Left",              "HOLD",    {"Beginner": "15 sec", "Moderate": "25 sec", "Advanced": "40 sec"}),
+                ("Side Plank — Right",             "HOLD",    {"Beginner": "15 sec", "Moderate": "25 sec", "Advanced": "40 sec"}),
+                ("Flutter Kicks",                  "CORE",    {"Beginner": "10",     "Moderate": "15",     "Advanced": "20"}),
+                ("Superman Hold",                  "BACK",    {"Beginner": "20 sec", "Moderate": "30 sec", "Advanced": "45 sec"}),
+                ("Reverse Crunches",               "CORE",    {"Beginner": "8",      "Moderate": "10",     "Advanced": "12"}),
+                ("Plank with Hip Dips",            "CORE",    {"Beginner": "8",      "Moderate": "12",     "Advanced": "16"}),
+            ],
+        ),
+        (
+            "Workout C  —  Wednesday / Saturday",
+            "Lower Body + Full Body",
+            HexColor("#1A4731"),
+            [
+                ("Squats",              "LEGS",    {"Beginner": "10",     "Moderate": "15",     "Advanced": "20"}),
+                ("Glute Bridge",        "GLUTES",  {"Beginner": "10",     "Moderate": "15",     "Advanced": "20"}),
+                ("Donkey Kicks",        "GLUTES",  {"Beginner": "10",     "Moderate": "12",     "Advanced": "15"}),
+                ("Calf Raises",         "LEGS",    {"Beginner": "15",     "Moderate": "20",     "Advanced": "25"}),
+                ("Mountain Climbers",   "CARDIO",  {"Beginner": "10",     "Moderate": "15",     "Advanced": "20"}),
+                ("V-Sit Hold",          "CORE",    {"Beginner": "15 sec", "Moderate": "25 sec", "Advanced": "40 sec"}),
+                ("Windmill Stretch",    "OBLIQUE", {"Beginner": "8",      "Moderate": "10",     "Advanced": "12"}),
+                ("Reverse Crunches",    "CORE",    {"Beginner": "8",      "Moderate": "10",     "Advanced": "12"}),
+                ("Wall Sit",            "LEGS",    {"Beginner": "20 sec", "Moderate": "35 sec", "Advanced": "50 sec"}),
+                ("Plank Shoulder Taps", "CORE",    {"Beginner": "10",     "Moderate": "14",     "Advanced": "18"}),
+            ],
+        ),
+    ]
 
+    for wkt_label, wkt_focus, wkt_colour, wkt_exercises in _workouts:
         _circ_data = [[
-            Paragraph(_round_names[rnum], s["table_hdr"]),
-            Paragraph("Exercise",         s["table_hdr"]),
-            Paragraph("Reps / Duration",  s["table_hdr"]),
+            Paragraph(wkt_label, s["table_hdr"]),
+            Paragraph("Exercise",        s["table_hdr"]),
+            Paragraph("Reps / Duration", s["table_hdr"]),
         ]]
-        for ex_name, reps_d in _circuit:
-            reps_val = reps_d[eff]
+        for ex_name, badge, reps_d in wkt_exercises:
+            reps_val = reps_d.get(fitness_level, reps_d["Moderate"])
             reps_str = reps_val if isinstance(reps_val, str) else f"{reps_val} reps"
-            badge = _ex_badge.get(ex_name, "")
             _circ_data.append([
                 Paragraph(badge,    s["ex_badge"]),
                 Paragraph(ex_name,  s["body"]),
@@ -975,7 +1039,7 @@ def generate_pdf(
 
         _circ_table = Table(_circ_data, colWidths=[2.5 * cm, 10 * cm, 4 * cm])
         _circ_table.setStyle(TableStyle([
-            ("BACKGROUND",     (0, 0), (-1, 0),  GREEN_DARK),
+            ("BACKGROUND",     (0, 0), (-1, 0),  wkt_colour),
             ("TEXTCOLOR",      (0, 0), (-1, 0),  colors.white),
             ("FONTNAME",       (0, 0), (-1, 0),  BODY_FONT_BOLD),
             ("FONTNAME",       (0, 1), (-1, -1), BODY_FONT),
@@ -987,10 +1051,11 @@ def generate_pdf(
             ("BOTTOMPADDING",  (0, 0), (-1, -1), 5),
         ]))
         story.append(KeepTogether([_circ_table]))
+        story.append(Spacer(1, 0.3 * cm))
 
-    story.append(Spacer(1, 0.3 * cm))
     story.append(Paragraph(
-        "Rest 60–90 seconds between rounds. Aim for 5–6 sessions per week. "
+        "Do each workout as one complete circuit. Rest 60–90 seconds after finishing "
+        "all 10 exercises before repeating if desired. Aim for 5–6 sessions per week. "
         "Combine with your daily walk targets for best results.",
         s["small"]
     ))
@@ -1001,7 +1066,7 @@ def generate_pdf(
     story.append(_section_heading("Disclaimer", s))
     story.append(Spacer(1, 0.2 * cm))
     story.append(Paragraph(
-        f"This report was prepared by Ahara by Asha on {date.today().strftime('%d %B %Y')}. "
+        f"This report was prepared by Āhāra by Asha on {date.today().strftime('%d %B %Y')}. "
         "It is intended as personalised dietary and lifestyle guidance based on the information "
         "provided at the time of assessment. This report does not constitute medical advice and "
         "is not a substitute for consultation with a qualified physician or healthcare provider. "
