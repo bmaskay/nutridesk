@@ -1,175 +1,60 @@
 """
-database.py — SQLite persistence layer for NutriDesk
-Tables: clients, client_sessions, meal_plans, biomarkers
+database.py — Supabase persistence layer for NutriDesk
+Replaces SQLite. All function signatures remain identical so no pages need changes.
 """
 
-import sqlite3
 import json
 import os
 from datetime import datetime
-from pathlib import Path
+from supabase import create_client as _supabase_create_client, Client
 
-# Store DB in home dir — mounted filesystems (FUSE) don't support SQLite locking
-DB_PATH = Path.home() / ".nutridesk" / "clients.db"
-
-
-def get_conn():
-    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(str(DB_PATH), timeout=10, check_same_thread=False)
-    conn.row_factory = sqlite3.Row
-    return conn
+# ── Supabase client ────────────────────────────────────────────────────────
+# Reads from Streamlit secrets (cloud) or environment variables (local)
+def _get_client() -> Client:
+    try:
+        import streamlit as st
+        url = st.secrets["SUPABASE_URL"]
+        key = st.secrets["SUPABASE_KEY"]
+    except Exception:
+        url = os.environ.get("SUPABASE_URL", "")
+        key = os.environ.get("SUPABASE_KEY", "")
+    if not url or not key:
+        raise RuntimeError(
+            "Supabase credentials missing. "
+            "Set SUPABASE_URL and SUPABASE_KEY in .streamlit/secrets.toml or as env vars."
+        )
+    return _supabase_create_client(url, key)
 
 
 def init_db():
-    """Create all tables if they don't exist."""
-    conn = get_conn()
-    c = conn.cursor()
-
-    c.executescript("""
-        CREATE TABLE IF NOT EXISTS clients (
-            id          INTEGER PRIMARY KEY AUTOINCREMENT,
-            name        TEXT NOT NULL,
-            email       TEXT,
-            phone       TEXT,
-            dob         TEXT,
-            gender      TEXT,
-            height_cm   REAL,
-            weight_kg   REAL,
-            goal        TEXT,
-            activity_level TEXT,
-            -- Section 2: Lifestyle
-            occupation  TEXT,
-            sleep_hrs   REAL,
-            stress_level TEXT,
-            water_intake_L REAL,
-            -- Section 3: Food preferences
-            diet_type   TEXT,          -- vegetarian / non-vegetarian / eggetarian / vegan
-            cuisine_pref TEXT,         -- JSON list
-            allergies   TEXT,          -- JSON list
-            dislikes    TEXT,          -- JSON list
-            meal_frequency INTEGER,    -- meals per day
-            veg_choices TEXT,          -- JSON list of preferred vegetables
-            meat_choices TEXT,         -- JSON list of preferred meats
-            -- Section 4: Snacks
-            snack_frequency INTEGER,
-            snack_types TEXT,          -- JSON list
-            -- Medical
-            medical_conditions TEXT,   -- JSON list
-            notes       TEXT,
-            created_at  TEXT DEFAULT (datetime('now','localtime')),
-            updated_at  TEXT DEFAULT (datetime('now','localtime'))
-        );
-
-        CREATE TABLE IF NOT EXISTS client_sessions (
-            id          INTEGER PRIMARY KEY AUTOINCREMENT,
-            client_id   INTEGER NOT NULL,
-            session_date TEXT DEFAULT (date('now','localtime')),
-            weight_kg   REAL,
-            notes       TEXT,
-            FOREIGN KEY (client_id) REFERENCES clients(id)
-        );
-
-        CREATE TABLE IF NOT EXISTS meal_plans (
-            id          INTEGER PRIMARY KEY AUTOINCREMENT,
-            client_id   INTEGER NOT NULL,
-            created_at  TEXT DEFAULT (datetime('now','localtime')),
-            plan_json   TEXT NOT NULL,   -- serialised 7-day plan dict
-            calorie_target REAL,
-            protein_target REAL,
-            carb_target REAL,
-            fat_target  REAL,
-            FOREIGN KEY (client_id) REFERENCES clients(id)
-        );
-
-        CREATE TABLE IF NOT EXISTS biomarkers (
-            id              INTEGER PRIMARY KEY AUTOINCREMENT,
-            client_id       INTEGER NOT NULL,
-            recorded_date   TEXT DEFAULT (date('now','localtime')),
-            fasting_glucose REAL,
-            hba1c           REAL,
-            total_cholesterol REAL,
-            hdl             REAL,
-            ldl             REAL,
-            triglycerides   REAL,
-            tsh             REAL,
-            vitamin_d       REAL,
-            b12             REAL,
-            ferritin        REAL,
-            notes           TEXT,
-            FOREIGN KEY (client_id) REFERENCES clients(id)
-        );
-    """)
-    # ── Migration: add columns that didn't exist in earlier schema versions ──
-    for _col_def in [
-        "ALTER TABLE clients ADD COLUMN fitness_level TEXT DEFAULT 'Moderate'",
-        "ALTER TABLE clients ADD COLUMN exercise_notes TEXT",
-        "ALTER TABLE clients ADD COLUMN meal_slots TEXT",
-        "ALTER TABLE clients ADD COLUMN cycle_status TEXT",
-    ]:
-        try:
-            c.execute(_col_def)
-        except Exception:
-            pass  # Column already exists — safe to ignore
-
-    conn.commit()
-    conn.close()
+    """No-op — tables are created in Supabase directly. Kept for compatibility."""
+    pass
 
 
-# ── Clients ────────────────────────────────────────────────────────────────
+# ── JSON helpers ───────────────────────────────────────────────────────────
+_JSON_FIELDS = (
+    "cuisine_pref", "allergies", "dislikes", "veg_choices",
+    "meat_choices", "snack_types", "medical_conditions", "meal_slots"
+)
 
-def create_client(data: dict) -> int:
-    """Insert a new client, return new id."""
-    conn = get_conn()
-    c = conn.cursor()
-    # JSON-encode list fields
-    for key in ("cuisine_pref", "allergies", "dislikes", "veg_choices",
-                "meat_choices", "snack_types", "medical_conditions", "meal_slots"):
-        if key in data and isinstance(data[key], list):
-            data[key] = json.dumps(data[key], ensure_ascii=False)
-    cols = ", ".join(data.keys())
-    placeholders = ", ".join("?" * len(data))
-    c.execute(f"INSERT INTO clients ({cols}) VALUES ({placeholders})",
-              list(data.values()))
-    conn.commit()
-    new_id = c.lastrowid
-    conn.close()
-    return new_id
+# Column name aliases: SQLite used capital L, Supabase schema uses lowercase
+_COLUMN_ALIASES = {"water_intake_L": "water_intake_l"}
 
+def _normalize_columns(data: dict) -> dict:
+    """Rename any SQLite legacy column names to match Supabase schema."""
+    return {_COLUMN_ALIASES.get(k, k): v for k, v in data.items()}
 
-def update_client(client_id: int, data: dict):
-    for key in ("cuisine_pref", "allergies", "dislikes", "veg_choices",
-                "meat_choices", "snack_types", "medical_conditions", "meal_slots"):
-        if key in data and isinstance(data[key], list):
-            data[key] = json.dumps(data[key], ensure_ascii=False)
-    data["updated_at"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    conn = get_conn()
-    set_clause = ", ".join(f"{k} = ?" for k in data)
-    conn.execute(
-        f"UPDATE clients SET {set_clause} WHERE id = ?",
-        list(data.values()) + [client_id]
-    )
-    conn.commit()
-    conn.close()
+def _encode_json_fields(data: dict) -> dict:
+    """Encode list fields as JSON strings before sending to Supabase."""
+    d = _normalize_columns(dict(data))
+    for key in _JSON_FIELDS:
+        if key in d and isinstance(d[key], list):
+            d[key] = json.dumps(d[key], ensure_ascii=False)
+    return d
 
-
-def get_all_clients() -> list[dict]:
-    conn = get_conn()
-    rows = conn.execute(
-        "SELECT id, name, gender, weight_kg, goal, created_at FROM clients ORDER BY created_at DESC"
-    ).fetchall()
-    conn.close()
-    return [dict(r) for r in rows]
-
-
-def get_client(client_id: int) -> dict | None:
-    conn = get_conn()
-    row = conn.execute("SELECT * FROM clients WHERE id = ?", (client_id,)).fetchone()
-    conn.close()
-    if not row:
-        return None
-    d = dict(row)
-    for key in ("cuisine_pref", "allergies", "dislikes", "veg_choices",
-                "meat_choices", "snack_types", "medical_conditions", "meal_slots"):
+def _decode_json_fields(d: dict) -> dict:
+    """Decode JSON string fields back to lists after reading from Supabase."""
+    for key in _JSON_FIELDS:
         if d.get(key):
             try:
                 d[key] = json.loads(d[key])
@@ -180,109 +65,126 @@ def get_client(client_id: int) -> dict | None:
     return d
 
 
+# ── Clients ────────────────────────────────────────────────────────────────
+
+def create_client(data: dict) -> int:
+    db = _get_client()
+    payload = _encode_json_fields(data)
+    res = db.table("clients").insert(payload).execute()
+    return res.data[0]["id"]
+
+
+def update_client(client_id: int, data: dict):
+    db = _get_client()
+    payload = _encode_json_fields(data)
+    payload["updated_at"] = datetime.utcnow().isoformat()
+    db.table("clients").update(payload).eq("id", client_id).execute()
+
+
+def get_all_clients() -> list[dict]:
+    db = _get_client()
+    res = db.table("clients") \
+        .select("id, name, gender, weight_kg, goal, created_at") \
+        .order("created_at", desc=True) \
+        .execute()
+    return res.data or []
+
+
+def get_client(client_id: int) -> dict | None:
+    db = _get_client()
+    res = db.table("clients").select("*").eq("id", client_id).execute()
+    if not res.data:
+        return None
+    return _decode_json_fields(res.data[0])
+
+
 def delete_client(client_id: int):
-    conn = get_conn()
-    conn.execute("DELETE FROM clients WHERE id = ?", (client_id,))
-    conn.execute("DELETE FROM client_sessions WHERE client_id = ?", (client_id,))
-    conn.execute("DELETE FROM meal_plans WHERE client_id = ?", (client_id,))
-    conn.execute("DELETE FROM biomarkers WHERE client_id = ?", (client_id,))
-    conn.commit()
-    conn.close()
+    db = _get_client()
+    # ON DELETE CASCADE handles related rows automatically
+    db.table("clients").delete().eq("id", client_id).execute()
 
 
-# ── Sessions (weight check-ins) ─────────────────────────────────────────────
+# ── Sessions (weight check-ins) ────────────────────────────────────────────
 
 def add_session(client_id: int, weight_kg: float, notes: str = "") -> int:
-    conn = get_conn()
-    c = conn.cursor()
-    c.execute(
-        "INSERT INTO client_sessions (client_id, weight_kg, notes) VALUES (?, ?, ?)",
-        (client_id, weight_kg, notes)
-    )
-    conn.commit()
-    sid = c.lastrowid
-    conn.close()
-    return sid
+    db = _get_client()
+    res = db.table("client_sessions").insert({
+        "client_id": client_id,
+        "weight_kg": weight_kg,
+        "notes": notes,
+    }).execute()
+    return res.data[0]["id"]
 
 
 def get_sessions(client_id: int) -> list[dict]:
-    conn = get_conn()
-    rows = conn.execute(
-        "SELECT * FROM client_sessions WHERE client_id = ? ORDER BY session_date",
-        (client_id,)
-    ).fetchall()
-    conn.close()
-    return [dict(r) for r in rows]
+    db = _get_client()
+    res = db.table("client_sessions") \
+        .select("*") \
+        .eq("client_id", client_id) \
+        .order("session_date") \
+        .execute()
+    return res.data or []
 
 
-# ── Meal Plans ──────────────────────────────────────────────────────────────
+# ── Meal Plans ─────────────────────────────────────────────────────────────
 
 def save_meal_plan(client_id: int, plan: dict, targets: dict) -> int:
-    conn = get_conn()
-    c = conn.cursor()
-    c.execute(
-        """INSERT INTO meal_plans
-           (client_id, plan_json, calorie_target, protein_target, carb_target, fat_target)
-           VALUES (?, ?, ?, ?, ?, ?)""",
-        (client_id, json.dumps(plan, ensure_ascii=False),
-         targets.get("calories"), targets.get("protein"),
-         targets.get("carbs"), targets.get("fat"))
-    )
-    conn.commit()
-    pid = c.lastrowid
-    conn.close()
-    return pid
+    db = _get_client()
+    res = db.table("meal_plans").insert({
+        "client_id":      client_id,
+        "plan_json":      json.dumps(plan, ensure_ascii=False),
+        "calorie_target": targets.get("calories"),
+        "protein_target": targets.get("protein"),
+        "carb_target":    targets.get("carbs"),
+        "fat_target":     targets.get("fat"),
+    }).execute()
+    return res.data[0]["id"]
 
 
 def get_latest_meal_plan(client_id: int) -> dict | None:
-    conn = get_conn()
-    row = conn.execute(
-        "SELECT * FROM meal_plans WHERE client_id = ? ORDER BY created_at DESC LIMIT 1",
-        (client_id,)
-    ).fetchone()
-    conn.close()
-    if not row:
+    db = _get_client()
+    res = db.table("meal_plans") \
+        .select("*") \
+        .eq("client_id", client_id) \
+        .order("created_at", desc=True) \
+        .limit(1) \
+        .execute()
+    if not res.data:
         return None
-    d = dict(row)
+    d = res.data[0]
     d["plan"] = json.loads(d["plan_json"])
     return d
 
 
 def get_all_meal_plans(client_id: int) -> list[dict]:
-    conn = get_conn()
-    rows = conn.execute(
-        "SELECT id, created_at, calorie_target FROM meal_plans WHERE client_id = ? ORDER BY created_at DESC",
-        (client_id,)
-    ).fetchall()
-    conn.close()
-    return [dict(r) for r in rows]
+    db = _get_client()
+    res = db.table("meal_plans") \
+        .select("id, created_at, calorie_target") \
+        .eq("client_id", client_id) \
+        .order("created_at", desc=True) \
+        .execute()
+    return res.data or []
 
 
-# ── Biomarkers ──────────────────────────────────────────────────────────────
+# ── Biomarkers ─────────────────────────────────────────────────────────────
 
 def add_biomarkers(client_id: int, data: dict) -> int:
-    conn = get_conn()
-    c = conn.cursor()
-    data["client_id"] = client_id
-    cols = ", ".join(data.keys())
-    placeholders = ", ".join("?" * len(data))
-    c.execute(f"INSERT INTO biomarkers ({cols}) VALUES ({placeholders})",
-              list(data.values()))
-    conn.commit()
-    bid = c.lastrowid
-    conn.close()
-    return bid
+    db = _get_client()
+    payload = dict(data)
+    payload["client_id"] = client_id
+    res = db.table("biomarkers").insert(payload).execute()
+    return res.data[0]["id"]
 
 
 def get_biomarkers(client_id: int) -> list[dict]:
-    conn = get_conn()
-    rows = conn.execute(
-        "SELECT * FROM biomarkers WHERE client_id = ? ORDER BY recorded_date",
-        (client_id,)
-    ).fetchall()
-    conn.close()
-    return [dict(r) for r in rows]
+    db = _get_client()
+    res = db.table("biomarkers") \
+        .select("*") \
+        .eq("client_id", client_id) \
+        .order("recorded_date") \
+        .execute()
+    return res.data or []
 
 
-# Initialise on import
+# Kept for compatibility — no-op in Supabase version
 init_db()

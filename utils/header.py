@@ -20,7 +20,7 @@ def render_header(page_title: str = ""):
         """<style>
         /* ── Layout ──────────────────────────────────────────────── */
         section[data-testid='stMain']>div:first-child{padding-top:110px!important}
-        header[data-testid='stHeader']{visibility:hidden!important;height:0!important}
+        header[data-testid='stHeader']{opacity:0!important;pointer-events:none!important;height:60px!important}
         #MainMenu,footer{visibility:hidden!important}
 
         /* ── Typography ──────────────────────────────────────────── */
@@ -34,7 +34,7 @@ def render_header(page_title: str = ""):
             background:linear-gradient(180deg,#F5EFE8 0%,#EDE4D8 100%)!important;
             border-right:1px solid #DDD0C2!important;
         }
-        section[data-testid='stSidebar']>div:first-child{padding-top:104px!important}
+        section[data-testid='stSidebar']>div:first-child{padding-top:96px!important}
         [data-testid='stSidebarNav'] a{
             color:#374151!important;border-radius:8px!important;
             font-weight:500!important;font-size:0.92rem!important;

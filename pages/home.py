@@ -10,6 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import streamlit as st
 from datetime import datetime, date, timedelta
+import json
 from utils.database import get_all_clients, get_all_meal_plans, get_sessions, get_latest_meal_plan
 from utils.header import render_header
 
@@ -42,8 +43,16 @@ for c in clients:
 col1, col2, col3, col4 = st.columns(4)
 col1.metric("Total Clients", total_clients)
 col2.metric("Meal Plans Generated", total_plans)
-col3.metric("Recipes in Library", 81)
-col4.metric("App Version", "1.0")
+# Load recipe count dynamically
+_recipe_path = Path(__file__).parent.parent / "recipe_library.json"
+try:
+    with open(_recipe_path) as _f:
+        _rdata = json.load(_f)
+    _recipe_count = len(_rdata.get("recipes", _rdata) if isinstance(_rdata, dict) else _rdata)
+except Exception:
+    _recipe_count = 139
+col3.metric("Recipes in Library", _recipe_count)
+col4.metric("App Version", "2.0")
 
 st.markdown("---")
 
@@ -131,7 +140,7 @@ else:
         "goal":       "Goal",
         "created_at": "Added",
     })
-    df["Added"] = pd.to_datetime(df["Added"]).dt.strftime("%d %b %Y")
+    df["Added"] = pd.to_datetime(df["Added"], format="ISO8601", utc=True).dt.strftime("%d %b %Y")
     st.dataframe(df, use_container_width=True, hide_index=True)
 
 # ── Quick actions ─────────────────────────────────────────────────────────────

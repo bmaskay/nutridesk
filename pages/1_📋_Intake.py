@@ -643,10 +643,11 @@ if save_clicked:
         else:
             new_id = create_client(client_data)
             saved_client_id = new_id
-            st.success(f"✅ {name} saved! (Client ID: {new_id})")
             st.session_state["active_client_id"] = new_id
             # Reset height state for next new client
             st.session_state.pop(f"_hcm_new", None)
+            st.success(f"✅ {name} saved!")
+            st.session_state["show_post_save_actions"] = True
 
         # ── Save baseline biomarkers if any non-zero values entered ────────────
         bm_payload = {}
@@ -798,3 +799,18 @@ if save_clicked:
         if st.button("➡️ Generate Meal Plan Now"):
             st.session_state["auto_generate_plan"] = True
             st.switch_page("pages/2_🍽️_Meal_Plan.py")
+
+# ── Post-save actions (persists across reruns via session state) ──────────────
+if st.session_state.get("show_post_save_actions"):
+    st.divider()
+    st.success("✅ Client saved! What would you like to do next?")
+    _a1, _a2 = st.columns(2)
+    with _a1:
+        if st.button("🍽️ Go to Meal Plan", type="primary", use_container_width=True):
+            st.session_state["auto_generate_plan"] = True
+            st.session_state["show_post_save_actions"] = False
+            st.switch_page("pages/2_🍽️_Meal_Plan.py")
+    with _a2:
+        if st.button("👥 View All Clients", use_container_width=True):
+            st.session_state["show_post_save_actions"] = False
+            st.switch_page("pages/3_👥_Clients.py")

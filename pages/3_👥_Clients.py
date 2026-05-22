@@ -141,12 +141,26 @@ for c in clients:
         with btn_c4:
             delete_key = f"del_{c['id']}"
             if st.session_state["confirm_delete_id"] == c["id"]:
-                if st.button("⚠️ Confirm Delete", key=f"confirm_{c['id']}",
-                             width="stretch"):
-                    delete_client(c["id"])
-                    st.session_state["confirm_delete_id"] = None
-                    st.success(f"Deleted {full['name']}.")
-                    st.rerun()
+                st.warning(f"Delete **{full['name']}**? This removes all their meal plans, progress, and biomarkers permanently.")
+                typed = st.text_input(
+                    f"Type the client's name to confirm:",
+                    key=f"delete_type_{c['id']}",
+                    placeholder=full["name"],
+                )
+                dc1, dc2 = st.columns(2)
+                with dc1:
+                    if st.button("✅ Yes, delete permanently", key=f"confirm_{c['id']}", type="primary"):
+                        if typed.strip().lower() == full["name"].strip().lower():
+                            delete_client(c["id"])
+                            st.session_state["confirm_delete_id"] = None
+                            st.success(f"✅ {full['name']} has been deleted.")
+                            st.rerun()
+                        else:
+                            st.error("Name doesn't match — client not deleted.")
+                with dc2:
+                    if st.button("✖ Cancel", key=f"cancel_del_{c['id']}"):
+                        st.session_state["confirm_delete_id"] = None
+                        st.rerun()
             else:
                 if st.button("🗑 Delete", key=delete_key, width="stretch"):
                     st.session_state["confirm_delete_id"] = c["id"]
