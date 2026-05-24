@@ -193,27 +193,31 @@ init_db()
 # ── Client Personalization ─────────────────────────────────────────────────
 
 def get_personalization(client_id: int) -> dict | None:
-    """Retrieve saved personalisation for a client. Returns None if not set."""
-    db = _get_client()
-    res = db.table("client_personalization") \
-        .select("*") \
-        .eq("client_id", client_id) \
-        .limit(1) \
-        .execute()
-    if not res.data:
-        return None
-    row = res.data[0]
-    return {
-        "exercises":   json.loads(row.get("exercises_json")   or "[]"),
-        "guidelines":  json.loads(row.get("guidelines_json")  or "[]"),
-        "avoid_items": json.loads(row.get("avoid_json")       or "[]"),
-        "snacks":      json.loads(row.get("snacks_json")       or "[]"),
-    }
+    """Retrieve saved personalisation for a client. Returns None if not set or table missing."""
+    try:
+        db = _get_client()
+        res = db.table("client_personalization") \
+            .select("*") \
+            .eq("client_id", client_id) \
+            .limit(1) \
+            .execute()
+        if not res.data:
+            return None
+        row = res.data[0]
+        return {
+            "exercises":   json.loads(row.get("exercises_json")   or "[]"),
+            "guidelines":  json.loads(row.get("guidelines_json")  or "[]"),
+            "avoid_items": json.loads(row.get("avoid_json")       or "[]"),
+            "snacks":      json.loads(row.get("snacks_json")       or "[]"),
+        }
+    except Exception:
+        return None  # Table not yet created — falls back to auto-generated plan
 
 
 def save_personalization(client_id: int, plan: dict):
-    """Upsert personalised plan for a client."""
-    db = _get_client()
+    """Upsert personalised plan for a client. Silently fails if table not yet created."""
+    try:
+      db = _get_client()
     payload = {
         "client_id":      client_id,
         "exercises_json": json.dumps(plan.get("exercises",   []), ensure_ascii=False),
@@ -221,5 +225,7 @@ def save_personalization(client_id: int, plan: dict):
         "avoid_json":     json.dumps(plan.get("avoid_items", []), ensure_ascii=False),
         "snacks_json":    json.dumps(plan.get("snacks",      []), ensure_ascii=False),
         "updated_at":     datetime.utcnow().isoformat(),
-    }
-    db.table("client_personalization").upsert(payload, on_conflict="client_id").execute()
+        }
+        db.table("client_personalization").upsert(payload, on_conflict="client_id").execute()
+    except Exception:
+        pass  # Table not yet created
