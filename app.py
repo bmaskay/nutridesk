@@ -20,6 +20,23 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+# ── Login gate ────────────────────────────────────────────────────────────────
+
+def check_password():
+    if st.session_state.get("authenticated"):
+        return
+    st.title("🌿 Āhāra by Asha")
+    password = st.text_input("Password", type="password")
+    if st.button("Login"):
+        if password == st.secrets["APP_PASSWORD"]:
+            st.session_state.authenticated = True
+            st.rerun()
+        else:
+            st.error("Incorrect password")
+    st.stop()
+
+check_password()
+
 init_db()
 
 # ── Routing ──────────────────────────────────────────────────────────────────
