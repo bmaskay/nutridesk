@@ -263,9 +263,12 @@ def generate_pdf(
     snack_swaps: list[dict],
     biomarkers: list = None,
     output_path: str = None,
+    personalization: dict = None,
 ) -> bytes:
     """
     Generate the PDF report and either save to output_path or return bytes.
+    personalization (optional): dict with keys exercises, guidelines, avoid_items, snacks
+        — from utils.database.get_personalization(). If provided, overrides hardcoded sections.
     """
     buffer = io.BytesIO()
     doc = SimpleDocTemplate(
@@ -818,20 +821,27 @@ def generate_pdf(
     story.append(_section_heading("Lifestyle Guidelines", s))
     story.append(_hr())
 
-    _lifestyle = [
-        "Drink at least 2–3 litres of water a day",
-        "Eat slowly and chew your food very well (at least 20–30 times per bite)",
-        "Stick to your meal timings — consistent eating windows support metabolism",
-        "Expose yourself to sunlight at sunrise and sunset",
-        "At least 6–8 hours of sleep is mandatory",
-        "No gadgets 30 minutes before going to sleep",
-        "Finish dinner 2–3 hours before bedtime",
-        "Fixed sleeping and waking time every day — even on weekends",
-        "For every 1 hour of sitting, move around for at least 1–2 minutes",
-        "Use only 3–4 tsp of cold-pressed oil per day (mustard / olive / ghee)",
-    ]
-    for rule in _lifestyle:
-        story.append(Paragraph(f"• {rule}", s["bullet"]))
+    # Use personalised guidelines if available, else fall back to defaults
+    _p_guidelines = (personalization or {}).get("guidelines") or []
+    if _p_guidelines:
+        for g in _p_guidelines:
+            prefix = "★ " if g.get("highlight") else "• "
+            story.append(Paragraph(f"{prefix}{g['icon']} {g['text']}", s["bullet"]))
+    else:
+        _lifestyle = [
+            "Drink at least 2–3 litres of water a day",
+            "Eat slowly and chew your food very well (at least 20–30 times per bite)",
+            "Stick to your meal timings — consistent eating windows support metabolism",
+            "Expose yourself to sunlight at sunrise and sunset",
+            "At least 6–8 hours of sleep is mandatory",
+            "No gadgets 30 minutes before going to sleep",
+            "Finish dinner 2–3 hours before bedtime",
+            "Fixed sleeping and waking time every day — even on weekends",
+            "For every 1 hour of sitting, move around for at least 1–2 minutes",
+            "Use only 3–4 tsp of cold-pressed oil per day (mustard / olive / ghee)",
+        ]
+        for rule in _lifestyle:
+            story.append(Paragraph(f"• {rule}", s["bullet"]))
 
     story.append(Spacer(1, 0.25 * cm))
     story.append(Paragraph("Avoid completely:", s["subheading"]))
@@ -924,7 +934,11 @@ def generate_pdf(
         _insert_at = next((i for i, a in enumerate(_avoid) if "fried" in a.lower()), len(_avoid))
         _avoid.insert(_insert_at + 1, "Processed and cured meat (salami, sausages, deli cuts)")
 
-    for a in _avoid:
+    # Use personalised avoid list if available, else use the generated one
+    _p_avoid = (personalization or {}).get("avoid_items") or []
+    _final_avoid = _p_avoid if _p_avoid else _avoid
+
+    for a in _final_avoid:
         story.append(Paragraph(f"• {a}", s["bullet"]))
 
     # Condition-specific notes

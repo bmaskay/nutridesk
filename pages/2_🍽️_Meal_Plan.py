@@ -9,7 +9,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import streamlit as st
-from utils.database import get_all_clients, get_client, save_meal_plan, get_latest_meal_plan, get_biomarkers
+from utils.database import get_all_clients, get_client, save_meal_plan, get_latest_meal_plan, get_biomarkers, get_personalization
 from utils.calculations import full_assessment, GOAL_ADJUSTMENTS
 from utils.meal_planner import generate_meal_plan, plan_daily_totals, snack_swap_suggestions, build_grocery_list, swap_single_recipe
 from utils.pdf_generator import generate_pdf
@@ -387,6 +387,7 @@ if plan and plan_client == client_id:
                         plan=plan,
                         snack_swaps=swaps,
                         biomarkers=get_biomarkers(client_id),
+                        personalization=get_personalization(client_id),
                     )
                     st.session_state[_pdf_key] = pdf_bytes
                 except Exception as e:
