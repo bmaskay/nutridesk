@@ -42,12 +42,10 @@ init_db()
 # ── Routing ──────────────────────────────────────────────────────────────────
 
 pages_list = [
-    st.Page("pages/home.py",            title="Home",       icon="🏠", default=True),
-    st.Page("pages/1_📋_Intake.py",     title="New Client", icon="📋"),
-    st.Page("pages/2_🍽️_Meal_Plan.py", title="Meal Plan",  icon="🍽️"),
-    st.Page("pages/3_👥_Clients.py",    title="Clients",    icon="👥"),
-    st.Page("pages/4_📈_Progress.py",   title="Progress",   icon="📈"),
-    st.Page("pages/5_💪_Exercise_Plan.py", title="Exercise",   icon="💪"),
+    st.Page("pages/home.py",          title="Home",         icon="🏠", default=True),
+    st.Page("pages/1_📋_Intake.py",   title="New Client",   icon="📋"),
+    st.Page("pages/3_👥_Clients.py",  title="Clients",      icon="👥"),
+    st.Page("pages/plan_builder.py",  title="Plan Builder", icon="📊"),
 ]
 
 pg = st.navigation(pages_list, position="hidden")
@@ -57,7 +55,7 @@ with st.sidebar:
     for _p in pages_list:
         st.page_link(_p)
     st.divider()
-    st.caption("NutriDesk v2.0 · Āhāra by Asha")
+    st.caption("NutriDesk v2.1 · Āhāra by Asha")
 
 # ── Run the selected page ─────────────────────────────────────────────────────
 

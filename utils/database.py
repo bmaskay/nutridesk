@@ -217,14 +217,14 @@ def get_personalization(client_id: int) -> dict | None:
 def save_personalization(client_id: int, plan: dict):
     """Upsert personalised plan for a client. Silently fails if table not yet created."""
     try:
-      db = _get_client()
-    payload = {
-        "client_id":      client_id,
-        "exercises_json": json.dumps(plan.get("exercises",   []), ensure_ascii=False),
-        "guidelines_json":json.dumps(plan.get("guidelines",  []), ensure_ascii=False),
-        "avoid_json":     json.dumps(plan.get("avoid_items", []), ensure_ascii=False),
-        "snacks_json":    json.dumps(plan.get("snacks",      []), ensure_ascii=False),
-        "updated_at":     datetime.utcnow().isoformat(),
+        db = _get_client()
+        payload = {
+            "client_id":       client_id,
+            "exercises_json":  json.dumps(plan.get("exercises",   []), ensure_ascii=False),
+            "guidelines_json": json.dumps(plan.get("guidelines",  []), ensure_ascii=False),
+            "avoid_json":      json.dumps(plan.get("avoid_items", []), ensure_ascii=False),
+            "snacks_json":     json.dumps(plan.get("snacks",      []), ensure_ascii=False),
+            "updated_at":      datetime.utcnow().isoformat(),
         }
         db.table("client_personalization").upsert(payload, on_conflict="client_id").execute()
     except Exception:

@@ -264,6 +264,7 @@ def generate_pdf(
     biomarkers: list = None,
     output_path: str = None,
     personalization: dict = None,
+    include_lifestyle: bool = True,
 ) -> bytes:
     """
     Generate the PDF report and either save to output_path or return bytes.
@@ -817,169 +818,162 @@ def generate_pdf(
         story.append(Paragraph(f"• {r}", s["bullet"]))
 
     # ── Lifestyle Guidelines ───────────────────────────────────────────────
-    story.append(Spacer(1, 0.35 * cm))
-    story.append(_section_heading("Lifestyle Guidelines", s))
-    story.append(_hr())
+    if include_lifestyle:
+        story.append(Spacer(1, 0.35 * cm))
+        story.append(_section_heading("Lifestyle Guidelines", s))
+        story.append(_hr())
 
-    # Use personalised guidelines if available, else fall back to defaults
-    _p_guidelines = (personalization or {}).get("guidelines") or []
-    if _p_guidelines:
-        for g in _p_guidelines:
-            prefix = "★ " if g.get("highlight") else "• "
-            story.append(Paragraph(f"{prefix}{g['icon']} {g['text']}", s["bullet"]))
-    else:
-        _lifestyle = [
-            "Drink at least 2–3 litres of water a day",
-            "Eat slowly and chew your food very well (at least 20–30 times per bite)",
-            "Stick to your meal timings — consistent eating windows support metabolism",
-            "Expose yourself to sunlight at sunrise and sunset",
-            "At least 6–8 hours of sleep is mandatory",
-            "No gadgets 30 minutes before going to sleep",
-            "Finish dinner 2–3 hours before bedtime",
-            "Fixed sleeping and waking time every day — even on weekends",
-            "For every 1 hour of sitting, move around for at least 1–2 minutes",
-            "Use only 3–4 tsp of cold-pressed oil per day (mustard / olive / ghee)",
+        _p_guidelines = (personalization or {}).get("guidelines") or []
+        if _p_guidelines:
+            for g in _p_guidelines:
+                prefix = "★ " if g.get("highlight") else "• "
+                story.append(Paragraph(f"{prefix}{g['icon']} {g['text']}", s["bullet"]))
+        else:
+            _lifestyle = [
+                "Drink at least 2–3 litres of water a day",
+                "Eat slowly and chew your food very well (at least 20–30 times per bite)",
+                "Stick to your meal timings — consistent eating windows support metabolism",
+                "Expose yourself to sunlight at sunrise and sunset",
+                "At least 6–8 hours of sleep is mandatory",
+                "No gadgets 30 minutes before going to sleep",
+                "Finish dinner 2–3 hours before bedtime",
+                "Fixed sleeping and waking time every day — even on weekends",
+                "For every 1 hour of sitting, move around for at least 1–2 minutes",
+                "Use only 3–4 tsp of cold-pressed oil per day (mustard / olive / ghee)",
+            ]
+            for rule in _lifestyle:
+                story.append(Paragraph(f"• {rule}", s["bullet"]))
+
+        story.append(Spacer(1, 0.25 * cm))
+        story.append(Paragraph("Avoid completely:", s["subheading"]))
+
+        _client_diet = client.get("diet_type", "Non-vegetarian")
+        _goal_avoid  = client.get("goal", "Fat loss")
+        _bm          = (biomarkers or [])
+        _latest_bm   = _bm[-1] if _bm else {}
+
+        _avoid_universal = [
+            "Packaged and ultra-processed food",
+            "Packet soup and instant noodles",
+            "Alcohol",
+            "Smoking and tobacco products",
         ]
-        for rule in _lifestyle:
-            story.append(Paragraph(f"• {rule}", s["bullet"]))
+        _avoid_by_goal = {
+            "Fat loss": [
+                "Maida and all maida-based products",
+                "Fried and deep-fried food",
+                "Oily and greasy food",
+                "Sugar, sweets, and desserts",
+                "Fruit juices (fresh or packaged) — eat whole fruit instead",
+                "Bakery items, biscuits, and bread",
+                "Cold drinks and sweetened beverages",
+                "Pineapple and raw papaya (high glycaemic load)",
+            ],
+            "Mild fat loss": [
+                "Maida and all maida-based products",
+                "Fried and deep-fried food",
+                "Sugar and sweets",
+                "Cold drinks and sweetened beverages",
+                "Bakery items and biscuits",
+                "Fruit juices — opt for whole fruit instead",
+            ],
+            "Maintain weight": [
+                "Fried and deep-fried food",
+                "Sugar and sweets in excess",
+                "Cold drinks and sweetened beverages",
+                "Bakery items and ultra-processed snacks",
+            ],
+            "Lean muscle gain": [
+                "Fried food (empty calories that crowd out nutrients)",
+                "Sugar and confectionery",
+                "Cold drinks and sweetened beverages",
+                "Alcohol (blunts muscle protein synthesis)",
+            ],
+            "Muscle gain": [
+                "Excessive fried food (limits clean calorie budget)",
+                "Cold drinks and sweetened beverages",
+                "Alcohol (directly inhibits muscle protein synthesis)",
+                "Junk food that displaces whole-food nutrition",
+            ],
+        }
+        _avoid = list(_avoid_universal)
+        _avoid.extend(_avoid_by_goal.get(_goal_avoid, _avoid_by_goal["Fat loss"]))
 
-    story.append(Spacer(1, 0.25 * cm))
-    story.append(Paragraph("Avoid completely:", s["subheading"]))
+        _fg  = float(_latest_bm.get("fasting_glucose") or 0)
+        _a1c = float(_latest_bm.get("hba1c") or 0)
+        _tc  = float(_latest_bm.get("total_cholesterol") or 0)
+        _ldl = float(_latest_bm.get("ldl") or 0)
+        _tg  = float(_latest_bm.get("triglycerides") or 0)
+        _tsh = float(_latest_bm.get("tsh") or 0)
+        _fer = float(_latest_bm.get("ferritin") or 0)
 
-    _client_diet = client.get("diet_type", "Non-vegetarian")
-    _goal_avoid  = client.get("goal", "Fat loss")
-    _bm          = (biomarkers or [])
-    _latest_bm   = _bm[-1] if _bm else {}
+        _bm_additions = []
+        if _fg > 100 or _a1c > 5.7:
+            if not any("sugar" in a.lower() for a in _avoid):
+                _bm_additions.append("Refined sugar, sweets, and sugary desserts (elevated blood glucose)")
+            _bm_additions.append("White bread, refined flour products, and sugary drinks (spike blood glucose)")
+        if _tc > 200 or _ldl > 130:
+            if not any("fried" in a.lower() for a in _avoid):
+                _bm_additions.append("Fried food and saturated fats (elevated cholesterol)")
+            _bm_additions.append("Processed red meat and full-fat dairy in excess (raises LDL)")
+        if _tg > 150:
+            _bm_additions.append("Refined carbohydrates and sugary drinks (elevates triglycerides)")
+        if _tsh > 4.5:
+            _bm_additions.append("Raw cruciferous vegetables in large quantities — cook them (thyroid)")
+        if 0 < _fer < 30:
+            _bm_additions.append("Tea and coffee within 1 hour of meals — tannins block iron absorption")
 
-    # ── Universal avoids (apply to everyone) ──────────────────────────────
-    _avoid_universal = [
-        "Packaged and ultra-processed food",
-        "Packet soup and instant noodles",
-        "Alcohol",
-        "Smoking and tobacco products",
-    ]
+        for item in _bm_additions:
+            if item not in _avoid:
+                _avoid.append(item)
 
-    # ── Goal-specific avoids ───────────────────────────────────────────────
-    _avoid_by_goal = {
-        "Fat loss": [
-            "Maida and all maida-based products",
-            "Fried and deep-fried food",
-            "Oily and greasy food",
-            "Sugar, sweets, and desserts",
-            "Fruit juices (fresh or packaged) — eat whole fruit instead",
-            "Bakery items, biscuits, and bread",
-            "Cold drinks and sweetened beverages",
-            "Pineapple and raw papaya (high glycaemic load)",
-        ],
-        "Mild fat loss": [
-            "Maida and all maida-based products",
-            "Fried and deep-fried food",
-            "Sugar and sweets",
-            "Cold drinks and sweetened beverages",
-            "Bakery items and biscuits",
-            "Fruit juices — opt for whole fruit instead",
-        ],
-        "Maintain weight": [
-            "Fried and deep-fried food",
-            "Sugar and sweets in excess",
-            "Cold drinks and sweetened beverages",
-            "Bakery items and ultra-processed snacks",
-        ],
-        "Lean muscle gain": [
-            "Fried food (empty calories that crowd out nutrients)",
-            "Sugar and confectionery",
-            "Cold drinks and sweetened beverages",
-            "Alcohol (blunts muscle protein synthesis)",
-        ],
-        "Muscle gain": [
-            "Excessive fried food (limits clean calorie budget)",
-            "Cold drinks and sweetened beverages",
-            "Alcohol (directly inhibits muscle protein synthesis)",
-            "Junk food that displaces whole-food nutrition",
-        ],
-    }
-    _avoid = list(_avoid_universal)
-    _avoid.extend(_avoid_by_goal.get(_goal_avoid, _avoid_by_goal["Fat loss"]))
+        if _client_diet not in ("Vegetarian", "Vegan", "Eggetarian"):
+            _insert_at = next((i for i, a in enumerate(_avoid) if "fried" in a.lower()), len(_avoid))
+            _avoid.insert(_insert_at + 1, "Processed and cured meat (salami, sausages, deli cuts)")
 
-    # ── Biomarker-specific additions ───────────────────────────────────────
-    _fg  = float(_latest_bm.get("fasting_glucose") or 0)
-    _a1c = float(_latest_bm.get("hba1c") or 0)
-    _tc  = float(_latest_bm.get("total_cholesterol") or 0)
-    _ldl = float(_latest_bm.get("ldl") or 0)
-    _tg  = float(_latest_bm.get("triglycerides") or 0)
-    _tsh = float(_latest_bm.get("tsh") or 0)
-    _fer = float(_latest_bm.get("ferritin") or 0)
+        _p_avoid = (personalization or {}).get("avoid_items") or []
+        _final_avoid = _p_avoid if _p_avoid else _avoid
+        for a in _final_avoid:
+            story.append(Paragraph(f"• {a}", s["bullet"]))
 
-    _bm_additions = []
-    if _fg > 100 or _a1c > 5.7:
-        if not any("sugar" in a.lower() for a in _avoid):
-            _bm_additions.append("Refined sugar, sweets, and sugary desserts (elevated blood glucose)")
-        _bm_additions.append("White bread, refined flour products, and sugary drinks (spike blood glucose)")
-    if _tc > 200 or _ldl > 130:
-        if not any("fried" in a.lower() for a in _avoid):
-            _bm_additions.append("Fried food and saturated fats (elevated cholesterol)")
-        _bm_additions.append("Processed red meat and full-fat dairy in excess (raises LDL)")
-    if _tg > 150:
-        _bm_additions.append("Refined carbohydrates and sugary drinks (elevates triglycerides)")
-    if _tsh > 4.5:
-        _bm_additions.append("Raw cruciferous vegetables in large quantities — cook them (thyroid)")
-    if 0 < _fer < 30:
-        _bm_additions.append("Tea and coffee within 1 hour of meals — tannins block iron absorption")
-
-    for item in _bm_additions:
-        if item not in _avoid:
-            _avoid.append(item)
-
-    if _client_diet not in ("Vegetarian", "Vegan", "Eggetarian"):
-        _insert_at = next((i for i, a in enumerate(_avoid) if "fried" in a.lower()), len(_avoid))
-        _avoid.insert(_insert_at + 1, "Processed and cured meat (salami, sausages, deli cuts)")
-
-    # Use personalised avoid list if available, else use the generated one
-    _p_avoid = (personalization or {}).get("avoid_items") or []
-    _final_avoid = _p_avoid if _p_avoid else _avoid
-
-    for a in _final_avoid:
-        story.append(Paragraph(f"• {a}", s["bullet"]))
-
-    # Condition-specific notes
-    _client_conds = _decode_list(client.get("medical_conditions", [])).split(", ") if client.get("medical_conditions") else []
-    _cond_notes = []
-    if "PCOS" in _client_conds:
-        _cond_notes.append(("<b>PCOS note:</b> Consistency in sleep timing and stress management is "
-                            "especially important — cortisol spikes worsen hormonal imbalance."))
-    if any("diabetes" in c.lower() for c in _client_conds):
-        _cond_notes.append(("<b>Diabetes note:</b> Walk within 15 minutes of finishing a meal to help "
-                            "blunt post-meal glucose spikes. Never skip meals."))
-    if any("thyroid" in c.lower() for c in _client_conds):
-        _cond_notes.append(("<b>Thyroid note:</b> Take thyroid medication on an empty stomach 30–60 "
-                            "minutes before breakfast. Avoid large amounts of raw cruciferous vegetables."))
-    if any("hypertension" in c.lower() for c in _client_conds):
-        _cond_notes.append(("<b>Hypertension note:</b> Limit sodium to under 2,000 mg/day. Favour "
-                            "home-cooked meals. Increase potassium-rich foods (banana, sweet potato, "
-                            "spinach) and maintain consistent meal timings."))
-    if any("cholesterol" in c.lower() for c in _client_conds):
-        _cond_notes.append(("<b>High cholesterol note:</b> Favour unsaturated fats (mustard oil, olive "
-                            "oil) over saturated fats. Increase soluble fibre from oats, legumes, and "
-                            "vegetables. Aim for 25–35 g of fibre daily."))
-    if any("ibs" in c.lower() or "digestive" in c.lower() for c in _client_conds):
-        _cond_notes.append(("<b>IBS / Digestive note:</b> Eat slowly and chew thoroughly. Avoid very "
-                            "spicy or high-fat dishes during flare-ups. Cooked vegetables are better "
-                            "tolerated than raw."))
-    if any("anaemia" in c.lower() or "iron" in c.lower() for c in _client_conds):
-        _cond_notes.append(("<b>Anaemia / Iron note:</b> Pair iron-rich foods (dal, spinach, meat, "
-                            "chana) with vitamin C sources (lemon, amla, tomato). Avoid tea or coffee "
-                            "within one hour of meals — tannins inhibit iron uptake."))
-    if any("fatty liver" in c.lower() for c in _client_conds):
-        _cond_notes.append(("<b>Fatty liver note:</b> Avoid fried foods, refined sugars, and alcohol "
-                            "completely. Prioritise high-fibre vegetables, legumes, and lean protein."))
-    if any("kidney" in c.lower() for c in _client_conds):
-        _cond_notes.append(("<b>Kidney disease — specialist guidance required:</b> Kidney disease "
-                            "requires a tailored renal diet. Consult a nephrologist or renal dietitian "
-                            "before following any meal plan."))
-    if _cond_notes:
-        story.append(Spacer(1, 0.2 * cm))
-        for note in _cond_notes:
-            story.append(Paragraph(f"• {note}", s["bullet"]))
+        _client_conds = _decode_list(client.get("medical_conditions", [])).split(", ") if client.get("medical_conditions") else []
+        _cond_notes = []
+        if "PCOS" in _client_conds:
+            _cond_notes.append(("<b>PCOS note:</b> Consistency in sleep timing and stress management is "
+                                "especially important — cortisol spikes worsen hormonal imbalance."))
+        if any("diabetes" in c.lower() for c in _client_conds):
+            _cond_notes.append(("<b>Diabetes note:</b> Walk within 15 minutes of finishing a meal to help "
+                                "blunt post-meal glucose spikes. Never skip meals."))
+        if any("thyroid" in c.lower() for c in _client_conds):
+            _cond_notes.append(("<b>Thyroid note:</b> Take thyroid medication on an empty stomach 30–60 "
+                                "minutes before breakfast. Avoid large amounts of raw cruciferous vegetables."))
+        if any("hypertension" in c.lower() for c in _client_conds):
+            _cond_notes.append(("<b>Hypertension note:</b> Limit sodium to under 2,000 mg/day. Favour "
+                                "home-cooked meals. Increase potassium-rich foods (banana, sweet potato, "
+                                "spinach) and maintain consistent meal timings."))
+        if any("cholesterol" in c.lower() for c in _client_conds):
+            _cond_notes.append(("<b>High cholesterol note:</b> Favour unsaturated fats (mustard oil, olive "
+                                "oil) over saturated fats. Increase soluble fibre from oats, legumes, and "
+                                "vegetables. Aim for 25–35 g of fibre daily."))
+        if any("ibs" in c.lower() or "digestive" in c.lower() for c in _client_conds):
+            _cond_notes.append(("<b>IBS / Digestive note:</b> Eat slowly and chew thoroughly. Avoid very "
+                                "spicy or high-fat dishes during flare-ups. Cooked vegetables are better "
+                                "tolerated than raw."))
+        if any("anaemia" in c.lower() or "iron" in c.lower() for c in _client_conds):
+            _cond_notes.append(("<b>Anaemia / Iron note:</b> Pair iron-rich foods (dal, spinach, meat, "
+                                "chana) with vitamin C sources (lemon, amla, tomato). Avoid tea or coffee "
+                                "within one hour of meals — tannins inhibit iron uptake."))
+        if any("fatty liver" in c.lower() for c in _client_conds):
+            _cond_notes.append(("<b>Fatty liver note:</b> Avoid fried foods, refined sugars, and alcohol "
+                                "completely. Prioritise high-fibre vegetables, legumes, and lean protein."))
+        if any("kidney" in c.lower() for c in _client_conds):
+            _cond_notes.append(("<b>Kidney disease — specialist guidance required:</b> Kidney disease "
+                                "requires a tailored renal diet. Consult a nephrologist or renal dietitian "
+                                "before following any meal plan."))
+        if _cond_notes:
+            story.append(Spacer(1, 0.2 * cm))
+            for note in _cond_notes:
+                story.append(Paragraph(f"• {note}", s["bullet"]))
 
     # ── Realistic Timeline ─────────────────────────────────────────────────
     goal   = client.get("goal", "")
