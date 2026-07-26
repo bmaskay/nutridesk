@@ -145,73 +145,85 @@ col_list, col_detail = st.columns([1, 2.5], gap="medium")
 # =============================================================================
 with col_list:
     st.markdown(f"**{len(clients)} client(s)**")
+    st.markdown("<div style='height:6px'></div>", unsafe_allow_html=True)
 
     for c in clients:
         bmi_val = calculate_bmi(c.get("weight_kg") or 0, c.get("height_cm") or 1)
-        bmi_color = (
-            "#D8F3DC;color:#2D6A4F" if bmi_val < 23
-            else "#FEF3C7;color:#D97706" if bmi_val < 27.5
-            else "#FEE2E2;color:#DC2626"
+        bmi_bg, bmi_fg = (
+            ("#D8F3DC", "#2D6A4F") if bmi_val < 23
+            else ("#FEF3C7", "#D97706") if bmi_val < 27.5
+            else ("#FEE2E2", "#DC2626")
         )
-        is_selected  = c["id"] == selected_id
-        card_border  = "2px solid #40916C" if is_selected else "1px solid #E5D9CC"
-        card_bg      = "#F0FFF4" if is_selected else "#FBF7F2"
+        is_selected = c["id"] == selected_id
 
-        st.markdown(
-            f"<div style='border-radius:10px;padding:10px 12px;margin-bottom:4px;"
-            f"border:{card_border};background:{card_bg}'>"
-            f"<div style='font-size:0.95rem;font-weight:700;color:#1A1A1A'>{c['name']}</div>"
-            f"<div style='font-size:0.75rem;color:#6B7280;margin-top:2px'>"
-            f"{c.get('goal','—')} &nbsp;·&nbsp; "
-            f"<span style='background:{bmi_color};border-radius:8px;"
-            f"padding:1px 7px;font-size:0.68rem;font-weight:600'>BMI {bmi_val}</span>"
-            f"</div></div>",
-            unsafe_allow_html=True,
-        )
-
-        btn_sel, btn_del = st.columns([5, 1])
-        with btn_sel:
-            if st.button(
-                "▶ Selected" if is_selected else "Select",
-                key=f"sel_{c['id']}",
-                type="primary" if is_selected else "secondary",
-                use_container_width=True,
-            ):
-                st.session_state["cl_selected_id"] = c["id"]
-                st.session_state["cl_confirm_delete_id"] = None
-                st.rerun()
-        with btn_del:
-            if st.button("🗑", key=f"delbtn_{c['id']}", use_container_width=True):
-                st.session_state["cl_confirm_delete_id"] = c["id"]
-                st.rerun()
-
-        # Inline delete confirmation
-        if st.session_state["cl_confirm_delete_id"] == c["id"]:
-            full_del = get_client(c["id"])
-            st.warning(f"Delete **{full_del['name']}**? All data removed permanently.")
-            typed = st.text_input(
-                "Type exact name to confirm:",
-                key=f"deltype_{c['id']}",
-                placeholder=full_del["name"],
+        with st.container(border=True):
+            name_col, bmi_col = st.columns([3, 1.3])
+            with name_col:
+                name_prefix = "🟢 " if is_selected else ""
+                name_color  = "#2D6A4F" if is_selected else "#1A1A1A"
+                st.markdown(
+                    f"<div style='font-size:1rem;font-weight:700;color:{name_color}'>"
+                    f"{name_prefix}{c['name']}</div>",
+                    unsafe_allow_html=True,
+                )
+            with bmi_col:
+                st.markdown(
+                    f"<div style='text-align:right'>"
+                    f"<span style='background:{bmi_bg};color:{bmi_fg};border-radius:8px;"
+                    f"padding:2px 9px;font-size:0.72rem;font-weight:600'>BMI {bmi_val}</span>"
+                    f"</div>",
+                    unsafe_allow_html=True,
+                )
+            st.markdown(
+                f"<div style='font-size:0.82rem;color:#6B7280;margin:2px 0 12px'>"
+                f"{c.get('goal','—')}</div>",
+                unsafe_allow_html=True,
             )
-            dc1, dc2 = st.columns(2)
-            with dc1:
-                if st.button("✅ Delete", key=f"delconfirm_{c['id']}", type="primary"):
-                    if typed.strip().lower() == full_del["name"].strip().lower():
-                        delete_client(c["id"])
-                        st.session_state["cl_confirm_delete_id"] = None
-                        if st.session_state.get("cl_selected_id") == c["id"]:
-                            remaining = [x for x in clients_all if x["id"] != c["id"]]
-                            st.session_state["cl_selected_id"] = remaining[0]["id"] if remaining else None
-                        st.rerun()
-                    else:
-                        st.error("Name doesn't match.")
-            with dc2:
-                if st.button("✖ Cancel", key=f"delcancel_{c['id']}"):
+
+            btn_sel, btn_del = st.columns([4, 1])
+            with btn_sel:
+                if st.button(
+                    "▶ Selected" if is_selected else "Select",
+                    key=f"sel_{c['id']}",
+                    type="primary" if is_selected else "secondary",
+                    use_container_width=True,
+                ):
+                    st.session_state["cl_selected_id"] = c["id"]
                     st.session_state["cl_confirm_delete_id"] = None
                     st.rerun()
+            with btn_del:
+                if st.button("🗑", key=f"delbtn_{c['id']}", use_container_width=True):
+                    st.session_state["cl_confirm_delete_id"] = c["id"]
+                    st.rerun()
 
-        st.markdown("")  # spacing
+            # Inline delete confirmation
+            if st.session_state["cl_confirm_delete_id"] == c["id"]:
+                full_del = get_client(c["id"])
+                st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
+                st.warning(f"Delete **{full_del['name']}**? All data removed permanently.")
+                typed = st.text_input(
+                    "Type exact name to confirm:",
+                    key=f"deltype_{c['id']}",
+                    placeholder=full_del["name"],
+                )
+                dc1, dc2 = st.columns(2)
+                with dc1:
+                    if st.button("✅ Delete", key=f"delconfirm_{c['id']}", type="primary", use_container_width=True):
+                        if typed.strip().lower() == full_del["name"].strip().lower():
+                            delete_client(c["id"])
+                            st.session_state["cl_confirm_delete_id"] = None
+                            if st.session_state.get("cl_selected_id") == c["id"]:
+                                remaining = [x for x in clients_all if x["id"] != c["id"]]
+                                st.session_state["cl_selected_id"] = remaining[0]["id"] if remaining else None
+                            st.rerun()
+                        else:
+                            st.error("Name doesn't match.")
+                with dc2:
+                    if st.button("✖ Cancel", key=f"delcancel_{c['id']}", use_container_width=True):
+                        st.session_state["cl_confirm_delete_id"] = None
+                        st.rerun()
+
+        st.markdown("<div style='height:14px'></div>", unsafe_allow_html=True)
 
 # =============================================================================
 # RIGHT: CLIENT DETAIL PANEL

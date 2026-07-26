@@ -4,11 +4,13 @@ Routing via st.navigation() — sidebar is rendered automatically by Streamlit.
 """
 
 import sys
+import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
 import streamlit as st
+import streamlit.components.v1 as components
 from utils.database import init_db
 
 # ── Global page config ────────────────────────────────────────────────────────
@@ -21,15 +23,46 @@ st.set_page_config(
 )
 
 # ── Login gate ────────────────────────────────────────────────────────────────
+# Password is cached in a browser cookie so returning visitors on the same
+# browser don't have to re-type it on every refresh/new tab. The cookie is
+# still checked against the real secret every time — changing APP_PASSWORD
+# invalidates any cached cookie.
+
+_AUTH_COOKIE = "nd_auth_pw"
+
+
+def _remember_password_js(password: str):
+    components.html(
+        f"""<script>
+        parent.document.cookie =
+            "{_AUTH_COOKIE}=" + encodeURIComponent("{password}") +
+            "; max-age=" + (60 * 60 * 24 * 30) + "; path=/; SameSite=Lax";
+        </script>""",
+        height=0,
+    )
+
 
 def check_password():
     if st.session_state.get("authenticated"):
         return
+
+    try:
+        cached_pw = st.context.cookies.get(_AUTH_COOKIE)
+    except Exception:
+        cached_pw = None
+    if cached_pw and cached_pw == st.secrets["APP_PASSWORD"]:
+        st.session_state.authenticated = True
+        return
+
     st.title("🌿 Āhāra by Asha")
-    password = st.text_input("Password", type="password")
-    if st.button("Login"):
+    with st.form("login_form"):
+        password = st.text_input("Password", type="password")
+        submitted = st.form_submit_button("Login")
+    if submitted:
         if password == st.secrets["APP_PASSWORD"]:
             st.session_state.authenticated = True
+            _remember_password_js(password)
+            time.sleep(0.35)  # let the cookie-set script mount/run before rerun wipes it
             st.rerun()
         else:
             st.error("Incorrect password")

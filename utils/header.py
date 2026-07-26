@@ -33,8 +33,12 @@ def render_header(page_title: str = ""):
         [data-testid='stSidebar']{
             background:linear-gradient(180deg,#F5EFE8 0%,#EDE4D8 100%)!important;
             border-right:1px solid #DDD0C2!important;
+            min-width:256px!important;
         }
         section[data-testid='stSidebar']>div:first-child{padding-top:96px!important}
+        /* Pinned open — hide the native collapse toggle so it can't be hidden by accident */
+        [data-testid='stSidebarCollapseButton']{display:none!important;}
+        [data-testid='stSidebarCollapsedControl']{display:none!important;}
         [data-testid='stSidebarNav'] a{
             color:#374151!important;border-radius:8px!important;
             font-weight:500!important;font-size:0.92rem!important;

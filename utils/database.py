@@ -84,7 +84,7 @@ def update_client(client_id: int, data: dict):
 def get_all_clients() -> list[dict]:
     db = _get_client()
     res = db.table("clients") \
-        .select("id, name, gender, weight_kg, goal, created_at") \
+        .select("id, name, gender, weight_kg, height_cm, goal, created_at") \
         .order("created_at", desc=True) \
         .execute()
     return res.data or []
