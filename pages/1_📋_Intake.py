@@ -591,7 +591,7 @@ col_save, col_cancel = st.columns([1, 3])
 
 with col_save:
     save_label = "💾 Update Client" if existing_client else "💾 Save Client"
-    save_clicked = st.button(save_label, width="stretch", type="primary")
+    save_clicked = st.button(save_label, use_container_width=True, type="primary")
 
 with col_cancel:
     if existing_client and st.button("✖ Cancel"):

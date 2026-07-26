@@ -566,7 +566,7 @@ with col_detail:
                     vitamin_d       = st.number_input("Vitamin D (nmol/L)",        0.0,300.0, 0.0, step=1.0)
                     b12             = st.number_input("B12 (pmol/L)",              0.0,1500.0,0.0, step=1.0)
                     ferritin        = st.number_input("Ferritin (μg/L)",           0.0,500.0, 0.0, step=1.0)
-                    b_notes         = st.text_area("Notes", height=60)
+                    b_notes         = st.text_area("Notes", height=80)
                     submit_bm       = st.form_submit_button("✅ Save Biomarkers", use_container_width=True)
 
                 if submit_bm:
@@ -808,16 +808,13 @@ with col_detail:
             acols = st.columns(2)
             for i, item in enumerate(avoid_items):
                 with acols[i % 2]:
-                    at, ax = st.columns([5, 1])
-                    with at:
-                        st.markdown(
-                            f"<span class='avoid-tag'>🚫 {item}</span>",
-                            unsafe_allow_html=True,
-                        )
-                    with ax:
-                        if st.button("✕", key=f"cl_av_{i}_{selected_id}"):
-                            st.session_state[_ex_key]["avoid_items"].pop(i)
-                            st.rerun()
+                    st.markdown(
+                        f"<span class='avoid-tag'>🚫 {item}</span>",
+                        unsafe_allow_html=True,
+                    )
+                    if st.button("✕ Remove", key=f"cl_av_{i}_{selected_id}"):
+                        st.session_state[_ex_key]["avoid_items"].pop(i)
+                        st.rerun()
 
             st.markdown("---")
             av_opts = [a["name"] for a in AVOID_ITEMS if a["name"] not in cur_avoids]

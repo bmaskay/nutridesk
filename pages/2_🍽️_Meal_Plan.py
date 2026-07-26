@@ -81,7 +81,7 @@ with st.container():
 
 col_g1, col_g2, col_g3 = st.columns([1, 1, 2])
 with col_g1:
-    if st.button("🔄 Generate New Plan", width="stretch", type="primary"):
+    if st.button("🔄 Generate New Plan", use_container_width=True, type="primary"):
         with st.spinner("Building your meal plan..."):
             plan = generate_meal_plan(client, assessment)
             swaps = snack_swap_suggestions(client)
@@ -97,7 +97,7 @@ with col_g1:
         st.success("✅ Plan generated and saved!")
 
 with col_g2:
-    if st.button("📂 Load Last Plan", width="stretch"):
+    if st.button("📂 Load Last Plan", use_container_width=True):
         saved = get_latest_meal_plan(client_id)
         if saved:
             st.session_state["current_plan"] = saved["plan"]

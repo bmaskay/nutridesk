@@ -182,7 +182,7 @@ with tab_weight:
                 value=float(current_weight), step=0.1, format="%.1f"
             )
             checkin_notes = st.text_area("Notes", placeholder="e.g. Feeling great, slightly bloated...", height=80)
-            submit_checkin = st.form_submit_button("✅ Save Check-in", width="stretch")
+            submit_checkin = st.form_submit_button("✅ Save Check-in", use_container_width=True)
 
         if submit_checkin:
             add_session(client_id, checkin_weight, checkin_notes)
@@ -239,14 +239,14 @@ with tab_weight:
             )
 
             chart = (band + base).properties(height=300)
-            st.altair_chart(chart, width="stretch")
+            st.altair_chart(chart, use_container_width=True)
 
             # Data table
             display_df = df[["session_date", "weight_kg", "notes"]].copy()
             display_df.columns = ["Date", "Weight (kg)", "Notes"]
             display_df["Date"] = display_df["Date"].dt.strftime("%d %b %Y")
             display_df = display_df.sort_values("Date", ascending=False)
-            st.dataframe(display_df, width="stretch", hide_index=True)
+            st.dataframe(display_df, use_container_width=True, hide_index=True)
 
 # ── Biomarkers ────────────────────────────────────────────────────────────────
 
@@ -267,8 +267,8 @@ with tab_biomarkers:
             vitamin_d       = st.number_input("Vitamin D (nmol/L)", 0.0, 300.0, 0.0, step=1.0)
             b12             = st.number_input("B12 (pmol/L)", 0.0, 1500.0, 0.0, step=1.0)
             ferritin        = st.number_input("Ferritin (μg/L)", 0.0, 500.0, 0.0, step=1.0)
-            b_notes         = st.text_area("Notes", height=60)
-            submit_bm = st.form_submit_button("✅ Save Biomarkers", width="stretch")
+            b_notes         = st.text_area("Notes", height=80)
+            submit_bm = st.form_submit_button("✅ Save Biomarkers", use_container_width=True)
 
         if submit_bm:
             bm_data = {
@@ -315,7 +315,7 @@ with tab_biomarkers:
             show_df["recorded_date"] = show_df["recorded_date"].dt.strftime("%d %b %Y")
             show_df.columns = [c.replace("_", " ").title() for c in show_df.columns]
 
-            st.dataframe(show_df, width="stretch", hide_index=True)
+            st.dataframe(show_df, use_container_width=True, hide_index=True)
 
             # Reference ranges info
             with st.expander("📋 Reference Ranges"):

@@ -98,7 +98,7 @@ if has_action_items:
                     unsafe_allow_html=True,
                 )
             with ac2:
-                if st.button("Generate →", key=f"home_plan_{c['id']}", width="stretch"):
+                if st.button("Generate →", key=f"home_plan_{c['id']}", use_container_width=True):
                     st.session_state["active_client_id"] = c["id"]
                     st.switch_page("pages/2_🍽️_Meal_Plan.py")
 
@@ -116,7 +116,7 @@ if has_action_items:
                     unsafe_allow_html=True,
                 )
             with ac2:
-                if st.button("Log →", key=f"home_progress_{c['id']}", width="stretch"):
+                if st.button("Log →", key=f"home_progress_{c['id']}", use_container_width=True):
                     st.session_state["active_client_id"] = c["id"]
                     st.switch_page("pages/4_📈_Progress.py")
 
@@ -150,15 +150,15 @@ st.markdown("### Quick Actions")
 
 qc1, qc2, qc3 = st.columns(3)
 with qc1:
-    if st.button("➕  Add New Client", width="stretch"):
+    if st.button("➕  Add New Client", use_container_width=True):
         st.switch_page("pages/1_📋_Intake.py")
 
 with qc2:
-    if st.button("🍽️  Generate Meal Plan", width="stretch"):
+    if st.button("🍽️  Generate Meal Plan", use_container_width=True):
         st.switch_page("pages/2_🍽️_Meal_Plan.py")
 
 with qc3:
-    if st.button("👥  View All Clients", width="stretch"):
+    if st.button("👥  View All Clients", use_container_width=True):
         st.switch_page("pages/3_👥_Clients.py")
 
 # ── Tips panel ────────────────────────────────────────────────────────────────
