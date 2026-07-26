@@ -4,7 +4,6 @@ Routing via st.navigation() — sidebar is rendered automatically by Streamlit.
 """
 
 import sys
-import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -44,6 +43,10 @@ def _remember_password_js(password: str):
 
 def check_password():
     if st.session_state.get("authenticated"):
+        # Refresh the cookie on every authenticated render (never right before a
+        # rerun, so there's no race between the script mounting and the page
+        # tearing down — see the login branch below for why that matters).
+        _remember_password_js(st.secrets["APP_PASSWORD"])
         return
 
     try:
@@ -61,8 +64,6 @@ def check_password():
     if submitted:
         if password == st.secrets["APP_PASSWORD"]:
             st.session_state.authenticated = True
-            _remember_password_js(password)
-            time.sleep(0.35)  # let the cookie-set script mount/run before rerun wipes it
             st.rerun()
         else:
             st.error("Incorrect password")
